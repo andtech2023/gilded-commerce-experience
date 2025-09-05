@@ -1,0 +1,79 @@
+import { ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import heroBg from "@/assets/hero-bg.jpg";
+import ParticleEffect from "./ParticleEffect";
+
+const HeroSection = () => {
+  return (
+    <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={heroBg}
+          alt="Hero Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background"></div>
+      </div>
+
+      {/* Particle Effect */}
+      <ParticleEffect />
+
+      {/* Content */}
+      <div className="container mx-auto px-4 z-10 relative">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="flex items-center justify-center mb-6">
+            <Sparkles className="text-primary mr-2" size={24} />
+            <span className="text-primary font-medium tracking-wide">EXCELENCIA TECNOLÓGICA</span>
+            <Sparkles className="text-primary ml-2" size={24} />
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 animate-fade-in">
+            <span className="text-gradient-gold">Conectamos</span>
+            <br />
+            <span className="text-foreground">Innovación y Éxito</span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in animation-delay-200">
+            Soluciones tecnológicas premium que transforman su visión en realidad digital
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in animation-delay-400">
+            <Button variant="premium" size="xl" className="group">
+              Explorar Servicios
+              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button variant="hero" size="xl">
+              Consulta Gratuita
+            </Button>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto animate-fade-in animation-delay-600">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gradient-gold">100+</div>
+              <div className="text-sm text-muted-foreground">Proyectos Exitosos</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gradient-gold">50+</div>
+              <div className="text-sm text-muted-foreground">Clientes Satisfechos</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gradient-gold">24/7</div>
+              <div className="text-sm text-muted-foreground">Soporte Premium</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
