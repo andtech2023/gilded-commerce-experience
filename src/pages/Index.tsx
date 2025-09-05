@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
+import AIConsultingSection from "@/components/AIConsultingSection";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -30,12 +31,13 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <ServicesSection />
+      <AIConsultingSection />
       <AboutSection />
       
       {/* Demo Payment Section */}
       <section className="py-16 bg-gradient-subtle">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-2xl font-serif mb-4 text-gradient-gold">
+          <h3 className="text-2xl font-serif mb-4 bg-gradient-primary bg-clip-text text-transparent">
             Pasarela de Pago Integrada
           </h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">

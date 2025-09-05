@@ -10,11 +10,11 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-gold rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
                 <span className="text-primary-foreground font-bold">AT</span>
               </div>
               <div>
-                <h3 className="text-lg font-serif text-gradient-gold">Andorra Tech</h3>
+                <h3 className="text-lg font-serif bg-gradient-primary bg-clip-text text-transparent">Andorra Tech</h3>
                 <p className="text-xs text-muted-foreground tracking-widest">CONNECTING</p>
               </div>
             </div>
@@ -53,6 +53,11 @@ const Footer = () => {
               <li>
                 <a href="#servicios" className="text-muted-foreground hover:text-primary transition-colors">
                   Servicios
+                </a>
+              </li>
+              <li>
+                <a href="#asesoria-ia" className="text-muted-foreground hover:text-primary transition-colors">
+                  Asesoría IA
                 </a>
               </li>
               <li>

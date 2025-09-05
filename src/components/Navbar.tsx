@@ -18,6 +18,7 @@ const Navbar = () => {
   const navLinks = [
     { href: "#inicio", label: "Inicio" },
     { href: "#servicios", label: "Servicios" },
+    { href: "#asesoria-ia", label: "Asesoría IA" },
     { href: "#nosotros", label: "Nosotros" },
     { href: "#contacto", label: "Contacto" },
   ];
@@ -35,11 +36,12 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="w-12 h-12 bg-gradient-gold rounded-xl flex items-center justify-center">
+            {/* Replace this div with your logo image: <img src="/logo.png" alt="Andorra Tech" className="h-12" /> */}
+            <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-xl">AT</span>
             </div>
             <div>
-              <h1 className="text-xl font-serif text-gradient-gold">Andorra Tech</h1>
+              <h1 className="text-xl font-serif bg-gradient-primary bg-clip-text text-transparent">Andorra Tech</h1>
               <p className="text-xs text-muted-foreground tracking-widest">CONNECTING</p>
             </div>
           </div>

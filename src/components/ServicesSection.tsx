@@ -46,7 +46,7 @@ const ServicesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
-            <span className="text-gradient-gold">Servicios</span> Premium
+            <span className="bg-gradient-primary bg-clip-text text-transparent">Servicios</span> Premium
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Soluciones tecnológicas diseñadas para impulsar su éxito empresarial
@@ -59,10 +59,10 @@ const ServicesSection = () => {
               key={index}
               className="group relative bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-500 hover:shadow-glow hover:transform hover:-translate-y-2"
             >
-              <div className="absolute inset-0 bg-gradient-gold opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500"></div>
               
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-gradient-gold rounded-xl flex items-center justify-center mb-6">
+                <div className="w-14 h-14 bg-gradient-primary rounded-xl flex items-center justify-center mb-6">
                   <service.icon className="text-primary-foreground" size={28} />
                 </div>
                 
