@@ -29,7 +29,7 @@ const HeroSection = () => {
           </div>
           
           <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 animate-fade-in">
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Conectamos</span>
+            <span className="bg-gradient-gold bg-clip-text text-transparent">Conectamos</span>
             <br />
             <span className="text-foreground">Innovación y Éxito</span>
           </h1>
@@ -51,15 +51,15 @@ const HeroSection = () => {
           {/* Trust Indicators */}
           <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto animate-fade-in animation-delay-600">
             <div className="text-center">
-              <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">100+</div>
+              <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">100+</div>
               <div className="text-sm text-muted-foreground">Proyectos Exitosos</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">50+</div>
+              <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">50+</div>
               <div className="text-sm text-muted-foreground">Clientes Satisfechos</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">24/7</div>
+              <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">24/7</div>
               <div className="text-sm text-muted-foreground">Soporte Premium</div>
             </div>
           </div>

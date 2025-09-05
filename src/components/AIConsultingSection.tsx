@@ -40,7 +40,7 @@ const AIConsultingSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Asesoría Empresas</span> en IA
+            <span className="bg-gradient-gold bg-clip-text text-transparent">Asesoría Empresas</span> en IA
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Transformamos su empresa con inteligencia artificial de vanguardia. 
@@ -55,8 +55,8 @@ const AIConsultingSection = () => {
               key={index}
               className="group p-6 rounded-xl border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow"
             >
-              <div className="w-12 h-12 bg-gradient-accent rounded-lg flex items-center justify-center mb-4">
-                <feature.icon className="text-accent-foreground" size={24} />
+              <div className="w-12 h-12 bg-gradient-gold rounded-lg flex items-center justify-center mb-4">
+                <feature.icon className="text-primary-foreground" size={24} />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-foreground">
                 {feature.title}
@@ -90,19 +90,19 @@ const AIConsultingSection = () => {
         {/* Stats Section */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="text-center">
-            <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">15+</div>
+            <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">15+</div>
             <div className="text-sm text-muted-foreground">Proyectos IA Completados</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">80%</div>
+            <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">80%</div>
             <div className="text-sm text-muted-foreground">Reducción de Costes</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">3x</div>
+            <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">3x</div>
             <div className="text-sm text-muted-foreground">Aumento Productividad</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">100%</div>
+            <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">100%</div>
             <div className="text-sm text-muted-foreground">Clientes Satisfechos</div>
           </div>
         </div>

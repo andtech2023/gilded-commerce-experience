@@ -37,7 +37,7 @@ const Index = () => {
       {/* Demo Payment Section */}
       <section className="py-16 bg-gradient-subtle">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-2xl font-serif mb-4 bg-gradient-primary bg-clip-text text-transparent">
+          <h3 className="text-2xl font-serif mb-4 bg-gradient-gold bg-clip-text text-transparent">
             Pasarela de Pago Integrada
           </h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">

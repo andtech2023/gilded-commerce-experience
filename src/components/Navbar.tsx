@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,15 +36,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            {/* Replace this div with your logo image: <img src="/logo.png" alt="Andorra Tech" className="h-12" /> */}
-            <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">AT</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-serif bg-gradient-primary bg-clip-text text-transparent">Andorra Tech</h1>
-              <p className="text-xs text-muted-foreground tracking-widest">CONNECTING</p>
-            </div>
+          <div className="flex items-center">
+            <img src={logo} alt="Andorra Tech" className="h-14 w-auto" />
           </div>
 
           {/* Desktop Navigation */}

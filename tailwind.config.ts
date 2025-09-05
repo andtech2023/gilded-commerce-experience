@@ -59,8 +59,8 @@ export default {
 				'serif': ['Playfair Display', 'serif']
 			},
 			backgroundImage: {
-				'gradient-primary': 'var(--gradient-primary)',
-				'gradient-accent': 'var(--gradient-accent)',
+				'gradient-gold': 'var(--gradient-gold)',
+				'gradient-dark': 'var(--gradient-dark)',
 				'gradient-subtle': 'var(--gradient-subtle)'
 			},
 			boxShadow: {

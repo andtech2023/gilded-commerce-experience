@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    /* Light Theme with Blue/Green Accents like AndorraTech */
-    --background: 0 0% 98%;
-    --foreground: 0 0% 20%;
+    /* Dark Theme with Golden Corporate Colors */
+    --background: 220 13% 9%;
+    --foreground: 45 90% 88%;
     
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 20%;
+    --card: 220 13% 12%;
+    --card-foreground: 45 90% 88%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 20%;
+    --popover: 220 13% 12%;
+    --popover-foreground: 45 90% 88%;
     
-    /* Blue/Teal primary colors */
-    --primary: 200 100% 35%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 200 100% 45%;
+    /* Golden/Bronze primary colors from brand */
+    --primary: 42 78% 55%;
+    --primary-foreground: 220 13% 9%;
+    --primary-glow: 42 78% 65%;
     
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 20%;
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 45 90% 88%;
     
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 220 13% 20%;
+    --muted-foreground: 42 40% 65%;
     
-    --accent: 170 70% 40%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 42 90% 50%;
+    --accent-foreground: 220 13% 9%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 0 0% 90%;
-    --input: 0 0% 96%;
-    --ring: 200 100% 35%;
+    --border: 42 20% 25%;
+    --input: 220 13% 15%;
+    --ring: 42 78% 55%;
     
     --radius: 0.75rem;
     
     /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(200, 100%, 35%), hsl(170, 70%, 40%));
-    --gradient-subtle: linear-gradient(135deg, hsl(0, 0%, 98%), hsl(0, 0%, 95%));
-    --gradient-accent: linear-gradient(135deg, hsl(170, 70%, 40%), hsl(200, 100%, 35%));
+    --gradient-gold: linear-gradient(135deg, hsl(42, 78%, 55%), hsl(42, 78%, 65%));
+    --gradient-dark: linear-gradient(180deg, hsl(220, 13%, 9%), hsl(220, 13%, 6%));
+    --gradient-subtle: linear-gradient(135deg, hsl(220, 13%, 12%), hsl(220, 13%, 15%));
     
-    --shadow-glow: 0 0 40px hsl(200, 100%, 35%, 0.2);
-    --shadow-elegant: 0 10px 40px -10px hsl(0, 0%, 0%, 0.1);
+    --shadow-glow: 0 0 40px hsl(42, 78%, 55%, 0.3);
+    --shadow-elegant: 0 10px 40px -10px hsl(0, 0%, 0%, 0.8);
     
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }

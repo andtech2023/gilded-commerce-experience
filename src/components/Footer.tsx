@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram, Github } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,14 +10,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">AT</span>
-              </div>
-              <div>
-                <h3 className="text-lg font-serif bg-gradient-primary bg-clip-text text-transparent">Andorra Tech</h3>
-                <p className="text-xs text-muted-foreground tracking-widest">CONNECTING</p>
-              </div>
+            <div className="mb-4">
+              <img src={logo} alt="Andorra Tech" className="h-16 w-auto" />
             </div>
             <p className="text-muted-foreground max-w-md">
               Soluciones tecnológicas premium que transforman su visión en realidad digital. 
