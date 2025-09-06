@@ -1,5 +1,8 @@
 import { Code, Cloud, Shield, Smartphone, Globe, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import ServiceDetailModal from "./ServiceDetailModal";
+import PaymentModal from "./PaymentModal";
 
 const services = [
   {
@@ -41,6 +44,28 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const [paymentModal, setPaymentModal] = useState({
+    isOpen: false,
+    service: "",
+    price: "",
+  });
+
+  const handleServiceDetail = (service: any) => {
+    setSelectedService(service);
+  };
+
+  const handlePayment = () => {
+    if (selectedService) {
+      setPaymentModal({
+        isOpen: true,
+        service: selectedService.title,
+        price: selectedService.price,
+      });
+      setSelectedService(null);
+    }
+  };
+
   return (
     <section id="servicios" className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-4">
@@ -76,7 +101,11 @@ const ServicesSection = () => {
                 
                 <div className="flex items-center justify-between">
                   <span className="text-primary font-bold text-lg">{service.price}</span>
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleServiceDetail(service)}
+                  >
                     Más Info
                   </Button>
                 </div>
@@ -91,6 +120,24 @@ const ServicesSection = () => {
           </Button>
         </div>
       </div>
+
+      {/* Service Detail Modal */}
+      {selectedService && (
+        <ServiceDetailModal
+          isOpen={!!selectedService}
+          onClose={() => setSelectedService(null)}
+          service={selectedService}
+          onSelectPayment={handlePayment}
+        />
+      )}
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={paymentModal.isOpen}
+        onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
+        service={paymentModal.service}
+        price={paymentModal.price}
+      />
     </section>
   );
 };

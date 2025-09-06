@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram, Github } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-at.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -18,19 +18,19 @@ const Footer = () => {
               Innovación y excelencia en cada proyecto.
             </p>
             <div className="flex space-x-4 mt-6">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="https://facebook.com/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="https://twitter.com/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Twitter size={20} />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="https://linkedin.com/company/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="https://instagram.com/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="https://github.com/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Github size={20} />
               </a>
             </div>
@@ -73,22 +73,22 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/politica-privacidad" className="text-muted-foreground hover:text-primary transition-colors">
                   Política de Privacidad
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/terminos-condiciones" className="text-muted-foreground hover:text-primary transition-colors">
                   Términos y Condiciones
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/politica-cookies" className="text-muted-foreground hover:text-primary transition-colors">
                   Política de Cookies
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/aviso-legal" className="text-muted-foreground hover:text-primary transition-colors">
                   Aviso Legal
                 </a>
               </li>

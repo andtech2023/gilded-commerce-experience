@@ -1,5 +1,8 @@
 import { Brain, TrendingUp, Users, Zap, BarChart, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import AIConsultingDetailModal from "./AIConsultingDetailModal";
+import PaymentModal from "./PaymentModal";
 
 const features = [
   {
@@ -35,6 +38,18 @@ const features = [
 ];
 
 const AIConsultingSection = () => {
+  const [showDetail, setShowDetail] = useState(false);
+  const [paymentModal, setPaymentModal] = useState({
+    isOpen: false,
+    service: "Asesoría Empresarial en IA",
+    price: "€2,499/mes",
+  });
+
+  const handlePayment = () => {
+    setShowDetail(false);
+    setPaymentModal({ ...paymentModal, isOpen: true });
+  };
+
   return (
     <section id="asesoria-ia" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -78,7 +93,11 @@ const AIConsultingSection = () => {
             podemos revolucionar su negocio con tecnología inteligente.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="premium" size="xl">
+            <Button 
+              variant="premium" 
+              size="xl"
+              onClick={() => setShowDetail(true)}
+            >
               Solicitar Consulta Gratuita
             </Button>
             <Button variant="outline" size="xl">
@@ -107,6 +126,21 @@ const AIConsultingSection = () => {
           </div>
         </div>
       </div>
+
+      {/* AI Consulting Detail Modal */}
+      <AIConsultingDetailModal
+        isOpen={showDetail}
+        onClose={() => setShowDetail(false)}
+        onSelectPayment={handlePayment}
+      />
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={paymentModal.isOpen}
+        onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
+        service={paymentModal.service}
+        price={paymentModal.price}
+      />
     </section>
   );
 };

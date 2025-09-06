@@ -12,6 +12,7 @@ const ContactSection = () => {
     email: "",
     phone: "",
     message: "",
+    budget: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,7 +20,7 @@ const ContactSection = () => {
     toast.success("Mensaje enviado con éxito", {
       description: "Nos pondremos en contacto con usted pronto.",
     });
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -66,8 +67,9 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground mb-1">Teléfono</h4>
-                    <p className="text-muted-foreground">+376 123 456</p>
-                    <p className="text-muted-foreground">+376 789 012</p>
+                    <a href="https://wa.me/376369939" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      WhatsApp: +376 369 939
+                    </a>
                   </div>
                 </div>
 
@@ -78,9 +80,9 @@ const ContactSection = () => {
                   <div>
                     <h4 className="font-semibold text-foreground mb-1">Dirección</h4>
                     <p className="text-muted-foreground">
-                      Av. Meritxell, 123<br />
-                      AD500 Andorra la Vella<br />
-                      Principado de Andorra
+                      C/ Escoles N2 Ed Noguera despatx 16<br />
+                      AD600 Sant Julia de Loria<br />
+                      Principat d'Andorra
                     </p>
                   </div>
                 </div>
@@ -164,6 +166,23 @@ const ContactSection = () => {
                   className="bg-background border-border mt-2 min-h-[120px]"
                   placeholder="Cuéntenos sobre su proyecto..."
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="budget">Rango de Presupuesto</Label>
+                <select
+                  id="budget"
+                  name="budget"
+                  value={formData.budget}
+                  onChange={(e) => handleChange(e as any)}
+                  required
+                  className="w-full mt-2 px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
+                >
+                  <option value="">Seleccionar presupuesto</option>
+                  <option value="menos-2000">Menos de 2.000€</option>
+                  <option value="menos-5000">Menos de 5.000€</option>
+                  <option value="mas-6000">Más de 6.000€</option>
+                </select>
               </div>
 
               <Button type="submit" variant="premium" size="lg" className="w-full">
