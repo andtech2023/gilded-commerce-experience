@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram, Github } from "lucide-react";
-import logo from "@/assets/logo-at.png";
+import logo from "@/assets/logo-placeholder.svg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
