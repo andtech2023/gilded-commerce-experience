@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -14,13 +15,43 @@ const ContactSection = () => {
     message: "",
     budget: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Mensaje enviado con éxito", {
-      description: "Nos pondremos en contacto con usted pronto.",
-    });
-    setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
+    setIsSubmitting(true);
+
+    try {
+      // Save to Supabase
+      const { error } = await supabase
+        .from('contactos_formulario')
+        .insert({
+          nombre: formData.name,
+          apellido: '', // Not collected in the form
+          email: formData.email,
+          telefono: formData.phone || null,
+          mensaje: formData.message,
+          Presupuesto: formData.budget,
+          pagina_origen: window.location.href,
+          utm_source: new URLSearchParams(window.location.search).get('utm_source') || null,
+          utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || null,
+          utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || null,
+        });
+
+      if (error) throw error;
+
+      toast.success("Mensaje enviado con éxito", {
+        description: "Nos pondremos en contacto con usted pronto.",
+      });
+      setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
+    } catch (error) {
+      console.error('Error saving contact form:', error);
+      toast.error("Error al enviar el mensaje", {
+        description: "Por favor, inténtelo de nuevo o contáctenos directamente.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -185,9 +216,15 @@ const ContactSection = () => {
                 </select>
               </div>
 
-              <Button type="submit" variant="premium" size="lg" className="w-full">
+              <Button 
+                type="submit" 
+                variant="premium" 
+                size="lg" 
+                className="w-full"
+                disabled={isSubmitting}
+              >
                 <Send className="mr-2" size={20} />
-                Enviar Mensaje
+                {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
               </Button>
             </form>
           </div>
