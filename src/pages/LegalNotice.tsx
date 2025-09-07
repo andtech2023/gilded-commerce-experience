@@ -29,8 +29,8 @@ const LegalNotice = () => {
               qualificada de protecció de dades personals del Principat d'Andorra, se le informa:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Titular:</strong> Andorra Tech S.L.</li>
-              <li><strong>NRT:</strong> L-XXXXXX-X</li>
+              <li><strong>Titular:</strong> Tech-grup 2023 SLU</li>
+              <li><strong>NRT:</strong> L718140P</li>
               <li><strong>Domicilio:</strong> C/ Escoles N2 Ed Noguera despatx 16, AD600 Sant Julia de Loria, Principat d'Andorra</li>
               <li><strong>Teléfono:</strong> +376 369 939</li>
               <li><strong>Email:</strong> info@andorratech.net</li>
@@ -41,7 +41,7 @@ const LegalNotice = () => {
             <h2 className="text-2xl font-semibold text-foreground mb-4">2. Objeto</h2>
             <p>
               El presente sitio web ha sido diseñado para dar a conocer los servicios ofertados por 
-              Andorra Tech S.L., así como permitir el acceso general a la información de la empresa.
+              Tech-grup 2023 SLU, así como permitir el acceso general a la información de la empresa.
             </p>
           </section>
 
@@ -65,7 +65,7 @@ const LegalNotice = () => {
               Todos los contenidos del sitio web, incluyendo textos, imágenes, gráficos, logos, 
               iconos, botones, software, nombres comerciales, marcas, o cualquier otro signo 
               susceptible de utilización industrial y/o comercial están protegidos por derechos 
-              de propiedad intelectual e industrial de Andorra Tech S.L.
+              de propiedad intelectual e industrial de Tech-grup 2023 SLU.
             </p>
           </section>
 
@@ -81,7 +81,7 @@ const LegalNotice = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">6. Responsabilidad</h2>
             <p>
-              Andorra Tech S.L. no se hace responsable del mal uso que se realice de los contenidos 
+              Tech-grup 2023 SLU no se hace responsable del mal uso que se realice de los contenidos 
               del sitio web, siendo exclusiva responsabilidad de la persona que accede a ellos o 
               los utilice.
             </p>
