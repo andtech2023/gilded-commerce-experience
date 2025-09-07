@@ -14,7 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      Clientes: {
+        Row: {
+          created_at: string
+          Email: string | null
+        }
+        Insert: {
+          created_at?: string
+          Email?: string | null
+        }
+        Update: {
+          created_at?: string
+          Email?: string | null
+        }
+        Relationships: []
+      }
+      contactos_formulario: {
+        Row: {
+          apellido: string | null
+          email: string
+          estado: string
+          fecha_envio: string
+          id: number
+          mensaje: string
+          nombre: string
+          pagina_origen: string | null
+          Presupuesto: string | null
+          telefono: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          apellido?: string | null
+          email: string
+          estado?: string
+          fecha_envio?: string
+          id?: number
+          mensaje: string
+          nombre: string
+          pagina_origen?: string | null
+          Presupuesto?: string | null
+          telefono?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          apellido?: string | null
+          email?: string
+          estado?: string
+          fecha_envio?: string
+          id?: number
+          mensaje?: string
+          nombre?: string
+          pagina_origen?: string | null
+          Presupuesto?: string | null
+          telefono?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
