@@ -30,6 +30,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
     const serviceData: Record<string, any> = {
       "Desarrollo Web": {
         description: "Creamos aplicaciones web modernas utilizando las últimas tecnologías. Desde sitios corporativos hasta plataformas complejas de e-commerce, garantizamos rendimiento, escalabilidad y una experiencia de usuario excepcional.",
+        videoUrl: "https://www.youtube.com/embed/W6NZfCO5SIk",
         features: [
           "Diseño responsive y optimizado para móviles",
           "SEO técnico avanzado para máxima visibilidad",
@@ -60,6 +61,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
       },
       "Apps Móviles": {
         description: "Desarrollamos aplicaciones móviles nativas y multiplataforma que ofrecen experiencias fluidas y atractivas. Optimizadas para rendimiento y con todas las funcionalidades que sus usuarios necesitan.",
+        videoUrl: "https://www.youtube.com/embed/VpIwQOFTm0k",
         features: [
           "Desarrollo nativo iOS y Android",
           "Notificaciones push personalizadas",
@@ -90,6 +92,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
       },
       "Cloud Solutions": {
         description: "Diseñamos e implementamos soluciones cloud que optimizan sus operaciones, reducen costos y mejoran la escalabilidad. Desde migraciones hasta arquitecturas nativas en la nube.",
+        videoUrl: "https://www.youtube.com/embed/M988_fsOSWo",
         features: [
           "Arquitectura cloud escalable y resiliente",
           "Backup y recuperación automatizados",
@@ -120,6 +123,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
       },
       "Ciberseguridad": {
         description: "Protegemos sus activos digitales con soluciones de ciberseguridad de vanguardia. Desde auditorías hasta implementación de sistemas de defensa, garantizamos la máxima protección.",
+        videoUrl: "https://www.youtube.com/embed/inWWhr5tnEA",
         features: [
           "Auditorías de seguridad completas",
           "Protección contra DDoS y ataques",
@@ -150,6 +154,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
       },
       "Marketing Digital": {
         description: "Maximizamos su presencia online con estrategias de marketing digital basadas en datos. Aumentamos su visibilidad, generamos leads cualificados y mejoramos su ROI.",
+        videoUrl: "https://www.youtube.com/embed/nMEHJPuggHQ",
         features: [
           "Estrategia SEO y SEM personalizada",
           "Gestión profesional de redes sociales",
@@ -180,6 +185,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
       },
       "IA & Machine Learning": {
         description: "Implementamos soluciones de inteligencia artificial que transforman sus datos en insights accionables y automatizan procesos complejos para mejorar la eficiencia operativa.",
+        videoUrl: "https://www.youtube.com/embed/2ePf9rue1Ao",
         features: [
           "Modelos de IA personalizados",
           "Procesamiento de lenguaje natural",
@@ -265,6 +271,22 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
             </Card>
           </div>
         </div>
+
+        {/* Video Demostrativo */}
+        {details.videoUrl && (
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold mb-4 text-foreground">Video Demostrativo</h3>
+            <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
+              <iframe
+                src={details.videoUrl}
+                title={`Video demostrativo de ${service.title}`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
 
         {/* Portfolio/Demos Section */}
         {details.portfolio && details.portfolio.length > 0 && (

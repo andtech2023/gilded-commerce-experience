@@ -2,6 +2,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 import ParticleEffect from "./ParticleEffect";
+import logo from "@/assets/andorratech-logo.png";
 
 const HeroSection = () => {
   return (
@@ -22,6 +23,10 @@ const HeroSection = () => {
       {/* Content */}
       <div className="container mx-auto px-4 z-10 relative">
         <div className="max-w-4xl mx-auto text-center">
+          <div className="flex items-center justify-center mb-8">
+            <img src={logo} alt="AndorraTech" className="h-20 md:h-24 w-auto" />
+          </div>
+          
           <div className="flex items-center justify-center mb-6">
             <Sparkles className="text-primary mr-2" size={24} />
             <span className="text-primary font-medium tracking-wide">EXCELENCIA TECNOLÓGICA</span>

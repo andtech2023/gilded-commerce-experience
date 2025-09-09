@@ -2,7 +2,7 @@ import { Code, Cloud, Shield, Smartphone, Globe, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ServiceDetailModal from "./ServiceDetailModal";
-import PaymentModal from "./PaymentModal";
+import RedsysPaymentModal from "./RedsysPaymentModal";
 
 const services = [
   {
@@ -132,12 +132,14 @@ const ServicesSection = () => {
       )}
 
       {/* Payment Modal */}
-      <PaymentModal
-        isOpen={paymentModal.isOpen}
-        onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
-        service={paymentModal.service}
-        price={paymentModal.price}
-      />
+      {paymentModal.isOpen && (
+        <RedsysPaymentModal
+          isOpen={paymentModal.isOpen}
+          onClose={() => setPaymentModal({ isOpen: false, service: "", price: "" })}
+          service={paymentModal.service}
+          price={paymentModal.price}
+        />
+      )}
     </section>
   );
 };
