@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram, Github } from "lucide-react";
-import logo from "@/assets/andorratech-logo-correct.png";
+import logo from "@/assets/andorratech-official-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
