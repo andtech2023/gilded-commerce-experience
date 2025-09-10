@@ -33,8 +33,8 @@ export type Database = {
         Row: {
           apellido: string | null
           email: string
-          estado: string
-          fecha_envio: string
+          estado: string | null
+          fecha_envio: string | null
           id: number
           mensaje: string
           nombre: string
@@ -48,8 +48,8 @@ export type Database = {
         Insert: {
           apellido?: string | null
           email: string
-          estado?: string
-          fecha_envio?: string
+          estado?: string | null
+          fecha_envio?: string | null
           id?: number
           mensaje: string
           nombre: string
@@ -63,8 +63,8 @@ export type Database = {
         Update: {
           apellido?: string | null
           email?: string
-          estado?: string
-          fecha_envio?: string
+          estado?: string | null
+          fecha_envio?: string | null
           id?: number
           mensaje?: string
           nombre?: string
