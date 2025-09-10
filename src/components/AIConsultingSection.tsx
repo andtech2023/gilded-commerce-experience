@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AIConsultingDetailModal from "./AIConsultingDetailModal";
 import PaymentModal from "./PaymentModal";
+import aiBackground from "@/assets/ai-consulting-bg.jpg";
 
 const features = [
   {
@@ -51,8 +52,17 @@ const AIConsultingSection = () => {
   };
 
   return (
-    <section id="asesoria-ia" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section 
+      id="asesoria-ia" 
+      className="py-20 bg-background relative overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(9, 9, 11, 0.9), rgba(9, 9, 11, 0.95)), url(${aiBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
             <span className="bg-gradient-gold bg-clip-text text-transparent">Asesoría Empresas</span> en IA

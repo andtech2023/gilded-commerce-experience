@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="mb-4">
-              <img src={logo} alt="Andorra Tech" className="h-16 w-auto" />
+              <img src={logo} alt="AndorraTech" className="h-20 w-auto object-contain" />
             </div>
             <p className="text-muted-foreground max-w-md">
               Soluciones tecnológicas premium que transforman su visión en realidad digital. 
