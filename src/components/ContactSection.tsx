@@ -26,11 +26,16 @@ const ContactSection = () => {
       const { error } = await supabase
         .from('contactos_formulario')
         .insert({
-          nombre_apellido: formData.name,
+          nombre: formData.name,
+          apellido: '',
           email: formData.email,
           telefono: formData.phone || null,
           mensaje: formData.message,
-          Presupuesto: formData.budget || null
+          Presupuesto: formData.budget || null,
+          pagina_origen: window.location.href,
+          utm_source: new URLSearchParams(window.location.search).get('utm_source') || null,
+          utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || null,
+          utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || null
         });
 
       if (error) throw error;
