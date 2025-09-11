@@ -28,6 +28,93 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
   // Service-specific content
   const getServiceContent = () => {
     const serviceData: Record<string, any> = {
+      "Desarrollo Web - Básico": {
+        description: "Solución web perfecta para pequeñas empresas y emprendedores. Obtenga una presencia online profesional con todas las funcionalidades esenciales para comenzar a captar clientes.",
+        features: [
+          "Hasta 5 páginas web profesionales",
+          "Diseño responsive adaptado a todos los dispositivos",
+          "SEO básico para mejorar tu posicionamiento en Google",
+          "Formulario de contacto integrado con notificaciones",
+          "Hosting profesional incluido por 1 año completo",
+          "Certificado SSL gratuito para seguridad HTTPS",
+          "Integración con redes sociales",
+          "Mantenimiento básico incluido durante 3 meses"
+        ],
+        technologies: ["React", "HTML5", "CSS3", "JavaScript", "Tailwind CSS"],
+        timeline: "2-3 semanas",
+        portfolio: [
+          { 
+            title: "Web Corporativa Básica", 
+            description: "Sitio web profesional con diseño moderno y funcional para pequeñas empresas",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop"
+          }
+        ]
+      },
+      "Desarrollo Web - Profesional": {
+        description: "La solución ideal para empresas en crecimiento que necesitan funcionalidades avanzadas. Incluye todo lo necesario para vender online y gestionar su negocio digital de forma eficiente.",
+        features: [
+          "Hasta 10 páginas web con diseño personalizado",
+          "Pasarela de pago integrada (Stripe, PayPal, Redsys)",
+          "Panel de administración completo y fácil de usar",
+          "SEO avanzado y optimización de velocidad de carga",
+          "Google Analytics y métricas detalladas del negocio",
+          "Hosting premium incluido por 1 año",
+          "Certificado SSL profesional",
+          "Blog integrado con sistema CMS",
+          "Chat en vivo para atención al cliente",
+          "Soporte técnico prioritario durante 6 meses"
+        ],
+        technologies: ["React", "Node.js", "Supabase", "TypeScript", "Stripe API", "Google Analytics"],
+        timeline: "4-6 semanas",
+        portfolio: [
+          { 
+            title: "E-commerce Profesional", 
+            description: "Tienda online completa con pasarela de pago y gestión de inventario automatizada",
+            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop"
+          },
+          { 
+            title: "Portal de Servicios", 
+            description: "Plataforma con reservas online, pagos y área de clientes",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop"
+          }
+        ]
+      },
+      "Desarrollo Web - Premium": {
+        description: "Solución empresarial completa sin límites. Perfecta para grandes empresas que buscan la máxima personalización, rendimiento y soporte. Incluye las últimas tecnologías en IA y automatización.",
+        features: [
+          "Páginas ilimitadas con diseño 100% personalizado",
+          "E-commerce completo con gestión avanzada de productos",
+          "Integraciones con APIs externas ilimitadas",
+          "Inteligencia Artificial integrada (chatbots, recomendaciones)",
+          "Soporte multiidioma completo con traducciones",
+          "Soporte técnico 24/7 prioritario todo el año",
+          "Hosting premium de alta velocidad en servidores dedicados",
+          "Backups automáticos diarios con recuperación instantánea",
+          "Sistema de reservas/citas online con calendario",
+          "Dashboard analytics personalizado con KPIs del negocio",
+          "Optimización continua de rendimiento y conversión",
+          "Formación personalizada para tu equipo (8 horas incluidas)"
+        ],
+        technologies: ["React", "Node.js", "Supabase", "TypeScript", "OpenAI API", "AWS", "Docker", "GraphQL"],
+        timeline: "8-12 semanas",
+        portfolio: [
+          { 
+            title: "Plataforma SaaS Completa", 
+            description: "Solución empresarial con IA, analytics avanzado y automatización de procesos",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop"
+          },
+          { 
+            title: "Marketplace Multi-vendor", 
+            description: "Plataforma completa con múltiples vendedores y sistema de comisiones",
+            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop"
+          },
+          { 
+            title: "Portal Corporativo Internacional", 
+            description: "Web multiidioma con áreas privadas y gestión de contenidos avanzada",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop"
+          }
+        ]
+      },
       "Desarrollo Web": {
         description: "Creamos aplicaciones web modernas utilizando las últimas tecnologías. Desde sitios corporativos hasta plataformas complejas de e-commerce, garantizamos rendimiento, escalabilidad y una experiencia de usuario excepcional.",
         videoUrl: "https://www.youtube.com/embed/W6NZfCO5SIk",
@@ -272,21 +359,6 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
           </div>
         </div>
 
-        {/* Video Demostrativo */}
-        {details.videoUrl && (
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4 text-foreground">Video Demostrativo</h3>
-            <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
-              <iframe
-                src={details.videoUrl}
-                title={`Video demostrativo de ${service.title}`}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        )}
 
         {/* Portfolio/Demos Section */}
         {details.portfolio && details.portfolio.length > 0 && (

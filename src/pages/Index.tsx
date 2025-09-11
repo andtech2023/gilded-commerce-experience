@@ -7,6 +7,7 @@ import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import PaymentModal from "@/components/PaymentModal";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { CreditCard } from "lucide-react";
 
@@ -58,6 +59,9 @@ const Index = () => {
 
       <ContactSection />
       <Footer />
+      
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
 
       {/* Payment Modal */}
       <PaymentModal

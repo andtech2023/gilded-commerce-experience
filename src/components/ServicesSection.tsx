@@ -3,13 +3,29 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ServiceDetailModal from "./ServiceDetailModal";
 import RedsysPaymentModal from "./RedsysPaymentModal";
+import aiServicesBg from "@/assets/ai-services-bg.jpg";
 
 const services = [
   {
     icon: Code,
-    title: "Desarrollo Web",
-    description: "Aplicaciones web modernas y escalables con las últimas tecnologías",
-    price: "Desde €2,999",
+    title: "Desarrollo Web - Básico",
+    description: "Web corporativa profesional con diseño responsive, SEO básico y formulario de contacto",
+    price: "€950",
+    features: ["Hasta 5 páginas", "Diseño responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año incluido"],
+  },
+  {
+    icon: Code,
+    title: "Desarrollo Web - Profesional",
+    description: "Web avanzada con pasarela de pago integrada, gestión de contenidos y analytics",
+    price: "€1,450",
+    features: ["Hasta 10 páginas", "Pasarela de pago integrada", "Panel de administración", "SEO avanzado", "Analytics y métricas", "Hosting 1 año incluido"],
+  },
+  {
+    icon: Code,
+    title: "Desarrollo Web - Premium",
+    description: "Solución completa con todas las funcionalidades, personalización total y soporte prioritario",
+    price: "€2,999",
+    features: ["Páginas ilimitadas", "E-commerce completo", "Integraciones API", "IA integrada", "Multiidioma", "Soporte prioritario 24/7", "Hosting premium incluido"],
   },
   {
     icon: Smartphone,
@@ -67,8 +83,18 @@ const ServicesSection = () => {
   };
 
   return (
-    <section id="servicios" className="py-20 bg-gradient-subtle">
-      <div className="container mx-auto px-4">
+    <section id="servicios" className="py-20 relative overflow-hidden">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src={aiServicesBg} 
+          alt="AI Technology Background" 
+          className="w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
             <span className="bg-gradient-gold bg-clip-text text-transparent">Servicios</span> Premium
@@ -98,6 +124,17 @@ const ServicesSection = () => {
                 <p className="text-muted-foreground mb-4">
                   {service.description}
                 </p>
+                
+                {service.features && (
+                  <ul className="mb-4 space-y-2">
+                    {service.features.slice(0, 3).map((feature, idx) => (
+                      <li key={idx} className="text-sm text-muted-foreground flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 
                 <div className="flex items-center justify-between">
                   <span className="text-primary font-bold text-lg">{service.price}</span>
