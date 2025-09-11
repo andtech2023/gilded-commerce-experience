@@ -4,7 +4,7 @@ import { useState } from "react";
 import ServiceDetailModal from "./ServiceDetailModal";
 import RedsysPaymentModal from "./RedsysPaymentModal";
 import aiServicesBg from "@/assets/ai-services-bg.jpg";
-import AISlider from "./AISlider";
+import WebDevelopmentSlider from "./WebDevelopmentSlider";
 
 const services = [
   {
@@ -104,14 +104,15 @@ const ServicesSection = () => {
             Soluciones tecnológicas diseñadas para impulsar su éxito empresarial
           </p>
         </div>
-        
-        {/* AI Slider */}
+        {/* Web Development Pricing Slider */}
         <div className="mb-16">
-          <AISlider />
+          <WebDevelopmentSlider />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {services
+            .filter((service) => !service.title.startsWith("Desarrollo Web -"))
+            .map((service, index) => (
             <div
               key={index}
               className="group relative bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-500 hover:shadow-glow hover:transform hover:-translate-y-2"

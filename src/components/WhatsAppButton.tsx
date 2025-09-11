@@ -2,12 +2,32 @@ import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const WhatsAppButton = () => {
-  const phoneNumber = "34600000000"; // IMPORTANTE: Actualiza con tu número real de WhatsApp (código país + número)
+  const phoneNumber = "34600000000"; // IMPORTANTE: Formato internacional sin + ni espacios. Ej: España 34 + número
   const message = "Hola, me gustaría obtener más información sobre sus servicios";
   
+  const openLink = (url: string) => {
+    // Use noopener/noreferrer for safety and to avoid popup blockers
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   const handleWhatsAppClick = () => {
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    const number = (phoneNumber || "").replace(/\D/g, ""); // Solo dígitos, sin + ni espacios
+    const text = encodeURIComponent(message);
+    const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+
+    // Deep link (app) + fallbacks
+    const deepLink = `whatsapp://send?phone=${number}&text=${text}`;
+    const waMeUrl = `https://wa.me/${number}?text=${text}`; // Recomendado por WhatsApp
+    const webUrl = `https://web.whatsapp.com/send?phone=${number}&text=${text}`; // Desktop fallback
+
+    if (isMobile) {
+      // Intenta abrir la app, si no funciona abre wa.me
+      window.location.href = deepLink;
+      setTimeout(() => openLink(waMeUrl), 500);
+    } else {
+      // En escritorio es más fiable abrir Web WhatsApp
+      openLink(webUrl);
+    }
   };
 
   return (
@@ -29,7 +49,7 @@ const WhatsAppButton = () => {
       
       {/* Mobile WhatsApp Link (alternative for mobile) */}
       <a
-        href={`whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`}
+        href={`whatsapp://send?phone=${phoneNumber.replace(/\D/g, "")}&text=${encodeURIComponent(message)}`}
         className="fixed bottom-6 left-6 z-50 md:hidden"
         aria-label="WhatsApp"
       >
