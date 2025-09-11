@@ -98,4 +98,18 @@
     overflow: hidden;
     pointer-events: none;
   }
+
+  /* Scan line animation for AI slider */
+  @keyframes scan-line {
+    0% {
+      top: 0;
+    }
+    100% {
+      top: 100%;
+    }
+  }
+
+  .animate-scan-line {
+    animation: scan-line 3s linear infinite;
+  }
 }
