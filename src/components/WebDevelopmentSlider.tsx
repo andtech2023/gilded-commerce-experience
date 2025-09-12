@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, Info, ShoppingCart } from "lucide-react";
 import web1 from "@/assets/webdev-slider-1.jpg";
 import web2 from "@/assets/webdev-slider-2.jpg";
 import web3 from "@/assets/webdev-slider-3.jpg";
+import ServiceDetailModal from "./ServiceDetailModal";
+import PaymentModal from "./PaymentModal";
+import { Button } from "./ui/button";
 
 const slides = [
   {
@@ -30,6 +33,9 @@ const slides = [
 
 const WebDevelopmentSlider = () => {
   const [current, setCurrent] = useState(0);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(slides[0]);
 
   useEffect(() => {
     const t = setInterval(() => setCurrent((c) => (c + 1) % slides.length), 6000);
@@ -38,6 +44,16 @@ const WebDevelopmentSlider = () => {
 
   const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
   const next = () => setCurrent((c) => (c + 1) % slides.length);
+
+  const handleDetails = () => {
+    setSelectedService(slides[current]);
+    setDetailModalOpen(true);
+  };
+
+  const handlePurchase = () => {
+    setSelectedService(slides[current]);
+    setPaymentModalOpen(true);
+  };
 
   return (
     <div className="relative w-full overflow-hidden rounded-2xl border border-border">
@@ -78,6 +94,26 @@ const WebDevelopmentSlider = () => {
                   </li>
                 ))}
               </ul>
+
+              {/* Action Buttons */}
+              <div className="mt-6 flex gap-3 flex-wrap">
+                <Button
+                  onClick={handleDetails}
+                  variant="outline"
+                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm"
+                >
+                  <Info className="w-4 h-4 mr-2" />
+                  Ver detalles
+                </Button>
+                <Button
+                  onClick={handlePurchase}
+                  variant="premium"
+                  className="bg-gradient-to-r from-primary to-primary-variant hover:opacity-90"
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Comprar ahora
+                </Button>
+              </div>
             </div>
 
             {/* Futuristic corners */}
@@ -104,6 +140,33 @@ const WebDevelopmentSlider = () => {
           <button key={i} onClick={() => setCurrent(i)} aria-label={`Ir al slide ${i+1}`} className={`rounded-full transition-all ${i===current ? 'w-8 h-2 bg-primary' : 'w-2 h-2 bg-white/50 hover:bg-white/70'}`} />
         ))}
       </div>
+
+      {/* Modals */}
+      <ServiceDetailModal
+        isOpen={detailModalOpen}
+        onClose={() => setDetailModalOpen(false)}
+        service={{
+          title: selectedService.title,
+          description: selectedService.description,
+          price: selectedService.price,
+          details: {
+            features: selectedService.perks,
+            technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
+            timeline: "2-4 semanas"
+          }
+        }}
+        onSelectPayment={() => {
+          setDetailModalOpen(false);
+          setPaymentModalOpen(true);
+        }}
+      />
+      
+      <PaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        service={selectedService.title}
+        price={selectedService.price}
+      />
     </div>
   );
 };

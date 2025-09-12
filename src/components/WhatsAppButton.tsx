@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const WhatsAppButton = () => {
-  const phoneNumber = "34600000000"; // IMPORTANTE: Formato internacional sin + ni espacios. Ej: España 34 + número
+  const phoneNumber = "376369939"; // Número de WhatsApp de AndorraTech
   const message = "Hola, me gustaría obtener más información sobre sus servicios";
   
   const openLink = (url: string) => {
