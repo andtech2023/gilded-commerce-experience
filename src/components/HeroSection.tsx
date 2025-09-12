@@ -4,6 +4,13 @@ import heroBg from "@/assets/hero-bg.jpg";
 import ParticleEffect from "./ParticleEffect";
 
 const HeroSection = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -39,11 +46,20 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in animation-delay-400">
-            <Button variant="premium" size="xl" className="group">
+            <Button 
+              variant="premium" 
+              size="xl" 
+              className="group"
+              onClick={() => scrollToSection('servicios')}
+            >
               Explorar Servicios
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="hero" size="xl">
+            <Button 
+              variant="hero" 
+              size="xl"
+              onClick={() => scrollToSection('contacto')}
+            >
               Consulta Gratuita
             </Button>
           </div>
