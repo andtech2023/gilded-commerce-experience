@@ -4,27 +4,23 @@ import web1 from "@/assets/webdev-slider-1.jpg";
 import web2 from "@/assets/webdev-slider-2.jpg";
 import web3 from "@/assets/webdev-slider-3.jpg";
 import ServiceDetailModal from "./ServiceDetailModal";
-import PaymentModal from "./PaymentModal";
 import { Button } from "./ui/button";
 
 const slides = [
   {
     title: "Desarrollo Web – Básico",
-    price: "€950",
     description: "Presencia online profesional: hasta 5 páginas, responsive, SEO básico y formulario de contacto.",
     perks: ["Hasta 5 páginas", "Responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año"],
     image: web1,
   },
   {
     title: "Desarrollo Web – Profesional",
-    price: "€1,450",
     description: "Ideal para crecer: pasarela de pago, panel de administración y analytics.",
     perks: ["Hasta 10 páginas", "Pasarela de pago", "Panel admin", "SEO avanzado", "Analytics"],
     image: web2,
   },
   {
     title: "Desarrollo Web – Premium",
-    price: "€2,999",
     description: "Solución completa: e‑commerce, integraciones API, multiidioma y soporte prioritario.",
     perks: ["Páginas ilimitadas", "E‑commerce", "Integraciones API", "IA integrada", "Soporte 24/7"],
     image: web3,
@@ -34,7 +30,6 @@ const slides = [
 const WebDevelopmentSlider = () => {
   const [current, setCurrent] = useState(0);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(slides[0]);
 
   useEffect(() => {
@@ -51,8 +46,10 @@ const WebDevelopmentSlider = () => {
   };
 
   const handlePurchase = () => {
-    setSelectedService(slides[current]);
-    setPaymentModalOpen(true);
+    const contactSection = document.getElementById('contacto');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -76,13 +73,9 @@ const WebDevelopmentSlider = () => {
             {/* Content */}
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 text-foreground animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-4">
-                <div>
+                <div className="flex-1">
                   <h4 className="text-2xl md:text-3xl font-serif font-bold bg-gradient-gold bg-clip-text text-transparent">{s.title}</h4>
                   <p className="text-sm md:text-base text-muted-foreground mt-2 max-w-2xl">{s.description}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-muted-foreground">Desde</p>
-                  <p className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent">{s.price}</p>
                 </div>
               </div>
 
@@ -111,7 +104,7 @@ const WebDevelopmentSlider = () => {
                   className="bg-gradient-to-r from-primary to-primary-variant hover:opacity-90"
                 >
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  Comprar ahora
+                  Solicitar presupuesto
                 </Button>
               </div>
             </div>
@@ -148,7 +141,6 @@ const WebDevelopmentSlider = () => {
         service={{
           title: selectedService.title,
           description: selectedService.description,
-          price: selectedService.price,
           details: {
             features: selectedService.perks,
             technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
@@ -157,15 +149,11 @@ const WebDevelopmentSlider = () => {
         }}
         onSelectPayment={() => {
           setDetailModalOpen(false);
-          setPaymentModalOpen(true);
+          const contactSection = document.getElementById('contacto');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
         }}
-      />
-      
-      <PaymentModal
-        isOpen={paymentModalOpen}
-        onClose={() => setPaymentModalOpen(false)}
-        service={selectedService.title}
-        price={selectedService.price}
       />
     </div>
   );

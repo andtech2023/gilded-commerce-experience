@@ -51,7 +51,14 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
-            <Button variant="premium" size="lg">
+            <Button 
+              variant="premium" 
+              size="lg"
+              onClick={() => {
+                const element = document.getElementById('asesoria-ia');
+                if (element) element.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Comenzar
             </Button>
           </div>
@@ -79,7 +86,16 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
-              <Button variant="premium" size="lg" className="w-full">
+              <Button 
+                variant="premium" 
+                size="lg" 
+                className="w-full"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  const element = document.getElementById('asesoria-ia');
+                  if (element) element.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
                 Comenzar
               </Button>
             </div>

@@ -2,7 +2,6 @@ import { Code, Cloud, Shield, Smartphone, Globe, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ServiceDetailModal from "./ServiceDetailModal";
-import RedsysPaymentModal from "./RedsysPaymentModal";
 import aiServicesBg from "@/assets/ai-services-bg.jpg";
 import WebDevelopmentSlider from "./WebDevelopmentSlider";
 
@@ -11,76 +10,57 @@ const services = [
     icon: Code,
     title: "Desarrollo Web - Básico",
     description: "Web corporativa profesional con diseño responsive, SEO básico y formulario de contacto",
-    price: "€950",
     features: ["Hasta 5 páginas", "Diseño responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año incluido"],
   },
   {
     icon: Code,
     title: "Desarrollo Web - Profesional",
     description: "Web avanzada con pasarela de pago integrada, gestión de contenidos y analytics",
-    price: "€1,450",
     features: ["Hasta 10 páginas", "Pasarela de pago integrada", "Panel de administración", "SEO avanzado", "Analytics y métricas", "Hosting 1 año incluido"],
   },
   {
     icon: Code,
     title: "Desarrollo Web - Premium",
     description: "Solución completa con todas las funcionalidades, personalización total y soporte prioritario",
-    price: "€2,999",
     features: ["Páginas ilimitadas", "E-commerce completo", "Integraciones API", "IA integrada", "Multiidioma", "Soporte prioritario 24/7", "Hosting premium incluido"],
   },
   {
     icon: Smartphone,
     title: "Apps Móviles",
     description: "Experiencias móviles nativas para iOS y Android",
-    price: "Desde €4,999",
+    features: ["iOS & Android", "React Native", "Diseño UX/UI", "Integración APIs"],
   },
   {
     icon: Cloud,
     title: "Cloud Solutions",
     description: "Infraestructura cloud segura y optimizada para su negocio",
-    price: "Desde €1,499/mes",
+    features: ["AWS & Azure", "Migración cloud", "CI/CD", "Monitorización 24/7"],
   },
   {
     icon: Shield,
     title: "Ciberseguridad",
     description: "Protección avanzada para sus activos digitales",
-    price: "Desde €999/mes",
+    features: ["Auditorías seguridad", "Pentesting", "Cifrado datos", "Cumplimiento RGPD"],
   },
   {
     icon: Globe,
     title: "Marketing Digital",
     description: "Estrategias digitales para maximizar su presencia online",
-    price: "Desde €1,999/mes",
+    features: ["SEO/SEM", "Redes sociales", "Email marketing", "Analytics"],
   },
   {
     icon: Cpu,
     title: "IA & Machine Learning",
     description: "Soluciones inteligentes que transforman sus datos en valor",
-    price: "Consultar",
+    features: ["Chatbots IA", "Análisis predictivo", "Automatización", "Visión artificial"],
   },
 ];
 
 const ServicesSection = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
-  const [paymentModal, setPaymentModal] = useState({
-    isOpen: false,
-    service: "",
-    price: "",
-  });
 
   const handleServiceDetail = (service: any) => {
     setSelectedService(service);
-  };
-
-  const handlePayment = () => {
-    if (selectedService) {
-      setPaymentModal({
-        isOpen: true,
-        service: selectedService.title,
-        price: selectedService.price,
-      });
-      setSelectedService(null);
-    }
   };
 
   return (
@@ -133,8 +113,8 @@ const ServicesSection = () => {
                 </p>
                 
                 {service.features && (
-                  <ul className="mb-4 space-y-2">
-                    {service.features.slice(0, 3).map((feature, idx) => (
+                  <ul className="mb-6 space-y-2">
+                    {service.features.slice(0, 4).map((feature, idx) => (
                       <li key={idx} className="text-sm text-muted-foreground flex items-start">
                         <span className="text-primary mr-2">✓</span>
                         {feature}
@@ -143,11 +123,10 @@ const ServicesSection = () => {
                   </ul>
                 )}
                 
-                <div className="flex items-center justify-between">
-                  <span className="text-primary font-bold text-lg">{service.price}</span>
+                <div className="mt-auto">
                   <Button 
-                    variant="outline" 
-                    size="sm"
+                    variant="premium"
+                    className="w-full"
                     onClick={() => handleServiceDetail(service)}
                   >
                     Más Info
@@ -171,17 +150,13 @@ const ServicesSection = () => {
           isOpen={!!selectedService}
           onClose={() => setSelectedService(null)}
           service={selectedService}
-          onSelectPayment={handlePayment}
-        />
-      )}
-
-      {/* Payment Modal */}
-      {paymentModal.isOpen && (
-        <RedsysPaymentModal
-          isOpen={paymentModal.isOpen}
-          onClose={() => setPaymentModal({ isOpen: false, service: "", price: "" })}
-          service={paymentModal.service}
-          price={paymentModal.price}
+          onSelectPayment={() => {
+            setSelectedService(null);
+            const contactSection = document.getElementById('contacto');
+            if (contactSection) {
+              contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
         />
       )}
     </section>

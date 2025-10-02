@@ -10,7 +10,7 @@ interface ServiceDetailModalProps {
   service: {
     title: string;
     description: string;
-    price: string;
+    price?: string;
     details?: {
       features: string[];
       technologies: string[];
@@ -395,13 +395,12 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
           </div>
         )}
 
-        {/* Price and Action */}
+        {/* Action Buttons */}
         <div className="mt-8 p-6 bg-gradient-subtle rounded-lg border border-primary/20">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Inversión desde</p>
-              <p className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">
-                {service.price}
+            <div className="flex-1">
+              <p className="text-lg text-muted-foreground">
+                ¿Interesado en este servicio? Contáctenos para recibir un presupuesto personalizado.
               </p>
             </div>
             <div className="flex gap-3">
@@ -409,7 +408,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
                 Volver
               </Button>
               <Button variant="premium" onClick={onSelectPayment} className="group">
-                Contratar Ahora
+                Solicitar Presupuesto
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </Button>
             </div>
