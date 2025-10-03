@@ -28,19 +28,17 @@ const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentMo
     phone: "",
   });
 
-  // Configuración Redsys/Morabanc - MODO PRUEBAS
+  // Configuración Redsys/Morabanc - MODO PRODUCCIÓN
   const redsysConfig = {
-    merchantCode: "999008881", // Código de comercio de pruebas de Redsys
-    terminal: "001",
+    merchantCode: "992228353", // Código de comercio real
+    terminal: "1",
     currency: "978", // EUR
     transactionType: "0", // Autorización
     merchantName: "AT- ANDORRATECH",
-    secretKey: "sq7HjrUOBfKmC576ILgskD5srU870gJ7", // Clave de pruebas de Redsys
+    secretKey: "hJipFuXQ9bfysGkOLSLv2NqKqbEC7tTq", // Clave de producción
     urlOK: `${window.location.origin}/payment-success`,
     urlKO: `${window.location.origin}/payment-cancelled`,
-    url: "https://sis-t.redsys.es:25443/sis/realizarPago", // URL de PRUEBAS
-    // Para PRODUCCIÓN cambiar a: https://sis.redsys.es/sis/realizarPago
-    // Y usar tus credenciales reales: merchantCode: "992228353", secretKey: "hJipFuXQ9bfysGkOLSLv2NqKqbEC7tTq"
+    url: "https://sis.redsys.es/sis/realizarPago", // URL de PRODUCCIÓN
   };
 
   const generateMerchantParameters = () => {
