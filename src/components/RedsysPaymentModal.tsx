@@ -42,11 +42,17 @@ const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentMo
   };
 
   const generateMerchantParameters = () => {
-    const amount = price.replace(/[^\d]/g, "").padStart(3, "0");
-    const order = Date.now().toString().slice(-12);
+    // Convertir el precio a centavos correctamente
+    // "0.10€" -> 10 centavos, "1.50€" -> 150 centavos
+    const priceNumber = parseFloat(price.replace(/[^\d.]/g, ""));
+    const amountInCents = Math.round(priceNumber * 100).toString();
+    
+    // Número de pedido: debe tener entre 4 y 12 dígitos
+    const timestamp = Date.now().toString();
+    const order = timestamp.slice(-12).padStart(12, "0");
     
     const merchantParameters = {
-      DS_MERCHANT_AMOUNT: amount,
+      DS_MERCHANT_AMOUNT: amountInCents,
       DS_MERCHANT_ORDER: order,
       DS_MERCHANT_MERCHANTCODE: redsysConfig.merchantCode,
       DS_MERCHANT_CURRENCY: redsysConfig.currency,
@@ -61,15 +67,20 @@ const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentMo
       DS_MERCHANT_MERCHANTDATA: JSON.stringify({ email: formData.email, service }),
     };
 
-    return btoa(JSON.stringify(merchantParameters));
+    return { 
+      params: btoa(JSON.stringify(merchantParameters)),
+      order: order
+    };
   };
 
-  const generateSignature = (merchantParameters: string) => {
+  const generateSignature = (merchantParameters: string, order: string) => {
+    // Decodificar la clave secreta de Base64
     const key = CryptoJS.enc.Base64.parse(redsysConfig.secretKey);
-    const iv = CryptoJS.enc.Hex.parse("0000000000000000");
     
+    // Cifrar el número de pedido con 3DES
+    const iv = CryptoJS.enc.Hex.parse("0000000000000000");
     const cipher = CryptoJS.TripleDES.encrypt(
-      merchantParameters,
+      order,
       key,
       {
         iv: iv,
@@ -78,7 +89,11 @@ const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentMo
       }
     );
     
-    return CryptoJS.HmacSHA256(merchantParameters, cipher.toString()).toString(CryptoJS.enc.Base64);
+    // Usar el resultado del cifrado como clave para HMAC-SHA256
+    const cipherKey = CryptoJS.enc.Base64.parse(cipher.ciphertext.toString(CryptoJS.enc.Base64));
+    const hash = CryptoJS.HmacSHA256(merchantParameters, cipherKey);
+    
+    return hash.toString(CryptoJS.enc.Base64);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -86,8 +101,12 @@ const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentMo
     setIsProcessing(true);
 
     try {
-      const merchantParameters = generateMerchantParameters();
-      const signature = generateSignature(merchantParameters);
+      const { params: merchantParameters, order } = generateMerchantParameters();
+      const signature = generateSignature(merchantParameters, order);
+
+      console.log("Merchant Parameters:", atob(merchantParameters));
+      console.log("Order:", order);
+      console.log("Signature:", signature);
 
       // Crear formulario para enviar a Redsys
       const form = document.createElement("form");
@@ -206,10 +225,16 @@ const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentMo
             <span>Pago seguro con Morabanc - Certificado PCI DSS</span>
           </div>
 
-          <div className="flex items-center justify-center space-x-4 opacity-60">
-            <img src="/visa.svg" alt="Visa" className="h-8" />
-            <img src="/mastercard.svg" alt="Mastercard" className="h-8" />
-            <CreditCard className="h-8 w-8" />
+          <div className="flex items-center justify-center gap-4 opacity-70">
+            <div className="flex items-center justify-center w-16 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded shadow-md">
+              <span className="text-white font-bold text-xs">VISA</span>
+            </div>
+            <div className="flex items-center justify-center w-16 h-10 bg-gradient-to-br from-red-600 via-orange-500 to-yellow-500 rounded shadow-md">
+              <span className="text-white font-bold text-xs">MC</span>
+            </div>
+            <div className="flex items-center justify-center w-16 h-10 bg-gradient-subtle border border-border rounded shadow-sm">
+              <CreditCard className="h-6 w-6 text-muted-foreground" />
+            </div>
           </div>
 
           <div className="flex gap-3">
