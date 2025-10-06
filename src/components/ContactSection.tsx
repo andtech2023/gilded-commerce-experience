@@ -97,9 +97,9 @@ const ContactSection = () => {
                     <Phone className="text-primary-foreground" size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">Teléfono</h4>
-                    <a href="https://wa.me/376369939" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                      WhatsApp: +376 369 939
+                    <h4 className="font-semibold text-foreground mb-1">Telegram</h4>
+                    <a href="https://t.me/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      @andorratech
                     </a>
                   </div>
                 </div>

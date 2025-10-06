@@ -1,55 +1,92 @@
 import { Brain, TrendingUp, Users, Zap, BarChart, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import AIConsultingDetailModal from "./AIConsultingDetailModal";
-import PaymentModal from "./PaymentModal";
+import AIFeatureModal from "./AIFeatureModal";
 import aiBackground from "@/assets/ai-consulting-bg.jpg";
 
 const features = [
   {
     icon: Brain,
     title: "Inteligencia Artificial Personalizada",
-    description: "Desarrollamos soluciones de IA adaptadas a las necesidades específicas de su empresa"
+    description: "Desarrollamos soluciones de IA adaptadas a las necesidades específicas de su empresa",
+    detailedDescription: "Nuestro equipo de expertos en IA diseña e implementa soluciones personalizadas que se integran perfectamente con sus procesos empresariales existentes. Desde chatbots avanzados hasta sistemas de recomendación, creamos tecnología que impulsa su negocio.",
+    benefits: [
+      "Análisis de necesidades y consultoría inicial gratuita",
+      "Desarrollo a medida según sus requisitos específicos",
+      "Integración con sus sistemas actuales",
+      "Formación completa para su equipo",
+      "Soporte técnico continuado"
+    ]
   },
   {
     icon: TrendingUp,
     title: "Automatización de Procesos",
-    description: "Optimizamos sus operaciones mediante automatización inteligente"
+    description: "Optimizamos sus operaciones mediante automatización inteligente",
+    detailedDescription: "Identificamos y automatizamos procesos repetitivos en su empresa, liberando tiempo valioso de su equipo para tareas estratégicas. Utilizamos IA para crear flujos de trabajo inteligentes que aprenden y mejoran con el tiempo.",
+    benefits: [
+      "Reducción de hasta 80% en tareas repetitivas",
+      "Minimización de errores humanos",
+      "Aumento de productividad del equipo",
+      "ROI medible en 3-6 meses",
+      "Escalabilidad según crecimiento"
+    ]
   },
   {
     icon: Users,
     title: "Asistentes Virtuales",
-    description: "Chatbots y asistentes IA para mejorar la atención al cliente 24/7"
+    description: "Chatbots y asistentes IA para mejorar la atención al cliente 24/7",
+    detailedDescription: "Implementamos asistentes virtuales inteligentes que brindan atención al cliente las 24 horas, responden preguntas frecuentes, procesan solicitudes y escalan casos complejos a su equipo humano cuando es necesario.",
+    benefits: [
+      "Atención al cliente 24/7 sin interrupciones",
+      "Respuesta instantánea a consultas frecuentes",
+      "Reducción de carga de trabajo en servicio al cliente",
+      "Recopilación automática de datos de clientes",
+      "Mejora continua mediante machine learning"
+    ]
   },
   {
     icon: BarChart,
     title: "Análisis Predictivo",
-    description: "Transforme sus datos en insights accionables con machine learning"
+    description: "Transforme sus datos en insights accionables con machine learning",
+    detailedDescription: "Convertimos sus datos históricos en predicciones valiosas que impulsan decisiones estratégicas. Nuestros modelos de machine learning identifican patrones, tendencias y oportunidades que serían imposibles de detectar manualmente.",
+    benefits: [
+      "Predicción de tendencias de mercado",
+      "Optimización de inventario y recursos",
+      "Identificación de oportunidades de ventas",
+      "Detección temprana de riesgos",
+      "Dashboards interactivos y reportes automatizados"
+    ]
   },
   {
     icon: Zap,
     title: "Integración Rápida",
-    description: "Implementación ágil de soluciones IA en su infraestructura existente"
+    description: "Implementación ágil de soluciones IA en su infraestructura existente",
+    detailedDescription: "Sabemos que el tiempo es crítico. Por eso ofrecemos metodologías ágiles de implementación que minimizan la interrupción de sus operaciones mientras maximizan el valor entregado.",
+    benefits: [
+      "Implementación por fases para menor riesgo",
+      "Compatibilidad con sistemas legacy",
+      "Tiempo de implementación optimizado",
+      "Pruebas exhaustivas antes del lanzamiento",
+      "Migración de datos segura y verificada"
+    ]
   },
   {
     icon: Shield,
     title: "IA Ética y Segura",
-    description: "Desarrollo responsable con máximos estándares de seguridad y privacidad"
+    description: "Desarrollo responsable con máximos estándares de seguridad y privacidad",
+    detailedDescription: "La seguridad y privacidad de sus datos es nuestra prioridad. Cumplimos con todas las normativas internacionales y aplicamos las mejores prácticas de seguridad en cada proyecto.",
+    benefits: [
+      "Cumplimiento total con RGPD y normativas locales",
+      "Cifrado de datos en reposo y en tránsito",
+      "Auditorías de seguridad regulares",
+      "Transparencia en algoritmos y decisiones de IA",
+      "Política de privacidad by design"
+    ]
   }
 ];
 
 const AIConsultingSection = () => {
-  const [showDetail, setShowDetail] = useState(false);
-  const [paymentModal, setPaymentModal] = useState({
-    isOpen: false,
-    service: "Asesoría Empresarial en IA",
-    price: "€2,499/mes",
-  });
-
-  const handlePayment = () => {
-    setShowDetail(false);
-    setPaymentModal({ ...paymentModal, isOpen: true });
-  };
+  const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null);
 
   return (
     <section 
@@ -78,7 +115,8 @@ const AIConsultingSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group p-6 rounded-xl border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow"
+              className="group p-6 rounded-xl border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow cursor-pointer"
+              onClick={() => setSelectedFeature(feature)}
             >
               <div className="w-12 h-12 bg-gradient-gold rounded-lg flex items-center justify-center mb-4">
                 <feature.icon className="text-primary-foreground" size={24} />
@@ -89,6 +127,9 @@ const AIConsultingSection = () => {
               <p className="text-muted-foreground">
                 {feature.description}
               </p>
+              <Button variant="link" className="mt-4 p-0 h-auto text-primary">
+                Ver más →
+              </Button>
             </div>
           ))}
         </div>
@@ -106,7 +147,12 @@ const AIConsultingSection = () => {
             <Button 
               variant="premium" 
               size="xl"
-              onClick={() => setShowDetail(true)}
+              onClick={() => {
+                const contactSection = document.getElementById('contacto');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               Solicitar Consulta Gratuita
             </Button>
@@ -137,20 +183,14 @@ const AIConsultingSection = () => {
         </div>
       </div>
 
-      {/* AI Consulting Detail Modal */}
-      <AIConsultingDetailModal
-        isOpen={showDetail}
-        onClose={() => setShowDetail(false)}
-        onSelectPayment={handlePayment}
-      />
-
-      {/* Payment Modal */}
-      <PaymentModal
-        isOpen={paymentModal.isOpen}
-        onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
-        service={paymentModal.service}
-        price={paymentModal.price}
-      />
+      {/* AI Feature Modal */}
+      {selectedFeature && (
+        <AIFeatureModal
+          isOpen={!!selectedFeature}
+          onClose={() => setSelectedFeature(null)}
+          feature={selectedFeature}
+        />
+      )}
     </section>
   );
 };

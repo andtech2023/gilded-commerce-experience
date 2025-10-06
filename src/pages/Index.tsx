@@ -6,8 +6,7 @@ import AIConsultingSection from "@/components/AIConsultingSection";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import TestPaymentButton from "@/components/TestPaymentButton";
+import TelegramButton from "@/components/TelegramButton";
 
 const Index = () => {
   return (
@@ -20,11 +19,8 @@ const Index = () => {
       <ContactSection />
       <Footer />
       
-      {/* WhatsApp Button */}
-      <WhatsAppButton />
-      
-      {/* Test Payment Button - Remove after testing */}
-      <TestPaymentButton />
+      {/* Telegram Button */}
+      <TelegramButton />
     </div>
   );
 };
