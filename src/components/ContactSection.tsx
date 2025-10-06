@@ -98,8 +98,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground mb-1">Telegram</h4>
-                    <a href="https://t.me/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                      @andorratech
+                    <a href="https://t.me/Andorra_tech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      @Andorra_tech
                     </a>
                   </div>
                 </div>
