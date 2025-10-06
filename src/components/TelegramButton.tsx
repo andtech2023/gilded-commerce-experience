@@ -2,7 +2,7 @@ import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const TelegramButton = () => {
-  const telegramUsername = "andorratech"; // Usuario de Telegram de AndorraTech
+  const telegramUsername = "Andorra_tech"; // Usuario de Telegram de AndorraTech
   const message = "Hola, me gustaría obtener más información sobre sus servicios";
   
   const handleTelegramClick = () => {
