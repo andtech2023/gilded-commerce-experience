@@ -2,6 +2,7 @@ import { Brain, TrendingUp, Users, Zap, BarChart, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AIFeatureModal from "./AIFeatureModal";
+import QuoteRequestModal from "./QuoteRequestModal";
 import aiBackground from "@/assets/ai-consulting-bg.jpg";
 
 const features = [
@@ -87,6 +88,7 @@ const features = [
 
 const AIConsultingSection = () => {
   const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   return (
     <section 
@@ -147,12 +149,7 @@ const AIConsultingSection = () => {
             <Button 
               variant="premium" 
               size="xl"
-              onClick={() => {
-                const contactSection = document.getElementById('contacto');
-                if (contactSection) {
-                  contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={() => setQuoteModalOpen(true)}
             >
               Solicitar Consulta Gratuita
             </Button>
@@ -191,6 +188,13 @@ const AIConsultingSection = () => {
           feature={selectedFeature}
         />
       )}
+      
+      {/* Quote Request Modal */}
+      <QuoteRequestModal
+        isOpen={quoteModalOpen}
+        onClose={() => setQuoteModalOpen(false)}
+        serviceTitle="Consultoría en Inteligencia Artificial"
+      />
     </section>
   );
 };

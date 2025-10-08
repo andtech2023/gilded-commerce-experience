@@ -4,6 +4,7 @@ import web1 from "@/assets/webdev-slider-1.jpg";
 import web2 from "@/assets/webdev-slider-2.jpg";
 import web3 from "@/assets/webdev-slider-3.jpg";
 import ServiceDetailModal from "./ServiceDetailModal";
+import QuoteRequestModal from "./QuoteRequestModal";
 import { Button } from "./ui/button";
 
 const slides = [
@@ -30,6 +31,7 @@ const slides = [
 const WebDevelopmentSlider = () => {
   const [current, setCurrent] = useState(0);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(slides[0]);
 
   useEffect(() => {
@@ -46,10 +48,8 @@ const WebDevelopmentSlider = () => {
   };
 
   const handlePurchase = () => {
-    const contactSection = document.getElementById('contacto');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    setSelectedService(slides[current]);
+    setQuoteModalOpen(true);
   };
 
   return (
@@ -149,11 +149,15 @@ const WebDevelopmentSlider = () => {
         }}
         onSelectPayment={() => {
           setDetailModalOpen(false);
-          const contactSection = document.getElementById('contacto');
-          if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
-          }
+          setSelectedService(slides[current]);
+          setQuoteModalOpen(true);
         }}
+      />
+      
+      <QuoteRequestModal
+        isOpen={quoteModalOpen}
+        onClose={() => setQuoteModalOpen(false)}
+        serviceTitle={selectedService.title}
       />
     </div>
   );
