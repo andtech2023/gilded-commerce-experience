@@ -54,10 +54,10 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				}
 			},
-			fontFamily: {
-				'sans': ['Inter', 'sans-serif'],
-				'serif': ['Playfair Display', 'serif']
-			},
+		fontFamily: {
+			'sans': ['Rajdhani', 'sans-serif'],
+			'display': ['Orbitron', 'sans-serif']
+		},
 			backgroundImage: {
 				'gradient-gold': 'var(--gradient-gold)',
 				'gradient-dark': 'var(--gradient-dark)',
