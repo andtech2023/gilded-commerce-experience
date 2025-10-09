@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
+import semSeoCampaign from "@/assets/sem-seo-campaign.jpg";
 
 interface ServiceDetailModalProps {
   isOpen: boolean;
@@ -256,7 +257,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
           { 
             title: "Campaña SEO/SEM", 
             description: "Estrategia completa con 300% de aumento en tráfico orgánico",
-            image: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c853?w=800&h=450&fit=crop"
+            image: semSeoCampaign
           },
           { 
             title: "Automatización Marketing", 
