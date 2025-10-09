@@ -65,7 +65,7 @@ const ContactSection = () => {
     <section id="contacto" className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-3d-gold">
             <span className="text-gradient-gold">Conectemos</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

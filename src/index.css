@@ -59,17 +59,46 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Orbitron', sans-serif;
     @apply tracking-wide font-bold;
   }
+  
+  h1 {
+    font-size: 3.5rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+  
+  h3 {
+    font-size: 2rem;
+  }
 }
 
 @layer utilities {
   .text-gradient-gold {
     @apply bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent;
+  }
+  
+  .text-3d-gold {
+    text-shadow: 
+      0 1px 0 hsl(42, 78%, 45%),
+      0 2px 0 hsl(42, 78%, 40%),
+      0 3px 0 hsl(42, 78%, 35%),
+      0 4px 0 hsl(42, 78%, 30%),
+      0 5px 0 hsl(42, 78%, 25%),
+      0 6px 1px rgba(0, 0, 0, 0.1),
+      0 0 5px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 3px 5px rgba(0, 0, 0, 0.2),
+      0 5px 10px rgba(0, 0, 0, 0.25),
+      0 10px 20px rgba(0, 0, 0, 0.15);
+    color: hsl(42, 78%, 55%);
   }
   
   .glow-gold {

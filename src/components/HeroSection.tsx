@@ -33,10 +33,10 @@ const HeroSection = () => {
             <span className="text-primary font-medium tracking-wide">EXCELENCIA TECNOLÓGICA</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 animate-fade-in">
-            <span className="bg-gradient-gold bg-clip-text text-transparent">Conectamos</span>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+            <span className="text-3d-gold">Conectamos</span>
             <br />
-            <span className="text-foreground">Innovación y Éxito</span>
+            <span className="text-3d-gold">Innovación y Éxito</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in animation-delay-200">

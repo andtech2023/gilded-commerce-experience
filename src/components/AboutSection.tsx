@@ -13,7 +13,7 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-3d-gold">
               <span className="text-gradient-gold">Líderes</span> en
               <br />
               Innovación Tecnológica

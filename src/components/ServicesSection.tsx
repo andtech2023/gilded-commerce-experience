@@ -77,7 +77,7 @@ const ServicesSection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-3d-gold">
             <span className="bg-gradient-gold bg-clip-text text-transparent">Servicios</span> Premium
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
