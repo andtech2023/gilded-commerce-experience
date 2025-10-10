@@ -20,17 +20,57 @@ const Footer = () => {
             <p className="text-muted-foreground text-sm mt-2">
               Tech-grup 2023 SLU - NRT: L718140P
             </p>
-            <div className="flex space-x-4 mt-6">
-              <a href="https://www.instagram.com/andorratech/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
+            <div className="flex space-x-4 mt-6 relative z-10">
+              <a 
+                href="https://www.instagram.com/andorratech/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-primary transition-colors cursor-pointer" 
+                aria-label="Instagram"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://www.instagram.com/andorratech/', '_blank', 'noopener,noreferrer');
+                }}
+              >
                 <Instagram size={20} />
               </a>
-              <a href="https://www.facebook.com/profile.php?id=61582010190698" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Facebook">
+              <a 
+                href="https://www.facebook.com/profile.php?id=61582010190698" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-primary transition-colors cursor-pointer" 
+                aria-label="Facebook"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://www.facebook.com/profile.php?id=61582010190698', '_blank', 'noopener,noreferrer');
+                }}
+              >
                 <Facebook size={20} />
               </a>
-              <a href="https://www.linkedin.com/company/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
+              <a 
+                href="https://www.linkedin.com/company/andorratech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-primary transition-colors cursor-pointer" 
+                aria-label="LinkedIn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://www.linkedin.com/company/andorratech', '_blank', 'noopener,noreferrer');
+                }}
+              >
                 <Linkedin size={20} />
               </a>
-              <a href="https://www.tiktok.com/@andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="TikTok">
+              <a 
+                href="https://www.tiktok.com/@andorratech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-primary transition-colors cursor-pointer" 
+                aria-label="TikTok"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://www.tiktok.com/@andorratech', '_blank', 'noopener,noreferrer');
+                }}
+              >
                 <svg
                   viewBox="0 0 24 24"
                   width="20"
