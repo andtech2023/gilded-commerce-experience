@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Linkedin, Instagram, Github } from "lucide-react";
+import { Facebook, Linkedin, Instagram } from "lucide-react";
 import logo from "@/assets/andorratech-official-logo.png";
 
 const Footer = () => {
@@ -21,11 +21,11 @@ const Footer = () => {
               Tech-grup 2023 SLU - NRT: L718140P
             </p>
             <div className="flex space-x-4 mt-6">
-              <a href="https://www.instagram.com/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/andorratech/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
                 <Instagram size={20} />
               </a>
-              <a href="https://twitter.com/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="X">
-                <Twitter size={20} />
+              <a href="https://www.facebook.com/profile.php?id=61582010190698" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Facebook">
+                <Facebook size={20} />
               </a>
               <a href="https://www.linkedin.com/company/andorratech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
                 <Linkedin size={20} />

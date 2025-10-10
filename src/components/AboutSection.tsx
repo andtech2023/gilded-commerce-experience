@@ -13,10 +13,10 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-3d-gold">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="text-gradient-gold">Líderes</span> en
               <br />
-              Innovación Tecnológica
+              <span className="text-futuristic-gold">Innovación Tecnológica</span>
             </h2>
             
             <p className="text-lg text-muted-foreground mb-6">

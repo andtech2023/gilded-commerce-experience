@@ -103,8 +103,8 @@ const AIConsultingSection = () => {
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-3d-gold">
-            <span className="bg-gradient-gold bg-clip-text text-transparent">Asesoría Empresas</span> en IA
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-gradient-gold">Asesoría Empresas</span> <span className="text-futuristic-gold">en IA</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Transformamos su empresa con inteligencia artificial de vanguardia. 

@@ -7,6 +7,7 @@ import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import TelegramButton from "@/components/TelegramButton";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
@@ -21,6 +22,9 @@ const Index = () => {
       
       {/* Telegram Button */}
       <TelegramButton />
+      
+      {/* WhatsApp Button with ATBOT */}
+      <WhatsAppButton />
     </div>
   );
 };
