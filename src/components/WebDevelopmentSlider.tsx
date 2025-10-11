@@ -3,30 +3,66 @@ import { ChevronLeft, ChevronRight, Sparkles, Info, ShoppingCart } from "lucide-
 import web1 from "@/assets/webdev-slider-1.jpg";
 import web2 from "@/assets/webdev-slider-2.jpg";
 import web3 from "@/assets/webdev-slider-3.jpg";
-import ServiceDetailModal from "./ServiceDetailModal";
-import QuoteRequestModal from "./QuoteRequestModal";
+import WebPackageDetailModal from "./WebPackageDetailModal";
+import PaymentModal from "./PaymentModal";
 import { Button } from "./ui/button";
 
 const slides = [
   {
+    name: "Básico",
     title: "Desarrollo Web – Básico",
-    description: "Presencia online profesional: hasta 5 páginas, responsive, SEO básico y formulario de contacto.",
+    description: "Presencia online profesional ideal para pequeños negocios y startups.",
     perks: ["Hasta 5 páginas", "Responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año"],
+    features: [
+      "Hasta 5 páginas optimizadas",
+      "Diseño responsive adaptado a todos los dispositivos",
+      "SEO básico para mejorar visibilidad",
+      "Formulario de contacto funcional",
+      "Hosting gratuito durante 1 año",
+      "Soporte técnico durante 3 meses"
+    ],
     price: "750€",
+    deliveryTime: "2-3 semanas",
     image: web1,
   },
   {
+    name: "Profesional",
     title: "Desarrollo Web – Profesional",
-    description: "Ideal para crecer: pasarela de pago, panel de administración y analytics.",
+    description: "Solución completa para empresas en crecimiento que necesitan funcionalidades avanzadas.",
     perks: ["Hasta 10 páginas", "Pasarela de pago", "Panel admin", "SEO avanzado", "Analytics"],
+    features: [
+      "Hasta 10 páginas personalizadas",
+      "Integración de pasarela de pago segura",
+      "Panel de administración intuitivo",
+      "SEO avanzado con keywords estratégicas",
+      "Google Analytics y métricas avanzadas",
+      "Blog integrado",
+      "Optimización de velocidad",
+      "Soporte técnico durante 6 meses"
+    ],
     price: "1.500€",
+    deliveryTime: "3-4 semanas",
     image: web2,
   },
   {
+    name: "Premium",
     title: "Desarrollo Web – Premium",
-    description: "Solución completa: e‑commerce, integraciones API, multiidioma y soporte prioritario.",
+    description: "La solución más completa con todas las funcionalidades empresariales y soporte prioritario.",
     perks: ["Páginas ilimitadas", "E‑commerce", "Integraciones API", "IA integrada", "Soporte 24/7"],
+    features: [
+      "Páginas ilimitadas",
+      "E-commerce completo con gestión de inventario",
+      "Integraciones API personalizadas",
+      "Sistema de IA integrado para chat o recomendaciones",
+      "Multiidioma con traducciones",
+      "Base de datos optimizada",
+      "Sistema de usuarios y roles",
+      "Backup automático diario",
+      "Soporte prioritario 24/7 durante 12 meses",
+      "Actualizaciones y mantenimiento incluido"
+    ],
     price: "2.500€",
+    deliveryTime: "4-6 semanas",
     image: web3,
   },
 ];
@@ -34,7 +70,7 @@ const slides = [
 const WebDevelopmentSlider = () => {
   const [current, setCurrent] = useState(0);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(slides[0]);
 
   useEffect(() => {
@@ -51,8 +87,8 @@ const WebDevelopmentSlider = () => {
   };
 
   const handlePurchase = () => {
-    setSelectedService(slides[current]);
-    setQuoteModalOpen(true);
+    setDetailModalOpen(false);
+    setPaymentModalOpen(true);
   };
 
   return (
@@ -105,12 +141,15 @@ const WebDevelopmentSlider = () => {
                   Ver detalles
                 </Button>
                 <Button
-                  onClick={handlePurchase}
+                  onClick={() => {
+                    setSelectedService(slides[current]);
+                    setPaymentModalOpen(true);
+                  }}
                   variant="premium"
                   className="bg-gradient-to-r from-primary to-primary-variant hover:opacity-90"
                 >
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  Solicitar presupuesto
+                  Comprar Ahora
                 </Button>
               </div>
             </div>
@@ -141,29 +180,18 @@ const WebDevelopmentSlider = () => {
       </div>
 
       {/* Modals */}
-      <ServiceDetailModal
+      <WebPackageDetailModal
         isOpen={detailModalOpen}
         onClose={() => setDetailModalOpen(false)}
-        service={{
-          title: selectedService.title,
-          description: selectedService.description,
-          details: {
-            features: selectedService.perks,
-            technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-            timeline: "2-4 semanas"
-          }
-        }}
-        onSelectPayment={() => {
-          setDetailModalOpen(false);
-          setSelectedService(slides[current]);
-          setQuoteModalOpen(true);
-        }}
+        package={selectedService}
+        onPurchase={handlePurchase}
       />
       
-      <QuoteRequestModal
-        isOpen={quoteModalOpen}
-        onClose={() => setQuoteModalOpen(false)}
-        serviceTitle={selectedService.title}
+      <PaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        service={`Desarrollo Web ${selectedService.name}`}
+        price={selectedService.price}
       />
     </div>
   );

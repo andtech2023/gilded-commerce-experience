@@ -10,10 +10,15 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import WebPackageDetailModal from "./WebPackageDetailModal";
+import PaymentModal from "./PaymentModal";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<any>(null);
+  const [showPackageModal, setShowPackageModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,10 +36,65 @@ const Navbar = () => {
   ];
 
   const webDesignPackages = [
-    { name: "Básico", price: "750€", href: "#servicios" },
-    { name: "Profesional", price: "1.500€", href: "#servicios" },
-    { name: "Premium", price: "2.500€", href: "#servicios" },
+    { 
+      name: "Básico", 
+      price: "750€",
+      description: "Presencia online profesional ideal para pequeños negocios y startups.",
+      features: [
+        "Hasta 5 páginas optimizadas",
+        "Diseño responsive adaptado a todos los dispositivos",
+        "SEO básico para mejorar visibilidad",
+        "Formulario de contacto funcional",
+        "Hosting gratuito durante 1 año",
+        "Soporte técnico durante 3 meses"
+      ],
+      deliveryTime: "2-3 semanas"
+    },
+    { 
+      name: "Profesional", 
+      price: "1.500€",
+      description: "Solución completa para empresas en crecimiento que necesitan funcionalidades avanzadas.",
+      features: [
+        "Hasta 10 páginas personalizadas",
+        "Integración de pasarela de pago segura",
+        "Panel de administración intuitivo",
+        "SEO avanzado con keywords estratégicas",
+        "Google Analytics y métricas avanzadas",
+        "Blog integrado",
+        "Optimización de velocidad",
+        "Soporte técnico durante 6 meses"
+      ],
+      deliveryTime: "3-4 semanas"
+    },
+    { 
+      name: "Premium", 
+      price: "2.500€",
+      description: "La solución más completa con todas las funcionalidades empresariales y soporte prioritario.",
+      features: [
+        "Páginas ilimitadas",
+        "E-commerce completo con gestión de inventario",
+        "Integraciones API personalizadas",
+        "Sistema de IA integrado para chat o recomendaciones",
+        "Multiidioma con traducciones",
+        "Base de datos optimizada",
+        "Sistema de usuarios y roles",
+        "Backup automático diario",
+        "Soporte prioritario 24/7 durante 12 meses",
+        "Actualizaciones y mantenimiento incluido"
+      ],
+      deliveryTime: "4-6 semanas"
+    },
   ];
+
+  const handlePackageClick = (pkg: any) => {
+    setSelectedPackage(pkg);
+    setShowPackageModal(true);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handlePurchase = () => {
+    setShowPaymentModal(true);
+  };
 
   return (
     <nav
@@ -72,18 +132,18 @@ const Navbar = () => {
                     Diseños Web
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-2 p-4">
+                    <ul className="grid w-[300px] gap-2 p-4 bg-background">
                       {webDesignPackages.map((pkg) => (
                         <li key={pkg.name}>
-                          <a
-                            href={pkg.href}
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          <button
+                            onClick={() => handlePackageClick(pkg)}
+                            className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                           >
                             <div className="flex items-center justify-between">
                               <div className="text-sm font-medium leading-none">{pkg.name}</div>
                               <div className="text-sm font-bold text-primary">{pkg.price}</div>
                             </div>
-                          </a>
+                          </button>
                         </li>
                       ))}
                     </ul>
@@ -133,15 +193,14 @@ const Navbar = () => {
                 <div className="text-foreground/80 font-medium mb-2">Diseños Web</div>
                 <div className="flex flex-col space-y-2 pl-4">
                   {webDesignPackages.map((pkg) => (
-                    <a
+                    <button
                       key={pkg.name}
-                      href={pkg.href}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-300 py-1 flex items-center justify-between"
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={() => handlePackageClick(pkg)}
+                      className="w-full text-left text-muted-foreground hover:text-primary transition-colors duration-300 py-1 flex items-center justify-between"
                     >
                       <span>{pkg.name}</span>
                       <span className="text-primary font-semibold">{pkg.price}</span>
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -162,6 +221,24 @@ const Navbar = () => {
           </div>
         )}
       </div>
+
+      {/* Modals */}
+      {selectedPackage && (
+        <>
+          <WebPackageDetailModal
+            isOpen={showPackageModal}
+            onClose={() => setShowPackageModal(false)}
+            package={selectedPackage}
+            onPurchase={handlePurchase}
+          />
+          <PaymentModal
+            isOpen={showPaymentModal}
+            onClose={() => setShowPaymentModal(false)}
+            service={`Desarrollo Web ${selectedPackage.name}`}
+            price={selectedPackage.price}
+          />
+        </>
+      )}
     </nav>
   );
 };

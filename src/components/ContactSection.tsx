@@ -98,9 +98,16 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground mb-1">WhatsApp</h4>
-                    <a href="https://wa.me/376369939" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                    <button
+                      onClick={() => {
+                        const message = "Hola! Me gustaría obtener más información sobre sus servicios.";
+                        const url = `https://wa.me/376369939?text=${encodeURIComponent(message)}`;
+                        window.open(url, "_blank", "noopener,noreferrer");
+                      }}
+                      className="text-muted-foreground hover:text-primary transition-colors cursor-pointer text-left"
+                    >
                       +376 369 939
-                    </a>
+                    </button>
                   </div>
                 </div>
 
