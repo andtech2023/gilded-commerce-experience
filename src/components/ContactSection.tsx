@@ -97,6 +97,18 @@ const ContactSection = () => {
                     <Phone className="text-primary-foreground" size={24} />
                   </div>
                   <div>
+                    <h4 className="font-semibold text-foreground mb-1">WhatsApp</h4>
+                    <a href="https://wa.me/376369939" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      +376 369 939
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-gradient-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Phone className="text-primary-foreground" size={24} />
+                  </div>
+                  <div>
                     <h4 className="font-semibold text-foreground mb-1">Telegram</h4>
                     <a href="https://t.me/Andorra_tech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                       @Andorra_tech

@@ -97,6 +97,13 @@
     letter-spacing: 0.05em;
   }
   
+  .text-beige-soft {
+    color: hsl(39, 40%, 80%);
+    text-shadow: 0 0 8px hsl(39, 40%, 70%, 0.4);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  
   @keyframes gradient-shift {
     0%, 100% {
       background-position: 0% center;

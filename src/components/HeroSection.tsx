@@ -36,7 +36,7 @@ const HeroSection = () => {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
             <span className="text-futuristic-gold">Conectamos</span>
             <br />
-            <span className="text-gradient-gold">Innovación y Éxito</span>
+            <span className="text-beige-soft">Innovación y Éxito</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in animation-delay-200">

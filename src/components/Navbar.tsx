@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/andorratech-official-logo.png";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,10 +25,15 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "#inicio", label: "Inicio" },
-    { href: "#servicios", label: "Servicios" },
     { href: "#asesoria-ia", label: "Asesoría IA" },
     { href: "#nosotros", label: "Nosotros" },
     { href: "#contacto", label: "Contacto" },
+  ];
+
+  const webDesignPackages = [
+    { name: "Básico", price: "750€", href: "#servicios" },
+    { name: "Profesional", price: "1.500€", href: "#servicios" },
+    { name: "Premium", price: "2.500€", href: "#servicios" },
   ];
 
   return (
@@ -51,6 +63,35 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
+            
+            {/* Diseños Web Dropdown */}
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-foreground/80 hover:text-primary bg-transparent">
+                    Diseños Web
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[300px] gap-2 p-4">
+                      {webDesignPackages.map((pkg) => (
+                        <li key={pkg.name}>
+                          <a
+                            href={pkg.href}
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="text-sm font-medium leading-none">{pkg.name}</div>
+                              <div className="text-sm font-bold text-primary">{pkg.price}</div>
+                            </div>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+
             <Button 
               variant="premium" 
               size="lg"
@@ -86,6 +127,25 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+              
+              {/* Mobile Diseños Web Section */}
+              <div className="border-t border-border pt-4">
+                <div className="text-foreground/80 font-medium mb-2">Diseños Web</div>
+                <div className="flex flex-col space-y-2 pl-4">
+                  {webDesignPackages.map((pkg) => (
+                    <a
+                      key={pkg.name}
+                      href={pkg.href}
+                      className="text-muted-foreground hover:text-primary transition-colors duration-300 py-1 flex items-center justify-between"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <span>{pkg.name}</span>
+                      <span className="text-primary font-semibold">{pkg.price}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               <Button 
                 variant="premium" 
                 size="lg" 

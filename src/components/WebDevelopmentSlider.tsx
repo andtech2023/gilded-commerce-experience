@@ -12,18 +12,21 @@ const slides = [
     title: "Desarrollo Web – Básico",
     description: "Presencia online profesional: hasta 5 páginas, responsive, SEO básico y formulario de contacto.",
     perks: ["Hasta 5 páginas", "Responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año"],
+    price: "750€",
     image: web1,
   },
   {
     title: "Desarrollo Web – Profesional",
     description: "Ideal para crecer: pasarela de pago, panel de administración y analytics.",
     perks: ["Hasta 10 páginas", "Pasarela de pago", "Panel admin", "SEO avanzado", "Analytics"],
+    price: "1.500€",
     image: web2,
   },
   {
     title: "Desarrollo Web – Premium",
     description: "Solución completa: e‑commerce, integraciones API, multiidioma y soporte prioritario.",
     perks: ["Páginas ilimitadas", "E‑commerce", "Integraciones API", "IA integrada", "Soporte 24/7"],
+    price: "2.500€",
     image: web3,
   },
 ];
@@ -74,7 +77,10 @@ const WebDevelopmentSlider = () => {
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 text-foreground animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex-1">
-                  <h4 className="text-2xl md:text-3xl font-serif font-bold bg-gradient-gold bg-clip-text text-transparent">{s.title}</h4>
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <h4 className="text-2xl md:text-3xl font-serif font-bold bg-gradient-gold bg-clip-text text-transparent">{s.title}</h4>
+                    <span className="text-2xl md:text-3xl font-bold text-primary">{s.price}</span>
+                  </div>
                   <p className="text-sm md:text-base text-muted-foreground mt-2 max-w-2xl">{s.description}</p>
                 </div>
               </div>
