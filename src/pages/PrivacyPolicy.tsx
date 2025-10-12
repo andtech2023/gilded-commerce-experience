@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">1. Información al Usuario</h2>
             <p>
-              Andorra Tech S.L., como Responsable del Tratamiento, le informa que, según lo dispuesto 
+              Tech-Grup 2023 SLU, como Responsable del Tratamiento, le informa que, según lo dispuesto 
               en la Llei 15/2003, del 18 de desembre, qualificada de protecció de dades personals del 
               Principat d'Andorra, sus datos personales serán tratados y quedarán incorporados en los 
               ficheros de la empresa, debidamente inscritos en el Registre de l'Agència Andorrana de 
@@ -100,7 +100,7 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">7. Seguridad</h2>
             <p>
-              Andorra Tech S.L. ha adoptado las medidas de seguridad técnicas y organizativas necesarias 
+              Tech-Grup 2023 SLU ha adoptado las medidas de seguridad técnicas y organizativas necesarias 
               para garantizar la seguridad e integridad de los datos, así como para evitar su pérdida, 
               alteración y/o acceso por parte de terceros no autorizados.
             </p>

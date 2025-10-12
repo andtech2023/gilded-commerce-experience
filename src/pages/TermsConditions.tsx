@@ -25,7 +25,7 @@ const TermsConditions = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">1. Aceptación de los Términos</h2>
             <p>
-              Al acceder y utilizar los servicios de Andorra Tech S.L., usted acepta y se compromete 
+              Al acceder y utilizar los servicios de Tech-Grup 2023 SLU, usted acepta y se compromete 
               a cumplir estos términos y condiciones. Si no está de acuerdo con alguna parte de estos 
               términos, no debe utilizar nuestros servicios.
             </p>
@@ -34,7 +34,7 @@ const TermsConditions = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">2. Descripción de los Servicios</h2>
             <p>
-              Andorra Tech S.L. ofrece servicios de desarrollo tecnológico, consultoría en inteligencia 
+              Tech-Grup 2023 SLU ofrece servicios de desarrollo tecnológico, consultoría en inteligencia 
               artificial, desarrollo web y móvil, soluciones cloud, ciberseguridad y marketing digital. 
               Los detalles específicos de cada servicio se acordarán mediante contrato individual.
             </p>
@@ -68,7 +68,7 @@ const TermsConditions = () => {
             <p>
               Salvo acuerdo en contrario, todos los derechos de propiedad intelectual sobre los 
               desarrollos realizados serán propiedad del cliente una vez completado el pago total 
-              del proyecto. Andorra Tech S.L. se reserva el derecho de utilizar el proyecto como 
+              del proyecto. Tech-Grup 2023 SLU se reserva el derecho de utilizar el proyecto como 
               referencia en su portfolio, salvo acuerdo de confidencialidad.
             </p>
           </section>
@@ -85,7 +85,7 @@ const TermsConditions = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">7. Garantías y Limitaciones</h2>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Andorra Tech S.L. garantiza la calidad profesional de sus servicios</li>
+              <li>Tech-Grup 2023 SLU garantiza la calidad profesional de sus servicios</li>
               <li>Se ofrece garantía de 3 meses en desarrollos web para errores de programación</li>
               <li>No nos responsabilizamos por pérdidas derivadas de factores externos</li>
               <li>La responsabilidad máxima será el importe pagado por el servicio específico</li>
@@ -104,7 +104,7 @@ const TermsConditions = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">9. Modificaciones</h2>
             <p>
-              Andorra Tech S.L. se reserva el derecho de modificar estos términos y condiciones 
+              Tech-Grup 2023 SLU se reserva el derecho de modificar estos términos y condiciones 
               en cualquier momento. Las modificaciones serán notificadas a los clientes con 30 días 
               de antelación y entrarán en vigor en la fecha indicada.
             </p>

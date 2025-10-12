@@ -101,7 +101,7 @@ const CookiesPolicy = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">7. Actualización de la Política</h2>
             <p>
-              Andorra Tech S.L. puede modificar esta Política de Cookies en función de exigencias 
+              Tech-Grup 2023 SLU puede modificar esta Política de Cookies en función de exigencias 
               legislativas, reglamentarias, o con la finalidad de adaptar dicha política a las 
               instrucciones dictadas por la Agència Andorrana de Protecció de Dades.
             </p>
