@@ -178,65 +178,41 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
           }
         ]
       },
-      "Cloud Solutions": {
-        description: "Diseñamos e implementamos soluciones cloud que optimizan sus operaciones, reducen costos y mejoran la escalabilidad. Desde migraciones hasta arquitecturas nativas en la nube.",
-        videoUrl: "https://www.youtube.com/embed/M988_fsOSWo",
+      "ChatBot IA con Voz Humana": {
+        description: "Revolucione la atención al cliente con nuestro ChatBot IA equipado con tecnología de voz humana natural. Una solución completa que combina inteligencia artificial avanzada con síntesis de voz de última generación para ofrecer experiencias conversacionales indistinguibles de un agente humano.",
+        videoUrl: "", // Pendiente de video
+        detailedDescription: "Nuestro ChatBot IA con Voz Humana representa el futuro de la atención al cliente automatizada. Utilizando modelos de lenguaje de última generación combinados con tecnología de síntesis de voz neural, creamos asistentes virtuales que no solo entienden el contexto y las intenciones de sus clientes, sino que responden con una voz natural, cálida y profesional que genera confianza y mejora la experiencia del usuario.\n\nLa solución incluye procesamiento de lenguaje natural (NLP) avanzado que permite comprender consultas complejas, mantener el contexto de conversaciones largas, y proporcionar respuestas precisas y personalizadas. El sistema de voz utiliza tecnología de síntesis neural que reproduce entonaciones, pausas y énfasis naturales, haciendo que la interacción sea fluida y agradable.\n\nPerfecto para empresas que buscan escalar su atención al cliente sin comprometer la calidad, disponible 24/7 en múltiples idiomas, con capacidad de aprendizaje continuo y mejora basada en las interacciones reales con sus clientes.",
         features: [
-          "Arquitectura cloud escalable y resiliente",
-          "Backup y recuperación automatizados",
-          "Monitoreo 24/7 con alertas proactivas",
-          "Optimización de costos cloud",
-          "Seguridad y compliance (ISO, SOC2)",
-          "Alta disponibilidad (99.9% uptime)"
+          "Voz humana natural con tecnología de síntesis neural de última generación",
+          "Respuestas inteligentes en tiempo real con contexto conversacional",
+          "Integración completa con WhatsApp, Telegram y plataformas web",
+          "Disponibilidad 24/7 sin interrupciones ni tiempos de espera",
+          "Procesamiento de lenguaje natural en múltiples idiomas",
+          "Personalización completa de personalidad y tono de voz",
+          "Aprendizaje automático continuo desde las interacciones",
+          "Panel de analytics con métricas detalladas de conversaciones",
+          "Transferencia inteligente a agentes humanos cuando es necesario",
+          "Base de conocimiento personalizada para su negocio específico",
+          "Reconocimiento de emociones y adaptación de respuestas",
+          "Cumplimiento total con normativas de privacidad y GDPR"
         ],
-        technologies: ["AWS", "Azure", "Google Cloud", "Kubernetes", "Terraform", "Docker"],
-        timeline: "2-4 semanas",
+        technologies: ["OpenAI GPT-5", "ElevenLabs Voice AI", "Whisper ASR", "WebRTC", "Node.js", "React", "Supabase", "WhatsApp Business API"],
+        timeline: "4-6 semanas",
         portfolio: [
           { 
-            title: "Migración a AWS", 
-            description: "Migración completa de infraestructura on-premise a la nube con zero downtime",
-            image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=450&fit=crop"
+            title: "Caso de Éxito Real - Video Demostrativo", 
+            description: "Próximamente disponible: Video completo mostrando implementación real y resultados medibles",
+            image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=450&fit=crop"
           },
           { 
-            title: "Arquitectura Serverless", 
-            description: "Sistema escalable con Lambda, API Gateway y DynamoDB",
-            image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=450&fit=crop"
+            title: "Asistente Virtual E-commerce", 
+            description: "ChatBot con voz que atiende consultas de productos, procesa pedidos y resuelve incidencias 24/7",
+            image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=450&fit=crop"
           },
           { 
-            title: "DevOps Pipeline", 
-            description: "CI/CD automatizado con monitoreo y alertas inteligentes",
-            image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=800&h=450&fit=crop"
-          }
-        ]
-      },
-      "Ciberseguridad": {
-        description: "Protegemos sus activos digitales con soluciones de ciberseguridad de vanguardia. Desde auditorías hasta implementación de sistemas de defensa, garantizamos la máxima protección.",
-        videoUrl: "https://www.youtube.com/embed/inWWhr5tnEA",
-        features: [
-          "Auditorías de seguridad completas",
-          "Protección contra DDoS y ataques",
-          "Cifrado de datos end-to-end",
-          "Gestión de identidades (IAM)",
-          "Cumplimiento normativo (GDPR, ISO)",
-          "Formación en seguridad para empleados"
-        ],
-        technologies: ["Cloudflare", "AWS Shield", "Vault", "Sentinel", "Splunk", "CrowdStrike"],
-        timeline: "Servicio continuo",
-        portfolio: [
-          { 
-            title: "Auditoría de Seguridad", 
-            description: "Análisis completo de vulnerabilidades con plan de remediación",
-            image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=450&fit=crop"
-          },
-          { 
-            title: "Sistema SIEM", 
-            description: "Monitoreo de eventos de seguridad en tiempo real 24/7",
-            image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=450&fit=crop"
-          },
-          { 
-            title: "Plan de Recuperación", 
-            description: "Estrategia completa de backup y disaster recovery",
-            image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=450&fit=crop"
+            title: "Soporte Técnico Automatizado", 
+            description: "Sistema de voz IA que diagnostica problemas técnicos y guía a usuarios paso a paso",
+            image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=450&fit=crop"
           }
         ]
       },
@@ -401,17 +377,34 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-lg text-muted-foreground">
-                ¿Interesado en este servicio? Contáctenos para recibir un presupuesto personalizado.
+                {service.title === "ChatBot IA con Voz Humana" 
+                  ? "¿Tienes dudas? Habla ahora con nuestro ATBot y descubre cómo puede transformar tu negocio."
+                  : "¿Interesado en este servicio? Contáctenos para recibir un presupuesto personalizado."
+                }
               </p>
             </div>
             <div className="flex gap-3">
               <Button variant="outline" onClick={onClose}>
                 Volver
               </Button>
-              <Button variant="premium" onClick={onSelectPayment} className="group">
-                Solicitar Presupuesto
-                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-              </Button>
+              {service.title === "ChatBot IA con Voz Humana" ? (
+                <Button 
+                  variant="premium" 
+                  onClick={() => {
+                    const message = encodeURIComponent("Hola, estoy interesado en el servicio de ChatBot IA con Voz Humana. ¿Podrían darme más información?");
+                    window.open(`https://wa.me/376660406?text=${message}`, '_blank');
+                  }}
+                  className="group bg-gradient-gold hover:bg-[#25D366] transition-all duration-300"
+                >
+                  💬 Hablar con ATBot
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+                </Button>
+              ) : (
+                <Button variant="premium" onClick={onSelectPayment} className="group">
+                  Solicitar Presupuesto
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+                </Button>
+              )}
             </div>
           </div>
         </div>

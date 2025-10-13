@@ -32,15 +32,9 @@ const services = [
   },
   {
     icon: Cloud,
-    title: "Cloud Solutions",
-    description: "Infraestructura cloud segura y optimizada para su negocio",
-    features: ["AWS & Azure", "Migración cloud", "CI/CD", "Monitorización 24/7"],
-  },
-  {
-    icon: Shield,
-    title: "Ciberseguridad",
-    description: "Protección avanzada para sus activos digitales",
-    features: ["Auditorías seguridad", "Pentesting", "Cifrado datos", "Cumplimiento RGPD"],
+    title: "ChatBot IA con Voz Humana",
+    description: "Asistente virtual inteligente con tecnología de voz natural para atención 24/7",
+    features: ["Voz natural y humana", "Respuestas en tiempo real", "Integración WhatsApp", "Disponibilidad 24/7"],
   },
   {
     icon: Globe,
