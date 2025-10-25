@@ -392,7 +392,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
                   variant="premium" 
                   onClick={() => {
                     const message = encodeURIComponent("Hola, estoy interesado en el servicio de ChatBot IA con Voz Humana. ¿Podrían darme más información?");
-                    window.open(`https://wa.me/376660406?text=${message}`, '_blank');
+                    window.open(`https://wa.me/376369939?text=${message}`, '_blank');
                   }}
                   className="group bg-gradient-gold hover:bg-[#25D366] transition-all duration-300"
                 >
