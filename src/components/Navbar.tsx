@@ -31,6 +31,7 @@ const Navbar = () => {
   const navLinks = [
     { href: "#inicio", label: "Inicio" },
     { href: "#asesoria-ia", label: "Asesoría IA" },
+    { href: "/ahorro-energetico", label: "Ahorro Energético" },
     { href: "#nosotros", label: "Nosotros" },
     { href: "#contacto", label: "Contacto" },
   ];
@@ -115,13 +116,23 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
-              >
-                {link.label}
-              </a>
+              link.href.startsWith('/') ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
             
             {/* Diseños Web Dropdown */}
@@ -178,14 +189,25 @@ const Navbar = () => {
           <div className="md:hidden absolute top-20 left-0 w-full bg-background/95 backdrop-blur-lg border-b border-border">
             <div className="flex flex-col p-4 space-y-4">
               {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
+                link.href.startsWith('/') ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
               
               {/* Mobile Diseños Web Section */}

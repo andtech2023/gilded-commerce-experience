@@ -11,6 +11,7 @@ import CookiesPolicy from "./pages/CookiesPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancelled from "./pages/PaymentCancelled";
+import AhorroEnergetico from "./pages/AhorroEnergetico";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/ahorro-energetico" element={<AhorroEnergetico />} />
           <Route path="/aviso-legal" element={<LegalNotice />} />
           <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
           <Route path="/politica-cookies" element={<CookiesPolicy />} />
