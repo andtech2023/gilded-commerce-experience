@@ -14,6 +14,7 @@ import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
 import nexusLogo from "@/assets/nexus-logo.png";
+import energyBannerBg from "@/assets/energy-banner-bg.jpg";
 
 const AhorroEnergetico = () => {
   const { toast } = useToast();
@@ -164,42 +165,78 @@ const AhorroEnergetico = () => {
       </section>
 
       {/* Companies Banner */}
-      <section className="py-20 px-4 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
+      <section className="py-32 px-4 relative overflow-hidden">
+        {/* Background with overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${energyBannerBg})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/95" />
+        
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-gradient-gold">
               Distribuidores Oficiales
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Trabajamos con las principales compañías energéticas de España
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center mb-16">
             {companies.map((company, index) => (
               <div
                 key={index}
-                className="w-full max-w-[200px] h-32 bg-background rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center p-6 animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="group w-full max-w-[280px] h-48 bg-background/90 backdrop-blur-sm rounded-2xl shadow-2xl hover:shadow-[0_0_50px_rgba(212,175,55,0.3)] transition-all duration-500 flex items-center justify-center p-8 animate-fade-in border border-primary/20"
+                style={{ 
+                  animationDelay: `${index * 0.15}s`,
+                  transform: 'perspective(1000px)',
+                }}
               >
-                <img
-                  src={company.logo}
-                  alt={`Logo ${company.name}`}
-                  className="w-full h-full object-contain"
-                />
+                <div 
+                  className="w-full h-full flex items-center justify-center transition-all duration-500 group-hover:scale-110"
+                  style={{
+                    animation: `float ${3 + index * 0.5}s ease-in-out infinite`,
+                    animationDelay: `${index * 0.2}s`,
+                  }}
+                >
+                  <img
+                    src={company.logo}
+                    alt={`Logo ${company.name}`}
+                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-500"
+                  />
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-background border border-primary/30 shadow-elegant">
-              <CheckCircle2 className="w-5 h-5 text-primary" />
-              <span className="text-sm font-semibold">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border border-primary/40 shadow-elegant backdrop-blur-sm">
+              <CheckCircle2 className="w-6 h-6 text-primary animate-pulse" />
+              <span className="text-base font-semibold text-foreground">
                 Como distribuidores oficiales, nos encargamos de toda la gestión
               </span>
             </div>
           </div>
         </div>
+
+        {/* CSS Animation for floating effect */}
+        <style>{`
+          @keyframes float {
+            0%, 100% {
+              transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+              transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+            }
+            50% {
+              transform: translateY(-15px) rotateX(0deg) rotateY(5deg);
+            }
+            75% {
+              transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg);
+            }
+          }
+        `}</style>
       </section>
 
       {/* Simulator Section */}
