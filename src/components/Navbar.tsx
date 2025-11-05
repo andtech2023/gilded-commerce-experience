@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 import logo from "@/assets/andorratech-official-logo.png";
 import {
   NavigationMenu,
@@ -29,11 +30,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: "#inicio", label: "Inicio" },
-    { href: "#asesoria-ia", label: "Asesoría IA" },
-    { href: "/ahorro-energetico", label: "Ahorro Energético" },
-    { href: "#nosotros", label: "Nosotros" },
-    { href: "#contacto", label: "Contacto" },
+    { href: "/", label: "Inicio", isRoute: true },
+    { href: "#asesoria-ia", label: "Asesoría IA", isRoute: false },
+    { href: "/ahorro-energetico", label: "Ahorro Energético", isRoute: true },
+    { href: "#nosotros", label: "Nosotros", isRoute: false },
+    { href: "#contacto", label: "Contacto", isRoute: false },
   ];
 
   const webDesignPackages = [
@@ -116,14 +117,14 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              link.href.startsWith('/') ? (
-                <a
+              link.isRoute ? (
+                <Link
                   key={link.href}
-                  href={link.href}
+                  to={link.href}
                   className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
                 >
                   {link.label}
-                </a>
+                </Link>
               ) : (
                 <a
                   key={link.href}
@@ -189,15 +190,15 @@ const Navbar = () => {
           <div className="md:hidden absolute top-20 left-0 w-full bg-background/95 backdrop-blur-lg border-b border-border">
             <div className="flex flex-col p-4 space-y-4">
               {navLinks.map((link) => (
-                link.href.startsWith('/') ? (
-                  <a
+                link.isRoute ? (
+                  <Link
                     key={link.href}
-                    href={link.href}
+                    to={link.href}
                     className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ) : (
                   <a
                     key={link.href}

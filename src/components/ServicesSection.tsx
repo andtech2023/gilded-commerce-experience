@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ServiceDetailModal from "./ServiceDetailModal";
 import aiServicesBg from "@/assets/ai-services-bg.jpg";
+import mobileAppsBg from "@/assets/mobile-apps-bg.jpg";
+import chatbotBg from "@/assets/chatbot-bg.jpg";
+import marketingBg from "@/assets/marketing-bg.jpg";
+import aiMlBg from "@/assets/ai-ml-bg.jpg";
 import WebDevelopmentSlider from "./WebDevelopmentSlider";
 
 const services = [
@@ -28,25 +32,29 @@ const services = [
     icon: Smartphone,
     title: "Apps Móviles",
     description: "Experiencias móviles nativas para iOS y Android",
-    features: ["iOS & Android", "React Native", "Diseño UX/UI", "Integración APIs"],
+    features: ["iOS & Android", "React Native", "Diseño UX/UI", "Integración APIs", "Automatizaciones personalizables"],
+    bgImage: mobileAppsBg,
   },
   {
     icon: Cloud,
     title: "ChatBot IA con Voz Humana",
     description: "Asistente virtual inteligente con tecnología de voz natural para atención 24/7",
-    features: ["Voz natural y humana", "Respuestas en tiempo real", "Integración WhatsApp", "Disponibilidad 24/7"],
+    features: ["Voz natural y humana", "Respuestas en tiempo real", "Integración WhatsApp", "Disponibilidad 24/7", "Automatizaciones personalizables"],
+    bgImage: chatbotBg,
   },
   {
     icon: Globe,
     title: "Marketing Digital",
     description: "Estrategias digitales para maximizar su presencia online",
-    features: ["SEO/SEM", "Redes sociales", "Email marketing", "Analytics"],
+    features: ["SEO/SEM", "Redes sociales", "Email marketing", "Analytics", "Automatizaciones personalizables"],
+    bgImage: marketingBg,
   },
   {
     icon: Cpu,
     title: "IA & Machine Learning",
     description: "Soluciones inteligentes que transforman sus datos en valor",
-    features: ["Chatbots IA", "Análisis predictivo", "Automatización", "Visión artificial"],
+    features: ["Chatbots IA", "Análisis predictivo", "Automatización", "Visión artificial", "Automatizaciones personalizables"],
+    bgImage: aiMlBg,
   },
 ];
 
@@ -89,12 +97,23 @@ const ServicesSection = () => {
             .map((service, index) => (
             <div
               key={index}
-              className="group relative bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-500 hover:shadow-glow hover:transform hover:-translate-y-2"
+              className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-glow hover:transform hover:-translate-y-2"
             >
-              <div className="absolute inset-0 bg-gradient-gold opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500"></div>
+              {/* Background Image with Overlay */}
+              {service.bgImage && (
+                <>
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                    style={{ backgroundImage: `url(${service.bgImage})` }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-background/98 via-background/95 to-background/98 group-hover:from-background/95 group-hover:via-background/90 group-hover:to-background/95 transition-all duration-500"></div>
+                </>
+              )}
               
-              <div className="relative z-10">
-                <div className="w-14 h-14 bg-gradient-gold rounded-xl flex items-center justify-center mb-6">
+              <div className="absolute inset-0 bg-gradient-gold opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+              
+              <div className="relative z-10 p-8">
+                <div className="w-14 h-14 bg-gradient-gold rounded-xl flex items-center justify-center mb-6 shadow-lg">
                   <service.icon className="text-primary-foreground" size={28} />
                 </div>
                 
@@ -108,7 +127,7 @@ const ServicesSection = () => {
                 
                 {service.features && (
                   <ul className="mb-6 space-y-2">
-                    {service.features.slice(0, 4).map((feature, idx) => (
+                    {service.features.map((feature, idx) => (
                       <li key={idx} className="text-sm text-muted-foreground flex items-start">
                         <span className="text-primary mr-2">✓</span>
                         {feature}
