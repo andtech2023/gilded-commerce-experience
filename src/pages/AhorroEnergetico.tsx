@@ -203,7 +203,9 @@ const AhorroEnergetico = () => {
                   <img
                     src={company.logo}
                     alt={`Logo ${company.name}`}
-                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-500"
+                    className={`w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-500 ${
+                      company.name === "Nexus" ? "bg-white rounded-lg p-4" : ""
+                    }`}
                   />
                 </div>
               </div>
