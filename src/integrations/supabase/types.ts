@@ -33,6 +33,7 @@ export type Database = {
         Row: {
           apellido: string | null
           email: string
+          empresa: string | null
           estado: string | null
           fecha_envio: string | null
           id: number
@@ -41,6 +42,7 @@ export type Database = {
           pagina_origen: string | null
           Presupuesto: string | null
           telefono: string | null
+          tipo: string | null
           utm_campaign: string | null
           utm_medium: string | null
           utm_source: string | null
@@ -48,6 +50,7 @@ export type Database = {
         Insert: {
           apellido?: string | null
           email: string
+          empresa?: string | null
           estado?: string | null
           fecha_envio?: string | null
           id?: number
@@ -56,6 +59,7 @@ export type Database = {
           pagina_origen?: string | null
           Presupuesto?: string | null
           telefono?: string | null
+          tipo?: string | null
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
@@ -63,6 +67,7 @@ export type Database = {
         Update: {
           apellido?: string | null
           email?: string
+          empresa?: string | null
           estado?: string | null
           fecha_envio?: string | null
           id?: number
@@ -71,6 +76,7 @@ export type Database = {
           pagina_origen?: string | null
           Presupuesto?: string | null
           telefono?: string | null
+          tipo?: string | null
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
