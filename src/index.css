@@ -34,6 +34,9 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    
     --border: 38 20% 25%;
     --input: 220 13% 15%;
     --ring: 38 70% 48%;
@@ -153,5 +156,30 @@
 
   .animate-scan-line {
     animation: scan-line 3s linear infinite;
+  }
+
+  /* Delivery badge styles */
+  .delivery-badge-gold {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)), hsl(var(--primary)));
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite, pulse 2s ease-in-out infinite;
+    border-color: hsl(var(--primary-glow));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 
+      0 0 40px hsl(var(--primary) / 0.6),
+      0 0 80px hsl(var(--primary-glow) / 0.4),
+      inset 0 0 20px hsl(var(--primary-glow) / 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .delivery-badge-gold:hover {
+    background: linear-gradient(135deg, hsl(var(--success)), hsl(142 76% 46%), hsl(var(--success)));
+    border-color: hsl(var(--success));
+    color: hsl(var(--success-foreground));
+    transform: scale(1.05);
+    box-shadow: 
+      0 0 50px hsl(var(--success) / 0.7),
+      0 0 100px hsl(var(--success) / 0.5),
+      inset 0 0 30px hsl(var(--success) / 0.4);
   }
 }

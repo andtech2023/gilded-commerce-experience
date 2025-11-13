@@ -41,7 +41,7 @@ const slides = [
       "Soporte técnico durante 6 meses"
     ],
     price: "1.500€",
-    deliveryTime: "3-4 semanas",
+    deliveryTime: "48h",
     image: web2,
   },
   {
@@ -62,7 +62,7 @@ const slides = [
       "Actualizaciones y mantenimiento incluido"
     ],
     price: "2.500€",
-    deliveryTime: "4-6 semanas",
+    deliveryTime: "48h",
     image: web3,
   },
 ];
