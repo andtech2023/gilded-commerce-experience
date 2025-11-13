@@ -50,17 +50,23 @@ const WebPackageDetailModal = ({ isOpen, onClose, package: pkg, onPurchase }: We
             </ul>
           </div>
 
-          <div className={`${pkg.deliveryTime === "48h" ? "bg-gradient-to-r from-primary/20 via-primary-variant/20 to-primary/20 border-2 border-primary shadow-glow animate-pulse" : "bg-card border border-border"} rounded-lg p-4`}>
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground font-medium">Tiempo de entrega:</span>
+          <div className={`${pkg.deliveryTime === "48h" ? "relative bg-gradient-to-r from-primary/30 via-primary-variant/30 to-primary/30 border-4 border-primary shadow-glow" : "bg-card border border-border"} rounded-xl p-6`}>
+            {pkg.deliveryTime === "48h" && (
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer rounded-xl"></div>
+            )}
+            <div className="relative flex flex-col items-center gap-4">
+              <span className="text-muted-foreground font-bold text-lg uppercase tracking-wide">⚡ Tiempo de entrega ⚡</span>
               {pkg.deliveryTime === "48h" ? (
-                <div className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-variant text-white px-4 py-2 rounded-lg font-bold text-lg shadow-lg">
-                  <Zap className="w-5 h-5 animate-bounce" />
-                  <span>¡{pkg.deliveryTime}!</span>
-                  <Zap className="w-5 h-5 animate-bounce" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary blur-xl opacity-50 animate-pulse"></div>
+                  <div className="relative flex items-center gap-3 bg-gradient-to-r from-primary via-primary-glow to-primary text-white px-8 py-4 rounded-xl font-black text-3xl shadow-glow border-2 border-primary-glow transform hover:scale-105 transition-transform">
+                    <Zap className="w-8 h-8 animate-bounce" fill="currentColor" />
+                    <span className="drop-shadow-lg">¡SOLO {pkg.deliveryTime.toUpperCase()}!</span>
+                    <Zap className="w-8 h-8 animate-bounce" fill="currentColor" />
+                  </div>
                 </div>
               ) : (
-                <span className="font-semibold text-foreground">{pkg.deliveryTime}</span>
+                <span className="font-semibold text-foreground text-xl">{pkg.deliveryTime}</span>
               )}
             </div>
           </div>
