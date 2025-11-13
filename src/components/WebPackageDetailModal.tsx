@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, ShoppingCart } from "lucide-react";
+import { Check, ShoppingCart, Zap } from "lucide-react";
 
 interface WebPackage {
   name: string;
@@ -50,10 +50,18 @@ const WebPackageDetailModal = ({ isOpen, onClose, package: pkg, onPurchase }: We
             </ul>
           </div>
 
-          <div className="bg-card border border-border rounded-lg p-4">
+          <div className={`${pkg.deliveryTime === "48h" ? "bg-gradient-to-r from-primary/20 via-primary-variant/20 to-primary/20 border-2 border-primary shadow-glow animate-pulse" : "bg-card border border-border"} rounded-lg p-4`}>
             <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Tiempo de entrega:</span>
-              <span className="font-semibold text-foreground">{pkg.deliveryTime}</span>
+              <span className="text-muted-foreground font-medium">Tiempo de entrega:</span>
+              {pkg.deliveryTime === "48h" ? (
+                <div className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-variant text-white px-4 py-2 rounded-lg font-bold text-lg shadow-lg">
+                  <Zap className="w-5 h-5 animate-bounce" />
+                  <span>¡{pkg.deliveryTime}!</span>
+                  <Zap className="w-5 h-5 animate-bounce" />
+                </div>
+              ) : (
+                <span className="font-semibold text-foreground">{pkg.deliveryTime}</span>
+              )}
             </div>
           </div>
 
