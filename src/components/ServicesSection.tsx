@@ -107,6 +107,7 @@ const ServicesSection = () => {
                     style={{ backgroundImage: `url(${service.bgImage})` }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-background/98 via-background/95 to-background/98 group-hover:from-background/95 group-hover:via-background/90 group-hover:to-background/95 transition-all duration-500"></div>
+                  <div className="absolute inset-0 bg-gray-900/50 backdrop-blur-[0.5px]"></div>
                 </>
               )}
               
