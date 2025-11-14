@@ -127,9 +127,9 @@ const WebDevelopmentSlider = () => {
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 text-foreground animate-fade-in">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex-1">
-                  <div className="flex items-center gap-4 flex-wrap">
-                    <h4 className="text-2xl md:text-3xl font-serif font-bold bg-gradient-gold bg-clip-text text-transparent">{s.title}</h4>
-                    <span className="text-2xl md:text-3xl font-bold text-primary">{s.price}</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-wrap">
+                    <h4 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold bg-gradient-gold bg-clip-text text-transparent break-words">{s.title}</h4>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">{s.price}</span>
                   </div>
                   <p className="text-sm md:text-base text-muted-foreground mt-2 max-w-2xl">{s.description}</p>
                 </div>
