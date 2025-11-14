@@ -50,21 +50,25 @@ const WebPackageDetailModal = ({ isOpen, onClose, package: pkg, onPurchase }: We
             </ul>
           </div>
 
-          <div className={`${pkg.deliveryTime === "48h" ? "relative overflow-hidden" : "bg-card border border-border"} rounded-xl p-6`}>
-            {pkg.deliveryTime === "48h" && (
+          <div className={`${pkg.deliveryTime === "48h" || pkg.name === "Básico" ? "relative overflow-hidden" : "bg-card border border-border"} rounded-xl p-6`}>
+            {(pkg.deliveryTime === "48h" || pkg.name === "Básico") && (
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
             )}
-            <div className="relative flex flex-col items-center gap-4">
-              <span className="text-foreground font-bold text-lg uppercase tracking-wide">⚡ Tiempo de entrega ⚡</span>
-              {pkg.deliveryTime === "48h" ? (
-                <div className="relative w-full flex flex-col items-center gap-3">
-                  <div className="absolute inset-0 bg-primary blur-2xl opacity-40 animate-pulse"></div>
-                  <div className="delivery-badge-gold relative flex items-center justify-center gap-3 w-full px-8 py-6 rounded-2xl font-black text-4xl border-4 shadow-2xl cursor-pointer group">
-                    <Zap className="w-10 h-10 animate-bounce group-hover:text-success transition-colors duration-300" fill="currentColor" />
-                    <span className="drop-shadow-2xl">¡ENTREGA EXPRESS {pkg.deliveryTime.toUpperCase()}!</span>
-                    <Zap className="w-10 h-10 animate-bounce group-hover:text-success transition-colors duration-300" fill="currentColor" />
+            <div className="relative flex flex-col items-center gap-3">
+              <span className="text-foreground font-semibold text-base uppercase tracking-wide flex items-center gap-2">
+                <Zap className="w-4 h-4 text-primary" fill="currentColor" />
+                Tiempo de entrega
+                <Zap className="w-4 h-4 text-primary" fill="currentColor" />
+              </span>
+              {(pkg.deliveryTime === "48h" || pkg.name === "Básico") ? (
+                <div className="relative w-full flex flex-col items-center gap-2">
+                  <div className="absolute inset-0 bg-primary blur-xl opacity-30 animate-pulse"></div>
+                  <div className="delivery-badge-gold relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-2xl border-2 shadow-xl cursor-pointer group">
+                    <Zap className="w-6 h-6 animate-bounce group-hover:text-success transition-colors duration-300" fill="currentColor" />
+                    <span className="drop-shadow-lg">¡48H EXPRESS!</span>
+                    <Zap className="w-6 h-6 animate-bounce group-hover:text-success transition-colors duration-300" fill="currentColor" />
                   </div>
-                  <p className="text-primary-glow text-sm font-semibold animate-pulse">
+                  <p className="text-primary text-xs font-medium animate-pulse">
                     ¡Comienza tu proyecto inmediatamente!
                   </p>
                 </div>
