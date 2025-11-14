@@ -160,26 +160,17 @@
 
   /* Delivery badge styles */
   .delivery-badge-gold {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)), hsl(var(--primary)));
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite, pulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     border-color: hsl(var(--primary-glow));
-    color: hsl(var(--primary-foreground));
-    box-shadow: 
-      0 0 40px hsl(var(--primary) / 0.6),
-      0 0 80px hsl(var(--primary-glow) / 0.4),
-      inset 0 0 20px hsl(var(--primary-glow) / 0.3);
-    transition: all 0.3s ease;
+    color: white;
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .delivery-badge-gold:hover {
-    background: linear-gradient(135deg, hsl(var(--success)), hsl(142 76% 46%), hsl(var(--success)));
-    border-color: hsl(var(--success));
-    color: hsl(var(--success-foreground));
-    transform: scale(1.05);
-    box-shadow: 
-      0 0 50px hsl(var(--success) / 0.7),
-      0 0 100px hsl(var(--success) / 0.5),
-      inset 0 0 30px hsl(var(--success) / 0.4);
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: #10b981;
+    transform: scale(1.03);
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
   }
 }
