@@ -2,6 +2,7 @@ import { Brain, TrendingUp, Users, Zap, BarChart, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AIFeatureModal from "./AIFeatureModal";
+import ServiceIntroModal from "./ServiceIntroModal";
 import QuoteRequestModal from "./QuoteRequestModal";
 import aiBackground from "@/assets/ai-consulting-bg.jpg";
 
@@ -88,7 +89,17 @@ const features = [
 
 const AIConsultingSection = () => {
   const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null);
+  const [introFeature, setIntroFeature] = useState<typeof features[0] | null>(null);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+
+  const handleFeatureClick = (feature: typeof features[0]) => {
+    setIntroFeature(feature);
+  };
+
+  const handleIntroComplete = () => {
+    setSelectedFeature(introFeature);
+    setIntroFeature(null);
+  };
 
   return (
     <section 
@@ -118,7 +129,7 @@ const AIConsultingSection = () => {
             <div
               key={index}
               className="group p-6 rounded-xl border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow cursor-pointer"
-              onClick={() => setSelectedFeature(feature)}
+              onClick={() => handleFeatureClick(feature)}
             >
               <div className="w-12 h-12 bg-gradient-gold rounded-lg flex items-center justify-center mb-4">
                 <feature.icon className="text-primary-foreground" size={24} />
@@ -186,6 +197,19 @@ const AIConsultingSection = () => {
           isOpen={!!selectedFeature}
           onClose={() => setSelectedFeature(null)}
           feature={selectedFeature}
+        />
+      )}
+
+      {/* Intro Modal for AI Features */}
+      {introFeature && (
+        <ServiceIntroModal
+          isOpen={!!introFeature}
+          onClose={handleIntroComplete}
+          service={{
+            title: introFeature.title,
+            description: introFeature.description,
+            icon: introFeature.icon
+          }}
         />
       )}
       

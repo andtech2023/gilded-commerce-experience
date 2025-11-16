@@ -2,6 +2,7 @@ import { Code, Cloud, Shield, Smartphone, Globe, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import ServiceDetailModal from "./ServiceDetailModal";
+import ServiceIntroModal from "./ServiceIntroModal";
 import aiServicesBg from "@/assets/ai-services-bg.jpg";
 import mobileAppsBg from "@/assets/mobile-apps-bg.jpg";
 import chatbotBg from "@/assets/chatbot-bg.jpg";
@@ -60,9 +61,21 @@ const services = [
 
 const ServicesSection = () => {
   const [selectedService, setSelectedService] = useState<any>(null);
+  const [introService, setIntroService] = useState<any>(null);
 
   const handleServiceDetail = (service: any) => {
-    setSelectedService(service);
+    // Show intro first for non-web services
+    const isWebService = service.title.includes("Desarrollo Web");
+    if (isWebService) {
+      setSelectedService(service);
+    } else {
+      setIntroService(service);
+    }
+  };
+
+  const handleIntroComplete = () => {
+    setSelectedService(introService);
+    setIntroService(null);
   };
 
   return (
@@ -171,6 +184,15 @@ const ServicesSection = () => {
               contactSection.scrollIntoView({ behavior: 'smooth' });
             }
           }}
+        />
+      )}
+
+      {/* Service Intro Modal */}
+      {introService && (
+        <ServiceIntroModal
+          isOpen={!!introService}
+          onClose={handleIntroComplete}
+          service={introService}
         />
       )}
     </section>
