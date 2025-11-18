@@ -18,6 +18,7 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
@@ -46,13 +47,21 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
   const playIntro = async () => {
     try {
       setIsLoading(true);
+      setError(null);
       const script = getServiceIntroScript(service.title);
       
       const { data, error } = await supabase.functions.invoke('text-to-speech', {
         body: { text: script, voice: 'nova' }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('API Error:', error);
+        throw new Error('No se pudo generar el audio. Por favor, verifica tu configuración de OpenAI.');
+      }
+
+      if (!data?.audioContent) {
+        throw new Error('No se recibió contenido de audio');
+      }
 
       const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`);
       audioRef.current = audio;
@@ -81,7 +90,8 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
     } catch (error) {
       console.error('Error playing intro:', error);
       setIsLoading(false);
-      setTimeout(onClose, 1000);
+      setError(error instanceof Error ? error.message : 'Error al reproducir la presentación');
+      // No cerrar automáticamente, dejar que el usuario vea el error
     }
   };
 
@@ -114,9 +124,22 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
               {service.description}
             </p>
 
-            {/* Audio indicator */}
+            {/* Audio indicator or error */}
             <div className="flex items-center justify-center gap-3 animate-fade-in delay-300">
-              {isLoading ? (
+              {error ? (
+                <div className="text-center space-y-2">
+                  <p className="text-sm text-destructive font-medium">{error}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Verifica que tu cuenta de OpenAI tenga créditos disponibles
+                  </p>
+                  <button 
+                    onClick={onClose}
+                    className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              ) : isLoading ? (
                 <>
                   <Loader2 className="w-6 h-6 text-primary animate-spin" />
                   <span className="text-sm text-muted-foreground">Preparando presentación...</span>
