@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
 import { Volume2, Loader2 } from "lucide-react";
-import { getServiceIntroScript } from "@/utils/serviceIntroScripts";
 
 interface ServiceIntroModalProps {
   isOpen: boolean;
@@ -13,6 +11,17 @@ interface ServiceIntroModalProps {
     icon: any;
   };
 }
+
+// Mapeo de títulos de servicio a archivos de audio
+const getServiceAudioPath = (title: string): string | null => {
+  const audioMap: Record<string, string> = {
+    "Apps Móviles": "/audio/apps-moviles.mp3",
+    "ChatBot IA con Voz Humana": "/audio/chatbot-ia.mp3",
+    "Marketing Digital": "/audio/marketing-digital.mp3",
+    "IA & Machine Learning": "/audio/ia-machine-learning.mp3",
+  };
+  return audioMap[title] || null;
+};
 
 const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -44,61 +53,82 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
     setProgress(0);
   };
 
+  const handleClose = () => {
+    cleanup();
+    onClose();
+    // Navegar al formulario de contacto
+    setTimeout(() => {
+      const contactSection = document.getElementById('contacto');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   const playIntro = async () => {
     try {
       setIsLoading(true);
       setError(null);
-      const script = getServiceIntroScript(service.title);
       
-      const { data, error } = await supabase.functions.invoke('text-to-speech', {
-        body: { text: script, voice: 'nova' }
-      });
-
-      if (error) {
-        console.error('API Error:', error);
-        throw new Error('No se pudo generar el audio. Por favor, verifica tu configuración de OpenAI.');
+      const audioPath = getServiceAudioPath(service.title);
+      
+      if (!audioPath) {
+        throw new Error('Audio no disponible para este servicio');
       }
 
-      if (!data?.audioContent) {
-        throw new Error('No se recibió contenido de audio');
-      }
-
-      const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`);
+      const audio = new Audio(audioPath);
       audioRef.current = audio;
       
-      audio.onended = () => {
-        setTimeout(() => {
-          onClose();
-        }, 500);
+      // Manejar errores de carga
+      audio.onerror = () => {
+        setError('Error al cargar el audio');
+        setIsLoading(false);
       };
 
-      await audio.play();
-      setIsPlaying(true);
-      setIsLoading(false);
-
-      // Simulate progress (aprox 30 seconds)
-      let currentProgress = 0;
-      progressInterval.current = setInterval(() => {
-        currentProgress += (100 / 300); // 30 seconds / 100ms intervals
-        if (currentProgress >= 100) {
-          currentProgress = 100;
-          if (progressInterval.current) clearInterval(progressInterval.current);
+      // Cuando el audio está listo para reproducir
+      audio.oncanplaythrough = async () => {
+        try {
+          await audio.play();
+          setIsPlaying(true);
+          setIsLoading(false);
+          
+          // Actualizar progreso basado en la duración real del audio
+          const duration = audio.duration;
+          progressInterval.current = setInterval(() => {
+            if (audioRef.current) {
+              const currentProgress = (audioRef.current.currentTime / duration) * 100;
+              setProgress(currentProgress);
+            }
+          }, 100);
+        } catch (playError) {
+          console.error('Error playing audio:', playError);
+          setError('Error al reproducir el audio');
+          setIsLoading(false);
         }
-        setProgress(currentProgress);
-      }, 100);
+      };
+      
+      audio.onended = () => {
+        if (progressInterval.current) {
+          clearInterval(progressInterval.current);
+        }
+        setProgress(100);
+        setIsPlaying(false);
+      };
+
+      // Cargar el audio
+      audio.load();
 
     } catch (error) {
       console.error('Error playing intro:', error);
       setIsLoading(false);
       setError(error instanceof Error ? error.message : 'Error al reproducir la presentación');
-      // No cerrar automáticamente, dejar que el usuario vea el error
     }
   };
 
   const Icon = service.icon;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
         <div className="relative p-8 sm:p-12">
           {/* Animated background elements */}
@@ -129,31 +159,35 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
               {error ? (
                 <div className="text-center space-y-2">
                   <p className="text-sm text-destructive font-medium">{error}</p>
-                  <p className="text-xs text-muted-foreground">
-                    Verifica que tu cuenta de OpenAI tenga créditos disponibles
-                  </p>
                   <button 
-                    onClick={onClose}
+                    onClick={handleClose}
                     className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                   >
-                    Cerrar
+                    Solicitar Presupuesto
                   </button>
                 </div>
               ) : isLoading ? (
                 <>
                   <Loader2 className="w-6 h-6 text-primary animate-spin" />
-                  <span className="text-sm text-muted-foreground">Preparando presentación...</span>
+                  <span className="text-sm text-muted-foreground">Cargando audio...</span>
                 </>
               ) : isPlaying ? (
                 <>
                   <Volume2 className="w-6 h-6 text-primary animate-pulse" />
                   <span className="text-sm text-muted-foreground">Reproduciendo presentación...</span>
                 </>
-              ) : null}
+              ) : (
+                <button 
+                  onClick={handleClose}
+                  className="mt-4 px-6 py-3 bg-gradient-to-r from-primary to-futuristic-gold text-primary-foreground rounded-md hover:opacity-90 transition-all font-semibold"
+                >
+                  Solicitar Presupuesto
+                </button>
+              )}
             </div>
 
             {/* Progress bar */}
-            {isPlaying && (
+            {(isPlaying || isLoading) && (
               <div className="w-full h-1 bg-muted rounded-full overflow-hidden animate-fade-in">
                 <div 
                   className="h-full bg-gradient-to-r from-primary to-futuristic-gold transition-all duration-300"
@@ -162,16 +196,25 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
               </div>
             )}
 
-            {/* Animated dots */}
-            <div className="flex justify-center gap-2 pt-4">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="w-2 h-2 rounded-full bg-primary/50 animate-pulse"
-                  style={{ animationDelay: `${i * 200}ms` }}
-                />
-              ))}
-            </div>
+            {/* Animated dots while playing */}
+            {(isPlaying || isLoading) && (
+              <div className="flex justify-center gap-2 pt-4">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="w-2 h-2 rounded-full bg-primary/50 animate-pulse"
+                    style={{ animationDelay: `${i * 200}ms` }}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Close button when audio finished */}
+            {!isPlaying && !isLoading && !error && (
+              <p className="text-xs text-muted-foreground mt-4">
+                Al cerrar serás redirigido al formulario de contacto
+              </p>
+            )}
           </div>
         </div>
       </DialogContent>
