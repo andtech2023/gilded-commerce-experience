@@ -12,6 +12,12 @@ interface ServiceIntroModalProps {
   };
 }
 
+interface Subtitle {
+  start: number;
+  end: number;
+  text: string;
+}
+
 // Mapeo de títulos de servicio a archivos de audio
 const getServiceAudioPath = (title: string): string | null => {
   const audioMap: Record<string, string> = {
@@ -23,13 +29,58 @@ const getServiceAudioPath = (title: string): string | null => {
   return audioMap[title] || null;
 };
 
+// Subtítulos para cada servicio (tiempos en segundos)
+const getServiceSubtitles = (title: string): Subtitle[] => {
+  const subtitlesMap: Record<string, Subtitle[]> = {
+    "Apps Móviles": [
+      { start: 0, end: 4, text: "¿Buscas una aplicación móvil que impulse tu negocio?" },
+      { start: 4, end: 8, text: "En AndorraTech desarrollamos apps nativas e híbridas" },
+      { start: 8, end: 12, text: "para iOS y Android con diseño intuitivo y alto rendimiento." },
+      { start: 12, end: 16, text: "Desde tiendas online hasta apps de gestión empresarial," },
+      { start: 16, end: 20, text: "creamos soluciones a medida que conectan con tus clientes." },
+      { start: 20, end: 24, text: "Automatizaciones personalizables incluidas." },
+      { start: 24, end: 28, text: "Solicita tu presupuesto sin compromiso." },
+    ],
+    "ChatBot IA con Voz Humana": [
+      { start: 0, end: 4, text: "¿Imaginas atender a tus clientes las 24 horas del día?" },
+      { start: 4, end: 8, text: "Nuestros chatbots con inteligencia artificial" },
+      { start: 8, end: 12, text: "ofrecen respuestas naturales con voz humana." },
+      { start: 12, end: 16, text: "Integración con WhatsApp, Telegram y tu web." },
+      { start: 16, end: 20, text: "Reducen costes y mejoran la experiencia del cliente." },
+      { start: 20, end: 24, text: "Automatizaciones personalizables para tu negocio." },
+      { start: 24, end: 28, text: "Descubre cómo transformar tu atención al cliente." },
+    ],
+    "Marketing Digital": [
+      { start: 0, end: 4, text: "¿Quieres que tu marca destaque en el mundo digital?" },
+      { start: 4, end: 8, text: "En AndorraTech creamos estrategias de marketing" },
+      { start: 8, end: 12, text: "que generan resultados medibles y rentables." },
+      { start: 12, end: 16, text: "SEO, SEM, redes sociales y campañas publicitarias." },
+      { start: 16, end: 20, text: "Analizamos tu mercado y optimizamos cada acción." },
+      { start: 20, end: 24, text: "Automatizaciones personalizables para maximizar tu ROI." },
+      { start: 24, end: 28, text: "Haz crecer tu negocio con estrategias que funcionan." },
+    ],
+    "IA & Machine Learning": [
+      { start: 0, end: 4, text: "¿Listo para que la tecnología tome decisiones por ti?" },
+      { start: 4, end: 8, text: "La inteligencia artificial y el machine learning" },
+      { start: 8, end: 12, text: "transforman datos en ventajas competitivas." },
+      { start: 12, end: 16, text: "Predicción de ventas, análisis de patrones," },
+      { start: 16, end: 20, text: "automatización de procesos y mucho más." },
+      { start: 20, end: 24, text: "Soluciones personalizadas para tu industria." },
+      { start: 24, end: 28, text: "Descubre el poder de la IA en tu empresa." },
+    ],
+  };
+  return subtitlesMap[title] || [];
+};
+
 const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [currentSubtitle, setCurrentSubtitle] = useState<string>("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
+  const subtitles = getServiceSubtitles(service.title);
 
   useEffect(() => {
     if (isOpen) {
@@ -51,18 +102,25 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
     }
     setIsPlaying(false);
     setProgress(0);
+    setCurrentSubtitle("");
   };
 
   const handleClose = () => {
     cleanup();
     onClose();
-    // Navegar al formulario de contacto
     setTimeout(() => {
       const contactSection = document.getElementById('contacto');
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth' });
       }
     }, 100);
+  };
+
+  const updateSubtitle = (currentTime: number) => {
+    const activeSubtitle = subtitles.find(
+      sub => currentTime >= sub.start && currentTime < sub.end
+    );
+    setCurrentSubtitle(activeSubtitle?.text || "");
   };
 
   const playIntro = async () => {
@@ -92,12 +150,13 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
           setIsPlaying(true);
           setIsLoading(false);
           
-          // Actualizar progreso basado en la duración real del audio
           const duration = audio.duration;
           progressInterval.current = setInterval(() => {
             if (audioRef.current) {
-              const currentProgress = (audioRef.current.currentTime / duration) * 100;
+              const currentTime = audioRef.current.currentTime;
+              const currentProgress = (currentTime / duration) * 100;
               setProgress(currentProgress);
+              updateSubtitle(currentTime);
             }
           }, 100);
         } catch (playError) {
@@ -113,6 +172,7 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
         }
         setProgress(100);
         setIsPlaying(false);
+        setCurrentSubtitle("");
       };
 
       // Cargar el audio
@@ -145,23 +205,32 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
             </div>
 
             {/* Title with gradient */}
-            <h2 className="text-3xl sm:text-4xl font-bold">
+            <h2 className="text-3xl sm:text-4xl font-bold font-orbitron">
               <span className="text-gradient-gold animate-fade-in">{service.title}</span>
             </h2>
 
-            {/* Description */}
-            <p className="text-lg text-muted-foreground animate-fade-in delay-200 max-w-md mx-auto">
-              {service.description}
-            </p>
+            {/* Subtitles area */}
+            <div className="min-h-[80px] flex items-center justify-center">
+              {currentSubtitle && (
+                <p className="text-lg sm:text-xl font-rajdhani text-foreground animate-fade-in bg-background/80 backdrop-blur-sm px-4 py-3 rounded-lg border border-primary/20">
+                  {currentSubtitle}
+                </p>
+              )}
+              {!currentSubtitle && !isPlaying && !isLoading && !error && (
+                <p className="text-lg text-muted-foreground animate-fade-in max-w-md mx-auto font-rajdhani">
+                  {service.description}
+                </p>
+              )}
+            </div>
 
             {/* Audio indicator or error */}
             <div className="flex items-center justify-center gap-3 animate-fade-in delay-300">
               {error ? (
                 <div className="text-center space-y-2">
-                  <p className="text-sm text-destructive font-medium">{error}</p>
+                  <p className="text-sm text-destructive font-medium font-rajdhani">{error}</p>
                   <button 
                     onClick={handleClose}
-                    className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                    className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-rajdhani"
                   >
                     Solicitar Presupuesto
                   </button>
@@ -169,17 +238,17 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
               ) : isLoading ? (
                 <>
                   <Loader2 className="w-6 h-6 text-primary animate-spin" />
-                  <span className="text-sm text-muted-foreground">Cargando audio...</span>
+                  <span className="text-sm text-muted-foreground font-rajdhani">Cargando audio...</span>
                 </>
               ) : isPlaying ? (
                 <>
                   <Volume2 className="w-6 h-6 text-primary animate-pulse" />
-                  <span className="text-sm text-muted-foreground">Reproduciendo presentación...</span>
+                  <span className="text-sm text-muted-foreground font-rajdhani">Reproduciendo presentación...</span>
                 </>
               ) : (
                 <button 
                   onClick={handleClose}
-                  className="mt-4 px-6 py-3 bg-gradient-to-r from-primary to-futuristic-gold text-primary-foreground rounded-md hover:opacity-90 transition-all font-semibold"
+                  className="mt-4 px-6 py-3 bg-gradient-to-r from-primary to-futuristic-gold text-primary-foreground rounded-md hover:opacity-90 transition-all font-semibold font-rajdhani"
                 >
                   Solicitar Presupuesto
                 </button>
@@ -209,9 +278,9 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
               </div>
             )}
 
-            {/* Close button when audio finished */}
+            {/* Accessibility note */}
             {!isPlaying && !isLoading && !error && (
-              <p className="text-xs text-muted-foreground mt-4">
+              <p className="text-xs text-muted-foreground mt-4 font-rajdhani">
                 Al cerrar serás redirigido al formulario de contacto
               </p>
             )}
