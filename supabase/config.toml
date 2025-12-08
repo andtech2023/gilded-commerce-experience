@@ -1,8 +1,5 @@
 project_id = "rprbwlywuzcksapgyayl"
 
-[functions.text-to-speech]
-verify_jwt = false
-
 [functions.telegram-webhook]
 verify_jwt = false
 
