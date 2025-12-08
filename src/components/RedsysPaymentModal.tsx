@@ -1,8 +1,4 @@
 import { useState } from "react";
-import { X, CreditCard, Shield, Lock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
-import CryptoJS from "crypto-js";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { CreditCard, Lock, Shield, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface RedsysPaymentModalProps {
   isOpen: boolean;
@@ -21,246 +21,223 @@ interface RedsysPaymentModalProps {
 }
 
 const RedsysPaymentModal = ({ isOpen, onClose, service, price }: RedsysPaymentModalProps) => {
+  const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
     name: "",
+    email: "",
     phone: "",
   });
-
-  // Configuración Redsys/Morabanc - MODO PRODUCCIÓN
-  const redsysConfig = {
-    merchantCode: "992228353", // Código de comercio real
-    terminal: "1",
-    currency: "978", // EUR
-    transactionType: "0", // Autorización
-    merchantName: "AT- ANDORRATECH",
-    secretKey: "hJipFuXQ9bfysGkOLSLv2NqKqbEC7tTq", // Clave de producción
-    urlOK: `${window.location.origin}/payment-success`,
-    urlKO: `${window.location.origin}/payment-cancelled`,
-    url: "https://sis.redsys.es/sis/realizarPago", // URL de PRODUCCIÓN
-  };
-
-  const generateMerchantParameters = () => {
-    // Convertir el precio a centavos correctamente
-    // "0.10€" -> 10 centavos, "1.50€" -> 150 centavos
-    const priceNumber = parseFloat(price.replace(/[^\d.]/g, ""));
-    const amountInCents = Math.round(priceNumber * 100).toString();
-    
-    // Número de pedido: debe tener entre 4 y 12 dígitos
-    const timestamp = Date.now().toString();
-    const order = timestamp.slice(-12).padStart(12, "0");
-    
-    const merchantParameters = {
-      DS_MERCHANT_AMOUNT: amountInCents,
-      DS_MERCHANT_ORDER: order,
-      DS_MERCHANT_MERCHANTCODE: redsysConfig.merchantCode,
-      DS_MERCHANT_CURRENCY: redsysConfig.currency,
-      DS_MERCHANT_TRANSACTIONTYPE: redsysConfig.transactionType,
-      DS_MERCHANT_TERMINAL: redsysConfig.terminal,
-      DS_MERCHANT_MERCHANTURL: `${window.location.origin}/api/redsys-notification`,
-      DS_MERCHANT_URLOK: redsysConfig.urlOK,
-      DS_MERCHANT_URLKO: redsysConfig.urlKO,
-      DS_MERCHANT_MERCHANTNAME: redsysConfig.merchantName,
-      DS_MERCHANT_PRODUCTDESCRIPTION: service,
-      DS_MERCHANT_TITULAR: formData.name,
-      DS_MERCHANT_MERCHANTDATA: JSON.stringify({ email: formData.email, service }),
-    };
-
-    return { 
-      params: btoa(JSON.stringify(merchantParameters)),
-      order: order
-    };
-  };
-
-  const generateSignature = (merchantParameters: string, order: string) => {
-    // Decodificar la clave secreta de Base64
-    const key = CryptoJS.enc.Base64.parse(redsysConfig.secretKey);
-    
-    // Cifrar el número de pedido con 3DES
-    const iv = CryptoJS.enc.Hex.parse("0000000000000000");
-    const cipher = CryptoJS.TripleDES.encrypt(
-      order,
-      key,
-      {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.ZeroPadding,
-      }
-    );
-    
-    // Usar el resultado del cifrado como clave para HMAC-SHA256
-    const cipherKey = CryptoJS.enc.Base64.parse(cipher.ciphertext.toString(CryptoJS.enc.Base64));
-    const hash = CryptoJS.HmacSHA256(merchantParameters, cipherKey);
-    
-    return hash.toString(CryptoJS.enc.Base64);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsProcessing(true);
-
-    try {
-      const { params: merchantParameters, order } = generateMerchantParameters();
-      const signature = generateSignature(merchantParameters, order);
-
-      console.log("Merchant Parameters:", atob(merchantParameters));
-      console.log("Order:", order);
-      console.log("Signature:", signature);
-
-      // Crear formulario para enviar a Redsys
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = redsysConfig.url;
-      form.target = "_blank";
-
-      const paramsInput = document.createElement("input");
-      paramsInput.type = "hidden";
-      paramsInput.name = "Ds_MerchantParameters";
-      paramsInput.value = merchantParameters;
-      form.appendChild(paramsInput);
-
-      const signatureInput = document.createElement("input");
-      signatureInput.type = "hidden";
-      signatureInput.name = "Ds_Signature";
-      signatureInput.value = signature;
-      form.appendChild(signatureInput);
-
-      const versionInput = document.createElement("input");
-      versionInput.type = "hidden";
-      versionInput.name = "Ds_SignatureVersion";
-      versionInput.value = "HMAC_SHA256_V1";
-      form.appendChild(versionInput);
-
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-
-      toast.info("Redirigiendo a la pasarela de pago segura...");
-      
-      setTimeout(() => {
-        setIsProcessing(false);
-        onClose();
-      }, 2000);
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Error al procesar el pago. Por favor, inténtelo de nuevo.");
-      setIsProcessing(false);
-    }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = (): boolean => {
+    if (!formData.name.trim() || formData.name.length < 2) {
+      toast({
+        title: "Error",
+        description: "Por favor, introduce un nombre válido",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Error",
+        description: "Por favor, introduce un email válido",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
+    setIsProcessing(true);
+
+    try {
+      // Call Edge Function to generate secure signature
+      const { data, error } = await supabase.functions.invoke('redsys-signature', {
+        body: {
+          service,
+          price,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+        }
+      });
+
+      if (error) {
+        throw new Error(error.message || 'Error al procesar el pago');
+      }
+
+      if (!data || !data.Ds_MerchantParameters || !data.Ds_Signature) {
+        throw new Error('Respuesta inválida del servidor');
+      }
+
+      // Create and submit form to Redsys
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.redsysUrl;
+
+      const addField = (name: string, value: string) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      };
+
+      addField("Ds_SignatureVersion", data.Ds_SignatureVersion);
+      addField("Ds_MerchantParameters", data.Ds_MerchantParameters);
+      addField("Ds_Signature", data.Ds_Signature);
+
+      document.body.appendChild(form);
+      
+      toast({
+        title: "Redirigiendo a la pasarela de pago segura...",
+        description: "Serás redirigido a Redsys para completar el pago.",
+      });
+
+      form.submit();
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Error al procesar el pago. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      });
+      setIsProcessing(false);
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-card border-border">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md bg-gray-900 border-primary/30">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-serif text-gradient-gold">
-            Pago Seguro - Morabanc
+          <DialogTitle className="flex items-center gap-2 text-xl font-orbitron text-primary">
+            <CreditCard className="h-5 w-5" />
+            Pago Seguro
           </DialogTitle>
-          <DialogDescription className="text-muted-foreground">
-            Procesamiento seguro con Redsys/Morabanc
+          <DialogDescription className="text-gray-300">
+            Procesado por Redsys/Morabanc - Totalmente seguro y encriptado
           </DialogDescription>
         </DialogHeader>
-
-        <div className="bg-gradient-subtle p-4 rounded-xl mb-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Servicio:</span>
-            <span className="font-semibold">{service}</span>
-          </div>
-          <div className="flex justify-between items-center mt-2">
-            <span className="text-sm text-muted-foreground">Total:</span>
-            <span className="text-2xl font-bold text-primary">{price}</span>
-          </div>
-        </div>
-
+        
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Nombre Completo</Label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Juan Pérez García"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              className="bg-background border-border"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="email">Correo Electrónico</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="su@email.com"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="bg-background border-border"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="phone">Teléfono</Label>
-            <Input
-              id="phone"
-              name="phone"
-              type="tel"
-              placeholder="+376 123 456"
-              value={formData.phone}
-              onChange={handleInputChange}
-              required
-              className="bg-background border-border"
-            />
-          </div>
-
-          <div className="flex items-center justify-center space-x-2 text-muted-foreground text-sm">
-            <Shield size={16} />
-            <span>Pago seguro con Morabanc - Certificado PCI DSS</span>
-          </div>
-
-          <div className="flex items-center justify-center gap-4 opacity-70">
-            <div className="flex items-center justify-center w-16 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded shadow-md">
-              <span className="text-white font-bold text-xs">VISA</span>
+          <div className="bg-gray-800/50 p-4 rounded-lg border border-primary/20">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-300">Servicio:</span>
+              <span className="text-primary font-semibold">{service}</span>
             </div>
-            <div className="flex items-center justify-center w-16 h-10 bg-gradient-to-br from-red-600 via-orange-500 to-yellow-500 rounded shadow-md">
-              <span className="text-white font-bold text-xs">MC</span>
-            </div>
-            <div className="flex items-center justify-center w-16 h-10 bg-gradient-subtle border border-border rounded shadow-sm">
-              <CreditCard className="h-6 w-6 text-muted-foreground" />
+            <div className="flex justify-between items-center mt-2">
+              <span className="text-gray-300">Precio:</span>
+              <span className="text-2xl font-bold text-primary">{price}</span>
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="space-y-3">
+            <div>
+              <Label htmlFor="name" className="text-gray-300">Nombre completo *</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="bg-gray-800 border-gray-600 text-white"
+                placeholder="Tu nombre completo"
+                required
+                disabled={isProcessing}
+                maxLength={100}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="email" className="text-gray-300">Email *</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="bg-gray-800 border-gray-600 text-white"
+                placeholder="tu@email.com"
+                required
+                disabled={isProcessing}
+                maxLength={255}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="phone" className="text-gray-300">Teléfono</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="bg-gray-800 border-gray-600 text-white"
+                placeholder="+376 XXX XXX"
+                disabled={isProcessing}
+                maxLength={20}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm text-gray-400 bg-gray-800/30 p-3 rounded-lg">
+            <Shield className="h-4 w-4 text-green-500" />
+            <span>Pago procesado de forma segura por Redsys/Morabanc</span>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 py-2">
+            <Lock className="h-4 w-4 text-green-500" />
+            <span className="text-xs text-gray-400">Conexión SSL segura</span>
+          </div>
+
+          <div className="flex gap-3 pt-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1"
+              className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-800"
               disabled={isProcessing}
             >
               Cancelar
             </Button>
             <Button
               type="submit"
-              variant="premium"
-              className="flex-1"
+              className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
               disabled={isProcessing}
             >
-              {isProcessing ? "Procesando..." : "Pagar con Tarjeta"}
+              {isProcessing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Procesando...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Pagar con Tarjeta
+                </>
+              )}
             </Button>
           </div>
-        </form>
 
-        <p className="text-xs text-center text-muted-foreground mt-4">
-          Al continuar, serás redirigido a la pasarela segura de Morabanc para completar el pago.
-        </p>
+          <div className="flex justify-center gap-2 pt-2">
+            <img src="https://www.redsys.es/images/logotipos/visa.png" alt="Visa" className="h-6" />
+            <img src="https://www.redsys.es/images/logotipos/mastercard.png" alt="Mastercard" className="h-6" />
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
