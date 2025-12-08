@@ -4,7 +4,7 @@ import web1 from "@/assets/webdev-slider-1.jpg";
 import web2 from "@/assets/webdev-slider-2.jpg";
 import web3 from "@/assets/webdev-slider-3.jpg";
 import WebPackageDetailModal from "./WebPackageDetailModal";
-import PaymentModal from "./PaymentModal";
+import RedsysPaymentModal from "./RedsysPaymentModal";
 import { Button } from "./ui/button";
 
 const slides = [
@@ -201,7 +201,7 @@ const WebDevelopmentSlider = () => {
         onPurchase={handlePurchase}
       />
       
-      <PaymentModal
+      <RedsysPaymentModal
         isOpen={paymentModalOpen}
         onClose={() => setPaymentModalOpen(false)}
         service={`Desarrollo Web ${selectedService.name}`}
