@@ -12,7 +12,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import WebPackageDetailModal from "./WebPackageDetailModal";
-import PaymentModal from "./PaymentModal";
+import RedsysPaymentModal from "./RedsysPaymentModal";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -254,7 +254,7 @@ const Navbar = () => {
             package={selectedPackage}
             onPurchase={handlePurchase}
           />
-          <PaymentModal
+          <RedsysPaymentModal
             isOpen={showPaymentModal}
             onClose={() => setShowPaymentModal(false)}
             service={`Desarrollo Web ${selectedPackage.name}`}

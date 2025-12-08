@@ -111,6 +111,47 @@ serve(async (req) => {
   }
 
   try {
+    // Verify the request comes from Telegram using IP range validation
+    // Telegram API servers use these IP ranges: 149.154.160.0/20, 91.108.4.0/22
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('cf-connecting-ip') || 
+                     'unknown'
+    
+    console.log('Request from IP:', clientIP)
+    
+    // Allow requests from Telegram IP ranges and localhost for testing
+    const isValidTelegramIP = (ip: string): boolean => {
+      // In production, validate against Telegram's IP ranges
+      // 149.154.160.0/20 = 149.154.160.0 - 149.154.175.255
+      // 91.108.4.0/22 = 91.108.4.0 - 91.108.7.255
+      if (ip === 'unknown' || ip === '127.0.0.1' || ip === 'localhost') {
+        return true // Allow for edge function testing
+      }
+      
+      const parts = ip.split('.').map(Number)
+      if (parts.length !== 4) return false
+      
+      // Check 149.154.160.0/20
+      if (parts[0] === 149 && parts[1] === 154 && parts[2] >= 160 && parts[2] <= 175) {
+        return true
+      }
+      
+      // Check 91.108.4.0/22
+      if (parts[0] === 91 && parts[1] === 108 && parts[2] >= 4 && parts[2] <= 7) {
+        return true
+      }
+      
+      return false
+    }
+    
+    if (!isValidTelegramIP(clientIP)) {
+      console.warn('Rejected request from non-Telegram IP:', clientIP)
+      return new Response(JSON.stringify({ error: 'Forbidden' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     const update = await req.json()
     console.log('Received Telegram update:', JSON.stringify(update))
 

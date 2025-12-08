@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { validateContactForm } from "@/utils/contactFormValidation";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -21,17 +22,35 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Validate form data
+    const validation = validateContactForm({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      message: formData.message,
+      budget: formData.budget || undefined,
+    });
+
+    if (!validation.success) {
+      toast.error("Error de validación", {
+        description: validation.errors[0] || "Por favor revise los datos ingresados",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const validatedData = validation.data;
+
     try {
-      // Save to Supabase  
       const { error } = await supabase
         .from('contactos_formulario')
         .insert({
-          nombre: formData.name,
+          nombre: validatedData.name,
           apellido: '',
-          email: formData.email,
-          telefono: formData.phone || null,
-          mensaje: formData.message,
-          Presupuesto: formData.budget || null,
+          email: validatedData.email,
+          telefono: validatedData.phone || null,
+          mensaje: validatedData.message,
+          Presupuesto: validatedData.budget || null,
           pagina_origen: window.location.href,
           utm_source: new URLSearchParams(window.location.search).get('utm_source') || null,
           utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || null,
@@ -45,7 +64,6 @@ const ContactSection = () => {
       });
       setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
     } catch (error) {
-      console.error('Error saving contact form:', error);
       toast.error("Error al enviar el mensaje", {
         description: "Por favor, inténtelo de nuevo o contáctenos directamente.",
       });

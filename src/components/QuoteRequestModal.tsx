@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { validateContactForm } from "@/utils/contactFormValidation";
 
 interface QuoteRequestModalProps {
   isOpen: boolean;
@@ -28,20 +29,39 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      const message = serviceTitle 
-        ? `Servicio: ${serviceTitle}\n\n${formData.message}`
-        : formData.message;
+    const messageWithService = serviceTitle 
+      ? `Servicio: ${serviceTitle}\n\n${formData.message}`
+      : formData.message;
 
+    // Validate form data
+    const validation = validateContactForm({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      message: messageWithService,
+      budget: formData.budget || undefined,
+    });
+
+    if (!validation.success) {
+      toast.error("Error de validación", {
+        description: validation.errors[0] || "Por favor revise los datos ingresados",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const validatedData = validation.data;
+
+    try {
       const { error } = await supabase
         .from('contactos_formulario')
         .insert({
-          nombre: formData.name,
+          nombre: validatedData.name,
           apellido: '',
-          email: formData.email,
-          telefono: formData.phone || null,
-          mensaje: message,
-          Presupuesto: formData.budget || null,
+          email: validatedData.email,
+          telefono: validatedData.phone || null,
+          mensaje: validatedData.message,
+          Presupuesto: validatedData.budget || null,
           pagina_origen: window.location.href,
           utm_source: new URLSearchParams(window.location.search).get('utm_source') || null,
           utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || null,
@@ -56,7 +76,6 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
       setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
       onClose();
     } catch (error) {
-      console.error('Error saving quote request:', error);
       toast.error("Error al enviar la solicitud", {
         description: "Por favor, inténtelo de nuevo o contáctenos directamente.",
       });
