@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { validateContactForm } from "@/utils/contactFormValidation";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
@@ -42,14 +43,32 @@ const AhorroEnergetico = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Validate and sanitize form data
+    const validation = validateContactForm({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message || "Solicitud de análisis de ahorro energético",
+    });
+
+    if (!validation.success) {
+      toast({
+        title: "Error de validación",
+        description: validation.errors.join(", "),
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.from("contactos_formulario").insert([
         {
-          nombre: formData.name,
-          email: formData.email,
-          telefono: formData.phone,
+          nombre: validation.data.name,
+          email: validation.data.email,
+          telefono: validation.data.phone,
           empresa: formData.company,
-          mensaje: formData.message,
+          mensaje: validation.data.message,
           tipo: "ahorro_energetico",
         },
       ]);
