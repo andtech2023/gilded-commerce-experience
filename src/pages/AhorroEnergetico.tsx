@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Upload, CheckCircle2, Shield, TrendingDown, Calculator, Zap } from "lucide-react";
+import { Upload, CheckCircle2, Shield, TrendingDown, Calculator, Zap, Volume2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import TelegramButton from "@/components/TelegramButton";
+import BenefitAudioModal from "@/components/BenefitAudioModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -100,28 +101,72 @@ const AhorroEnergetico = () => {
     window.open(`https://wa.me/376369939?text=${message}`, "_blank");
   };
 
-  const benefits = [
+  const [selectedBenefit, setSelectedBenefit] = useState<typeof benefitsWithAudio[0] | null>(null);
+  const [isAudioModalOpen, setIsAudioModalOpen] = useState(false);
+
+  const benefitsWithAudio = [
     {
       icon: <TrendingDown className="w-12 h-12 text-primary" />,
       title: "Ahorro Garantizado",
       description: "Reducimos tus costes energéticos hasta un 40% encontrando la tarifa perfecta para tu industria.",
+      audioPath: "/audio/ahorro-garantizado.mp3",
+      subtitles: [
+        { start: 0, end: 3, text: "Te garantizamos un ahorro real en tu factura energética." },
+        { start: 3, end: 6, text: "Nuestros expertos analizan tu consumo actual" },
+        { start: 6, end: 9, text: "y comparan todas las ofertas disponibles en el mercado." },
+        { start: 9, end: 12, text: "Encontramos la tarifa perfecta para tu industria," },
+        { start: 12, end: 15, text: "con ahorros de hasta un 40% garantizados." },
+        { start: 15, end: 18, text: "Sin compromisos, solo resultados." },
+      ],
     },
     {
       icon: <Calculator className="w-12 h-12 text-primary" />,
       title: "Simulador Avanzado",
       description: "Nuestra herramienta propia analiza todas las ofertas del mercado en tiempo real.",
+      audioPath: "/audio/simulador.mp3",
+      subtitles: [
+        { start: 0, end: 3, text: "Nuestro simulador es una herramienta de diseño propio." },
+        { start: 3, end: 6, text: "Analiza tu factura y compara en tiempo real" },
+        { start: 6, end: 9, text: "todas las ofertas energéticas del mercado español." },
+        { start: 9, end: 12, text: "Te mostramos exactamente cuánto puedes ahorrar" },
+        { start: 12, end: 15, text: "con cada compañía y tarifa disponible." },
+        { start: 15, end: 18, text: "Tecnología avanzada al servicio de tu ahorro." },
+      ],
     },
     {
       icon: <Shield className="w-12 h-12 text-primary" />,
       title: "100% Confidencial",
       description: "Tus datos están protegidos. Análisis profesional sin compromiso y totalmente gratuito.",
+      audioPath: "/audio/privacidad.mp3",
+      subtitles: [
+        { start: 0, end: 3, text: "Tu privacidad es nuestra prioridad absoluta." },
+        { start: 3, end: 6, text: "Todos tus datos están completamente protegidos." },
+        { start: 6, end: 9, text: "El análisis es profesional, sin compromiso" },
+        { start: 9, end: 12, text: "y totalmente gratuito para ti." },
+        { start: 12, end: 15, text: "No compartimos tu información con terceros." },
+        { start: 15, end: 18, text: "Confidencialidad garantizada al 100%." },
+      ],
     },
     {
       icon: <CheckCircle2 className="w-12 h-12 text-primary" />,
       title: "Gestión Completa",
       description: "Nos encargamos de todo el proceso: análisis, negociación y cambio de proveedor.",
+      audioPath: "/audio/tramite.mp3",
+      subtitles: [
+        { start: 0, end: 3, text: "Nosotros nos encargamos de todo el proceso." },
+        { start: 3, end: 6, text: "Desde el análisis inicial de tu factura" },
+        { start: 6, end: 9, text: "hasta la negociación con las compañías energéticas." },
+        { start: 9, end: 12, text: "Gestionamos el cambio de proveedor por ti." },
+        { start: 12, end: 15, text: "Tú solo te relajas y empiezas a ahorrar." },
+        { start: 15, end: 18, text: "Gestión completa sin complicaciones." },
+      ],
     },
   ];
+
+  const handleBenefitClick = (benefit: typeof benefitsWithAudio[0]) => {
+    setSelectedBenefit(benefit);
+    setIsAudioModalOpen(true);
+  };
 
   const companies = [
     { name: "Repsol", logo: repsolLogo },
@@ -168,16 +213,23 @@ const AhorroEnergetico = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <div
+            {benefitsWithAudio.map((benefit, index) => (
+              <button
                 key={index}
-                className="p-6 rounded-lg bg-background border border-border hover:border-primary transition-all duration-300 hover:shadow-elegant animate-fade-in"
+                onClick={() => handleBenefitClick(benefit)}
+                className="p-6 rounded-lg bg-background border border-border hover:border-primary transition-all duration-300 hover:shadow-elegant animate-fade-in text-left group cursor-pointer"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="mb-4">{benefit.icon}</div>
+                <div className="mb-4 flex items-center justify-between">
+                  {benefit.icon}
+                  <Volume2 className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
                 <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
                 <p className="text-muted-foreground">{benefit.description}</p>
-              </div>
+                <span className="text-xs text-primary mt-3 inline-block opacity-0 group-hover:opacity-100 transition-opacity">
+                  🔊 Haz clic para escuchar
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -467,6 +519,12 @@ const AhorroEnergetico = () => {
       <Footer />
       <WhatsAppButton />
       <TelegramButton />
+      
+      <BenefitAudioModal
+        isOpen={isAudioModalOpen}
+        onClose={() => setIsAudioModalOpen(false)}
+        benefit={selectedBenefit}
+      />
     </div>
   );
 };
