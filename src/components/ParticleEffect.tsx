@@ -10,8 +10,14 @@ const ParticleEffect = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    let animationId: number;
+    let resizeTimeout: number;
+
+    // Cache dimensions to avoid forced reflows
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
 
     const particles: Array<{
       x: number;
@@ -26,8 +32,8 @@ const ParticleEffect = () => {
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * width,
+        y: Math.random() * height,
         size: Math.random() * 2 + 1,
         speedX: Math.random() * 0.5 - 0.25,
         speedY: Math.random() * 0.5 - 0.25,
@@ -36,16 +42,16 @@ const ParticleEffect = () => {
     }
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, width, height);
 
       particles.forEach((particle) => {
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.y > canvas.height) particle.y = 0;
-        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.x > width) particle.x = 0;
+        if (particle.x < 0) particle.x = width;
+        if (particle.y > height) particle.y = 0;
+        if (particle.y < 0) particle.y = height;
 
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
@@ -53,19 +59,30 @@ const ParticleEffect = () => {
         ctx.fill();
       });
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
 
     animate();
 
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      // Debounce resize to prevent forced reflows
+      clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(() => {
+        // Use requestAnimationFrame to batch DOM reads/writes
+        requestAnimationFrame(() => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+        });
+      }, 100);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
+      cancelAnimationFrame(animationId);
+      clearTimeout(resizeTimeout);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
