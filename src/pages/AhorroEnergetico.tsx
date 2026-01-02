@@ -15,7 +15,7 @@ import { validateContactForm } from "@/utils/contactFormValidation";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
-import iberdrolaLogo from "@/assets/iberdrola-logo.png";
+import iberdrolaLogo from "@/assets/iberdrola-logo.jpg";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
 
 const AhorroEnergetico = () => {
