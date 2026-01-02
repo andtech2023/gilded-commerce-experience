@@ -15,7 +15,7 @@ import { validateContactForm } from "@/utils/contactFormValidation";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
-import nexusLogo from "@/assets/nexus-logo.png";
+import iberdrolaLogo from "@/assets/iberdrola-logo.svg";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
 
 const AhorroEnergetico = () => {
@@ -172,7 +172,7 @@ const AhorroEnergetico = () => {
     { name: "Repsol", logo: repsolLogo },
     { name: "Endesa", logo: endesaLogo },
     { name: "Audax", logo: audaxLogo },
-    { name: "Nexus", logo: nexusLogo },
+    { name: "Iberdrola", logo: iberdrolaLogo },
   ];
 
   return (
@@ -274,9 +274,7 @@ const AhorroEnergetico = () => {
                   <img
                     src={company.logo}
                     alt={`Logo ${company.name}`}
-                    className={`w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-500 ${
-                      company.name === "Nexus" ? "bg-white rounded-lg p-4" : ""
-                    }`}
+                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-500"
                   />
                 </div>
               </div>
