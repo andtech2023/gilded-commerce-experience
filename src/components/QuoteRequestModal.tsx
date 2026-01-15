@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,8 @@ import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
+import ReCaptcha, { ReCaptchaRef } from "@/components/ReCaptcha";
+import { verifyRecaptcha } from "@/utils/recaptchaVerification";
 
 interface QuoteRequestModalProps {
   isOpen: boolean;
@@ -24,6 +26,8 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
     budget: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCaptchaRef>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +36,26 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
     const messageWithService = serviceTitle 
       ? `Servicio: ${serviceTitle}\n\n${formData.message}`
       : formData.message;
+
+    // Verify reCAPTCHA
+    if (!recaptchaToken) {
+      toast.error("Verificación requerida", {
+        description: "Por favor, completa el CAPTCHA para continuar.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const captchaVerification = await verifyRecaptcha(recaptchaToken);
+    if (!captchaVerification.success) {
+      toast.error("Error de verificación", {
+        description: captchaVerification.error || "La verificación CAPTCHA ha fallado.",
+      });
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
+      setIsSubmitting(false);
+      return;
+    }
 
     // Validate form data
     const validation = validateContactForm({
@@ -74,6 +98,8 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
         description: "Nos pondremos en contacto con usted pronto.",
       });
       setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
       onClose();
     } catch (error) {
       toast.error("Error al enviar la solicitud", {
@@ -176,6 +202,12 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
               placeholder="Cuéntenos sobre su proyecto..."
             />
           </div>
+
+          <ReCaptcha 
+            ref={recaptchaRef}
+            onChange={setRecaptchaToken}
+            className="my-2"
+          />
 
           <Button 
             type="submit" 

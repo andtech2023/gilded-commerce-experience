@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Upload, CheckCircle2, Shield, TrendingDown, Calculator, Zap, Volume2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import TelegramButton from "@/components/TelegramButton";
 import BenefitAudioModal from "@/components/BenefitAudioModal";
+import ReCaptcha, { ReCaptchaRef } from "@/components/ReCaptcha";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
+import { verifyRecaptcha } from "@/utils/recaptchaVerification";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
@@ -29,6 +31,8 @@ const AhorroEnergetico = () => {
     message: "",
   });
   const [file, setFile] = useState<File | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCaptchaRef>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,6 +47,30 @@ const AhorroEnergetico = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Verify reCAPTCHA
+    if (!recaptchaToken) {
+      toast({
+        title: "Verificación requerida",
+        description: "Por favor, completa el CAPTCHA para continuar.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const captchaVerification = await verifyRecaptcha(recaptchaToken);
+    if (!captchaVerification.success) {
+      toast({
+        title: "Error de verificación",
+        description: captchaVerification.error || "La verificación CAPTCHA ha fallado.",
+        variant: "destructive",
+      });
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
+      setIsSubmitting(false);
+      return;
+    }
 
     // Validate and sanitize form data
     const validation = validateContactForm({
@@ -83,6 +111,8 @@ const AhorroEnergetico = () => {
 
       setFormData({ name: "", email: "", phone: "", company: "", message: "" });
       setFile(null);
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
     } catch (error) {
       toast({
         title: "Error",
@@ -460,6 +490,12 @@ const AhorroEnergetico = () => {
                   Formatos aceptados: PDF, JPG, PNG (máx. 10MB)
                 </p>
               </div>
+
+              <ReCaptcha 
+                ref={recaptchaRef}
+                onChange={setRecaptchaToken}
+                className="my-4"
+              />
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
