@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
+import ReCaptcha, { ReCaptchaRef } from "@/components/ReCaptcha";
+import { verifyRecaptcha } from "@/utils/recaptchaVerification";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -17,10 +19,32 @@ const ContactSection = () => {
     budget: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCaptchaRef>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Verify reCAPTCHA
+    if (!recaptchaToken) {
+      toast.error("Verificación requerida", {
+        description: "Por favor, completa el CAPTCHA para continuar.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const captchaVerification = await verifyRecaptcha(recaptchaToken);
+    if (!captchaVerification.success) {
+      toast.error("Error de verificación", {
+        description: captchaVerification.error || "La verificación CAPTCHA ha fallado.",
+      });
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
+      setIsSubmitting(false);
+      return;
+    }
 
     // Validate form data
     const validation = validateContactForm({
@@ -63,6 +87,8 @@ const ContactSection = () => {
         description: "Nos pondremos en contacto con usted pronto.",
       });
       setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
+      recaptchaRef.current?.reset();
+      setRecaptchaToken(null);
     } catch (error) {
       toast.error("Error al enviar el mensaje", {
         description: "Por favor, inténtelo de nuevo o contáctenos directamente.",
@@ -252,6 +278,12 @@ const ContactSection = () => {
                   <option value="mas-6000">Más de 6.000€</option>
                 </select>
               </div>
+
+              <ReCaptcha 
+                ref={recaptchaRef}
+                onChange={setRecaptchaToken}
+                className="my-4"
+              />
 
               <Button 
                 type="submit" 
