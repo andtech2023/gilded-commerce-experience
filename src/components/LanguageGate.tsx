@@ -72,29 +72,29 @@ const LanguageGate = ({ children, onLanguageSelect }: LanguageGateProps) => {
       </div>
 
       {/* Floating Logo */}
-      <div className="relative mb-12">
+      <div className="relative mb-16">
         {/* Glow effect */}
         <div className="absolute inset-0 blur-3xl bg-primary/20 rounded-full animate-pulse-glow" />
         
-        {/* Logo with floating animation */}
+        {/* Logo with floating animation - transparent background with mix-blend */}
         <img
           src={logo3D}
           alt="AndorraTech Logo"
-          className="w-64 h-64 md:w-80 md:h-80 object-contain relative z-10 animate-float-world drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+          className="w-64 h-64 md:w-80 md:h-80 object-contain relative z-10 animate-float-world drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] mix-blend-lighten"
         />
       </div>
 
       {/* Language Selection */}
-      <div className="flex flex-col items-center gap-8 animate-fade-in" style={{ animationDelay: "0.5s" }}>
-        <h2 className="text-xl md:text-2xl font-serif text-foreground/80 mb-4">
-          Selecciona tu idioma / Selecciona el teu idioma
+      <div className="flex flex-col items-center gap-10 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+        <h2 className="text-xl md:text-2xl font-serif text-foreground/80">
+          Selecciona tu idioma
         </h2>
         
-        <div className="flex gap-8 md:gap-12">
+        <div className="flex gap-16 md:gap-24">
           {/* Spanish Flag */}
           <button
             onClick={() => handleLanguageClick("es")}
-            className="group flex flex-col items-center gap-3 transition-all duration-300 hover:scale-110"
+            className="group flex flex-col items-center gap-4 transition-all duration-300 hover:scale-110"
           >
             <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg overflow-hidden shadow-lg border-2 border-transparent group-hover:border-primary transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
               {/* Spanish Flag */}
@@ -104,7 +104,7 @@ const LanguageGate = ({ children, onLanguageSelect }: LanguageGateProps) => {
                 <div className="flex-1 bg-[#c60b1e]" />
               </div>
             </div>
-            <span className="text-foreground/70 group-hover:text-primary font-medium transition-colors">
+            <span className="text-foreground/70 group-hover:text-primary font-semibold text-lg transition-colors">
               Español
             </span>
           </button>
@@ -112,7 +112,7 @@ const LanguageGate = ({ children, onLanguageSelect }: LanguageGateProps) => {
           {/* Andorran Flag */}
           <button
             onClick={() => handleLanguageClick("ca")}
-            className="group flex flex-col items-center gap-3 transition-all duration-300 hover:scale-110"
+            className="group flex flex-col items-center gap-4 transition-all duration-300 hover:scale-110"
           >
             <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg overflow-hidden shadow-lg border-2 border-transparent group-hover:border-primary transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
               {/* Andorran Flag */}
@@ -124,7 +124,7 @@ const LanguageGate = ({ children, onLanguageSelect }: LanguageGateProps) => {
                 <div className="flex-1 bg-[#C8102E]" />
               </div>
             </div>
-            <span className="text-foreground/70 group-hover:text-primary font-medium transition-colors">
+            <span className="text-foreground/70 group-hover:text-primary font-semibold text-lg transition-colors">
               Català
             </span>
           </button>
