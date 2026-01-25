@@ -9,8 +9,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import ReCaptcha, { ReCaptchaRef } from "@/components/ReCaptcha";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ContactSection = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -110,10 +112,10 @@ const ContactSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient-gold">Conectemos</span>
+            <span className="text-gradient-gold">{t("contact.connect")}</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Estamos aquí para transformar sus ideas en realidad digital
+            {t("contact.subtitle")}
           </p>
         </div>
 
@@ -122,7 +124,7 @@ const ContactSection = () => {
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-serif font-semibold mb-6 text-gradient-gold">
-                Información de Contacto
+                {t("contact.info_title")}
               </h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
@@ -130,7 +132,7 @@ const ContactSection = () => {
                     <Mail className="text-primary-foreground" size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">Email</h4>
+                    <h4 className="font-semibold text-foreground mb-1">{t("contact.email")}</h4>
                     <p className="text-muted-foreground">info@andorratech.net</p>
                     <p className="text-muted-foreground">soporte@andorratech.net</p>
                   </div>
@@ -141,7 +143,7 @@ const ContactSection = () => {
                     <Phone className="text-primary-foreground" size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">WhatsApp</h4>
+                    <h4 className="font-semibold text-foreground mb-1">{t("contact.whatsapp")}</h4>
                     <button
                       onClick={() => {
                         const message = "Hola! Me gustaría obtener más información sobre sus servicios.";
@@ -160,7 +162,7 @@ const ContactSection = () => {
                     <Phone className="text-primary-foreground" size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">Telegram</h4>
+                    <h4 className="font-semibold text-foreground mb-1">{t("contact.telegram")}</h4>
                     <a href="https://t.me/Andorra_tech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                       @Andorra_tech
                     </a>
@@ -172,7 +174,7 @@ const ContactSection = () => {
                     <MapPin className="text-primary-foreground" size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">Dirección</h4>
+                    <h4 className="font-semibold text-foreground mb-1">{t("contact.address")}</h4>
                     <p className="text-muted-foreground">
                       C/ Escoles N2 Ed Noguera despatx 16<br />
                       AD600 Sant Julia de Loria<br />
@@ -184,19 +186,19 @@ const ContactSection = () => {
             </div>
 
             <div className="bg-card border border-border rounded-2xl p-6">
-              <h4 className="font-semibold text-foreground mb-3">Horario de Atención</h4>
+              <h4 className="font-semibold text-foreground mb-3">{t("contact.hours")}</h4>
               <div className="space-y-2 text-muted-foreground">
                 <div className="flex justify-between">
-                  <span>Lunes - Viernes</span>
+                  <span>{t("contact.monday_friday")}</span>
                   <span className="text-primary font-medium">9:00 - 18:00</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Sábado</span>
+                  <span>{t("contact.saturday")}</span>
                   <span className="text-primary font-medium">10:00 - 14:00</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Domingo</span>
-                  <span className="text-muted-foreground">Cerrado</span>
+                  <span>{t("contact.sunday")}</span>
+                  <span className="text-muted-foreground">{t("contact.closed")}</span>
                 </div>
               </div>
             </div>
@@ -205,11 +207,11 @@ const ContactSection = () => {
           {/* Contact Form */}
           <div className="bg-card border border-border rounded-2xl p-8">
             <h3 className="text-2xl font-serif font-semibold mb-6 text-gradient-gold">
-              Envíenos un Mensaje
+              {t("contact.send_message")}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <Label htmlFor="name">Nombre Completo</Label>
+                <Label htmlFor="name">{t("contact.full_name")}</Label>
                 <Input
                   id="name"
                   name="name"
@@ -223,7 +225,7 @@ const ContactSection = () => {
               </div>
 
               <div>
-                <Label htmlFor="email">Correo Electrónico</Label>
+                <Label htmlFor="email">{t("contact.email_label")}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -237,7 +239,7 @@ const ContactSection = () => {
               </div>
 
               <div>
-                <Label htmlFor="phone">Teléfono (Opcional)</Label>
+                <Label htmlFor="phone">{t("contact.phone")}</Label>
                 <Input
                   id="phone"
                   name="phone"
@@ -250,7 +252,7 @@ const ContactSection = () => {
               </div>
 
               <div>
-                <Label htmlFor="message">Mensaje</Label>
+                <Label htmlFor="message">{t("contact.message")}</Label>
                 <Textarea
                   id="message"
                   name="message"
@@ -258,12 +260,12 @@ const ContactSection = () => {
                   onChange={handleChange}
                   required
                   className="bg-background border-border mt-2 min-h-[120px]"
-                  placeholder="Cuéntenos sobre su proyecto..."
+                  placeholder={t("contact.message_placeholder")}
                 />
               </div>
 
               <div>
-                <Label htmlFor="budget">Rango de Presupuesto</Label>
+                <Label htmlFor="budget">{t("contact.budget")}</Label>
                 <select
                   id="budget"
                   name="budget"
@@ -272,10 +274,10 @@ const ContactSection = () => {
                   required
                   className="w-full mt-2 px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                 >
-                  <option value="">Seleccionar presupuesto</option>
-                  <option value="menos-2000">Menos de 2.000€</option>
-                  <option value="menos-5000">Menos de 5.000€</option>
-                  <option value="mas-6000">Más de 6.000€</option>
+                  <option value="">{t("contact.select_budget")}</option>
+                  <option value="menos-2000">{t("contact.budget_less_2000")}</option>
+                  <option value="menos-5000">{t("contact.budget_less_5000")}</option>
+                  <option value="mas-6000">{t("contact.budget_more_6000")}</option>
                 </select>
               </div>
 
@@ -293,7 +295,7 @@ const ContactSection = () => {
                 disabled={isSubmitting}
               >
                 <Send className="mr-2" size={20} />
-                {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+                {isSubmitting ? t("contact.submitting") : t("contact.submit")}
               </Button>
             </form>
           </div>

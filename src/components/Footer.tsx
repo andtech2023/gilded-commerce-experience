@@ -1,7 +1,9 @@
 import { Facebook, Linkedin, Instagram } from "lucide-react";
 import logo from "@/assets/andorratech-official-logo.png";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -14,8 +16,7 @@ const Footer = () => {
               <img src={logo} alt="AndorraTech" className="h-20 w-auto object-contain" />
             </div>
             <p className="text-muted-foreground max-w-md">
-              Soluciones tecnológicas premium que transforman su visión en realidad digital. 
-              Innovación y excelencia en cada proyecto.
+              {t("footer.description")}
             </p>
             <p className="text-muted-foreground text-sm mt-2">
               Tech-grup 2023 SLU - NRT: L718140P
@@ -89,31 +90,31 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Enlaces Rápidos</h4>
+            <h4 className="font-semibold text-foreground mb-4">{t("footer.quick_links")}</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#inicio" className="text-muted-foreground hover:text-primary transition-colors">
-                  Inicio
+                  {t("nav.home")}
                 </a>
               </li>
               <li>
                 <a href="#servicios" className="text-muted-foreground hover:text-primary transition-colors">
-                  Servicios
+                  {t("services.title")}
                 </a>
               </li>
               <li>
                 <a href="#asesoria-ia" className="text-muted-foreground hover:text-primary transition-colors">
-                  Asesoría IA
+                  {t("nav.ai_consulting")}
                 </a>
               </li>
               <li>
                 <a href="#nosotros" className="text-muted-foreground hover:text-primary transition-colors">
-                  Nosotros
+                  {t("nav.about")}
                 </a>
               </li>
               <li>
                 <a href="#contacto" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contacto
+                  {t("nav.contact")}
                 </a>
               </li>
             </ul>
@@ -121,26 +122,26 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Legal</h4>
+            <h4 className="font-semibold text-foreground mb-4">{t("footer.legal")}</h4>
             <ul className="space-y-2">
               <li>
                 <a href="/politica-privacidad" className="text-muted-foreground hover:text-primary transition-colors">
-                  Política de Privacidad
+                  {t("footer.privacy")}
                 </a>
               </li>
               <li>
                 <a href="/terminos-condiciones" className="text-muted-foreground hover:text-primary transition-colors">
-                  Términos y Condiciones
+                  {t("footer.terms")}
                 </a>
               </li>
               <li>
                 <a href="/politica-cookies" className="text-muted-foreground hover:text-primary transition-colors">
-                  Política de Cookies
+                  {t("footer.cookies")}
                 </a>
               </li>
               <li>
                 <a href="/aviso-legal" className="text-muted-foreground hover:text-primary transition-colors">
-                  Aviso Legal
+                  {t("footer.legal_notice")}
                 </a>
               </li>
             </ul>
@@ -150,10 +151,10 @@ const Footer = () => {
         <div className="border-t border-border mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-muted-foreground text-sm">
-              © {currentYear} Tech-grup 2023 SLU. Todos los derechos reservados.
+              © {currentYear} Tech-grup 2023 SLU. {t("footer.rights")}
             </p>
             <p className="text-muted-foreground text-sm mt-2 md:mt-0">
-              Diseñado con excelencia en Andorra 🇦🇩
+              {t("footer.designed")}
             </p>
           </div>
         </div>

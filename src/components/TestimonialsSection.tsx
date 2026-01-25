@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const testimonials = [
   {
@@ -102,15 +103,17 @@ const testimonials = [
 ];
 
 const TestimonialsSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-gold bg-clip-text text-transparent">
-            Lo Que Dicen Nuestros Clientes
+            {t("testimonials.title")}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Más de 200 empresas confían en nosotros para impulsar su transformación digital y optimizar sus costes energéticos
+            {t("testimonials.subtitle")}
           </p>
         </div>
 
@@ -160,7 +163,7 @@ const TestimonialsSection = () => {
         </Carousel>
 
         <div className="text-center mt-8 text-sm text-muted-foreground">
-          <p>Desliza para ver más testimonios →</p>
+          <p>{t("testimonials.swipe")}</p>
         </div>
       </div>
     </section>

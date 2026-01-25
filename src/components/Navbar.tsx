@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import WebPackageDetailModal from "./WebPackageDetailModal";
 import RedsysPaymentModal from "./RedsysPaymentModal";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navbar = () => {
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
@@ -30,16 +32,16 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Inicio", isRoute: true },
-    { href: "#asesoria-ia", label: "Asesoría IA", isRoute: false },
-    { href: "/ahorro-energetico", label: "Ahorro Energético", isRoute: true },
-    { href: "#nosotros", label: "Nosotros", isRoute: false },
-    { href: "#contacto", label: "Contacto", isRoute: false },
+    { href: "/", label: t("nav.home"), isRoute: true },
+    { href: "#asesoria-ia", label: t("nav.ai_consulting"), isRoute: false },
+    { href: "/ahorro-energetico", label: t("nav.energy_savings"), isRoute: true },
+    { href: "#nosotros", label: t("nav.about"), isRoute: false },
+    { href: "#contacto", label: t("nav.contact"), isRoute: false },
   ];
 
   const webDesignPackages = [
     { 
-      name: "Básico", 
+      name: t("packages.basic"), 
       price: "750€",
       description: "Presencia online profesional ideal para pequeños negocios y startups.",
       features: [
@@ -53,7 +55,7 @@ const Navbar = () => {
       deliveryTime: "2-3 semanas"
     },
     { 
-      name: "Profesional", 
+      name: t("packages.professional"), 
       price: "1.500€",
       description: "Solución completa para empresas en crecimiento que necesitan funcionalidades avanzadas.",
       features: [
@@ -69,7 +71,7 @@ const Navbar = () => {
       deliveryTime: "3-4 semanas"
     },
     { 
-      name: "Premium", 
+      name: t("packages.premium"), 
       price: "2.500€",
       description: "La solución más completa con todas las funcionalidades empresariales y soporte prioritario.",
       features: [
@@ -141,7 +143,7 @@ const Navbar = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-foreground/80 hover:text-primary bg-transparent">
-                    Diseños Web
+                    {t("nav.web_designs")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[300px] gap-2 p-4 bg-background">
@@ -172,7 +174,7 @@ const Navbar = () => {
                 if (element) element.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Comenzar
+              {t("nav.start")}
             </Button>
           </div>
 
@@ -213,7 +215,7 @@ const Navbar = () => {
               
               {/* Mobile Diseños Web Section */}
               <div className="border-t border-border pt-4">
-                <div className="text-foreground/80 font-medium mb-2">Diseños Web</div>
+                <div className="text-foreground/80 font-medium mb-2">{t("nav.web_designs")}</div>
                 <div className="flex flex-col space-y-2 pl-4">
                   {webDesignPackages.map((pkg) => (
                     <button
@@ -238,7 +240,7 @@ const Navbar = () => {
                   if (element) element.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
-                Comenzar
+                {t("nav.start")}
               </Button>
             </div>
           </div>

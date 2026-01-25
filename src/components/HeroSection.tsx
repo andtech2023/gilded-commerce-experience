@@ -2,8 +2,11 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 import ParticleEffect from "./ParticleEffect";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -30,17 +33,17 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 z-10 relative">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center mb-6">
-            <span className="text-primary font-medium tracking-wide">EXCELENCIA TECNOLÓGICA</span>
+            <span className="text-primary font-medium tracking-wide">{t("hero.excellence")}</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            <span className="text-futuristic-gold">Conectamos</span>
+            <span className="text-futuristic-gold">{t("hero.connect")}</span>
             <br />
-            <span className="text-beige-soft">Innovación y Éxito</span>
+            <span className="text-beige-soft">{t("hero.innovation")}</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in animation-delay-200">
-            Soluciones tecnológicas premium que transforman su visión en realidad digital
+            {t("hero.subtitle")}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in animation-delay-400">
@@ -50,7 +53,7 @@ const HeroSection = () => {
               className="group"
               onClick={() => scrollToSection('servicios')}
             >
-              Explorar Servicios
+              {t("hero.explore")}
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
@@ -58,7 +61,7 @@ const HeroSection = () => {
               size="xl"
               onClick={() => scrollToSection('contacto')}
             >
-              Consulta Gratuita
+              {t("hero.consultation")}
             </Button>
           </div>
 
@@ -66,15 +69,15 @@ const HeroSection = () => {
           <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto animate-fade-in animation-delay-600">
             <div className="text-center">
               <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">100+</div>
-              <div className="text-sm text-muted-foreground">Proyectos Exitosos</div>
+              <div className="text-sm text-muted-foreground">{t("hero.projects")}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">50+</div>
-              <div className="text-sm text-muted-foreground">Clientes Satisfechos</div>
+              <div className="text-sm text-muted-foreground">{t("hero.clients")}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">24/7</div>
-              <div className="text-sm text-muted-foreground">Soporte Premium</div>
+              <div className="text-sm text-muted-foreground">{t("hero.support")}</div>
             </div>
           </div>
         </div>
