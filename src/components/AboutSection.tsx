@@ -1,33 +1,33 @@
 import { Award, Users, TrendingUp, Globe } from "lucide-react";
-
-const stats = [
-  { icon: Award, value: "10+", label: "Años de Experiencia" },
-  { icon: Users, value: "50+", label: "Expertos en el Equipo" },
-  { icon: TrendingUp, value: "95%", label: "Satisfacción del Cliente" },
-  { icon: Globe, value: "15+", label: "Países Atendidos" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AboutSection = () => {
+  const { t } = useLanguage();
+
+  const stats = [
+    { icon: Award, value: "10+", label: t("about.years") },
+    { icon: Users, value: "50+", label: t("about.experts") },
+    { icon: TrendingUp, value: "95%", label: t("about.satisfaction") },
+    { icon: Globe, value: "15+", label: t("about.countries") },
+  ];
+
   return (
     <section id="nosotros" className="py-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="text-gradient-gold">Líderes</span> en
+              <span className="text-gradient-gold">{t("about.leaders")}</span> en
               <br />
-              <span className="text-futuristic-gold">Innovación Tecnológica</span>
+              <span className="text-futuristic-gold">{t("about.innovation")}</span>
             </h2>
             
             <p className="text-lg text-muted-foreground mb-6">
-              Desde Andorra, conectamos empresas con soluciones tecnológicas de vanguardia. 
-              Nuestro equipo de expertos combina creatividad, innovación y excelencia técnica 
-              para transformar ideas en realidades digitales exitosas.
+              {t("about.description1")}
             </p>
             
             <p className="text-lg text-muted-foreground mb-8">
-              Nos especializamos en crear experiencias digitales que no solo cumplen objetivos 
-              empresariales, sino que también establecen nuevos estándares en la industria.
+              {t("about.description2")}
             </p>
 
             <div className="grid grid-cols-2 gap-6">
@@ -49,39 +49,38 @@ const AboutSection = () => {
             <div className="absolute inset-0 bg-gradient-gold opacity-10 rounded-3xl transform rotate-3"></div>
             <div className="relative bg-card border border-border rounded-3xl p-10">
               <h3 className="text-2xl font-serif font-semibold mb-6 text-gradient-gold">
-                Nuestra Misión
+                {t("about.mission")}
               </h3>
               <p className="text-muted-foreground mb-6">
-                Empoderar a las empresas con tecnología de última generación, 
-                creando soluciones que impulsan el crecimiento y la transformación digital.
+                {t("about.mission_text")}
               </p>
               
               <h3 className="text-2xl font-serif font-semibold mb-6 text-gradient-gold">
-                Nuestros Valores
+                {t("about.values")}
               </h3>
               <ul className="space-y-3">
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
                   <span className="text-muted-foreground">
-                    <strong className="text-foreground">Excelencia:</strong> Calidad sin compromisos en cada proyecto
+                    <strong className="text-foreground">{t("about.excellence")}</strong> {t("about.excellence_text")}
                   </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
                   <span className="text-muted-foreground">
-                    <strong className="text-foreground">Innovación:</strong> Siempre a la vanguardia tecnológica
+                    <strong className="text-foreground">{t("about.innovation_value")}</strong> {t("about.innovation_text")}
                   </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
                   <span className="text-muted-foreground">
-                    <strong className="text-foreground">Transparencia:</strong> Comunicación clara y honesta
+                    <strong className="text-foreground">{t("about.transparency")}</strong> {t("about.transparency_text")}
                   </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
                   <span className="text-muted-foreground">
-                    <strong className="text-foreground">Compromiso:</strong> Su éxito es nuestro objetivo
+                    <strong className="text-foreground">{t("about.commitment")}</strong> {t("about.commitment_text")}
                   </span>
                 </li>
               </ul>

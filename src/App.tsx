@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LegalNotice from "./pages/LegalNotice";
@@ -17,39 +17,44 @@ import LanguageGate from "./components/LanguageGate";
 
 const queryClient = new QueryClient();
 
-const App = () => {
-  const [language, setLanguage] = useState<"es" | "ca">("es");
+const AppContent = () => {
+  const { setLanguage } = useLanguage();
 
   const handleLanguageSelect = (lang: "es" | "ca") => {
     setLanguage(lang);
-    // Could be used for i18n later
     document.documentElement.lang = lang;
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <LanguageGate onLanguageSelect={handleLanguageSelect}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/ahorro-energetico" element={<AhorroEnergetico />} />
-              <Route path="/aviso-legal" element={<LegalNotice />} />
-              <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
-              <Route path="/politica-cookies" element={<CookiesPolicy />} />
-              <Route path="/terminos-condiciones" element={<TermsConditions />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/payment-cancelled" element={<PaymentCancelled />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </LanguageGate>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <LanguageGate onLanguageSelect={handleLanguageSelect}>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/ahorro-energetico" element={<AhorroEnergetico />} />
+        <Route path="/aviso-legal" element={<LegalNotice />} />
+        <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
+        <Route path="/politica-cookies" element={<CookiesPolicy />} />
+        <Route path="/terminos-condiciones" element={<TermsConditions />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/payment-cancelled" element={<PaymentCancelled />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </LanguageGate>
   );
 };
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <LanguageProvider>
+          <AppContent />
+        </LanguageProvider>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

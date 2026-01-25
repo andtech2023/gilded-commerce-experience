@@ -9,63 +9,65 @@ import chatbotBg from "@/assets/chatbot-bg.jpg";
 import marketingBg from "@/assets/marketing-bg.jpg";
 import aiMlBg from "@/assets/ai-ml-bg.jpg";
 import WebDevelopmentSlider from "./WebDevelopmentSlider";
-
-const services = [
-  {
-    icon: Code,
-    title: "Desarrollo Web - Básico",
-    description: "Web corporativa profesional con diseño responsive, SEO básico y formulario de contacto",
-    features: ["Hasta 5 páginas", "Diseño responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año incluido"],
-  },
-  {
-    icon: Code,
-    title: "Desarrollo Web - Profesional",
-    description: "Web avanzada con pasarela de pago integrada, gestión de contenidos y analytics",
-    features: ["Hasta 10 páginas", "Pasarela de pago integrada", "Panel de administración", "SEO avanzado", "Analytics y métricas", "Hosting 1 año incluido"],
-  },
-  {
-    icon: Code,
-    title: "Desarrollo Web - Premium",
-    description: "Solución completa con todas las funcionalidades, personalización total y soporte prioritario",
-    features: ["Páginas ilimitadas", "E-commerce completo", "Integraciones API", "IA integrada", "Multiidioma", "Soporte prioritario 24/7", "Hosting premium incluido"],
-  },
-  {
-    icon: Smartphone,
-    title: "Apps Móviles",
-    description: "Experiencias móviles nativas para iOS y Android",
-    features: ["iOS & Android", "React Native", "Diseño UX/UI", "Integración APIs", "Automatizaciones personalizables"],
-    bgImage: mobileAppsBg,
-  },
-  {
-    icon: Cloud,
-    title: "ChatBot IA con Voz Humana",
-    description: "Asistente virtual inteligente con tecnología de voz natural para atención 24/7",
-    features: ["Voz natural y humana", "Respuestas en tiempo real", "Integración WhatsApp", "Disponibilidad 24/7", "Automatizaciones personalizables"],
-    bgImage: chatbotBg,
-  },
-  {
-    icon: Globe,
-    title: "Marketing Digital",
-    description: "Estrategias digitales para maximizar su presencia online",
-    features: ["SEO/SEM", "Redes sociales", "Email marketing", "Analytics", "Automatizaciones personalizables"],
-    bgImage: marketingBg,
-  },
-  {
-    icon: Cpu,
-    title: "IA & Machine Learning",
-    description: "Soluciones inteligentes que transforman sus datos en valor",
-    features: ["Chatbots IA", "Análisis predictivo", "Automatización", "Visión artificial", "Automatizaciones personalizables"],
-    bgImage: aiMlBg,
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ServicesSection = () => {
+  const { t } = useLanguage();
   const [selectedService, setSelectedService] = useState<any>(null);
   const [introService, setIntroService] = useState<any>(null);
 
+  const services = [
+    {
+      icon: Code,
+      title: t("services.basic"),
+      description: t("services.basic_desc"),
+      features: ["Hasta 5 páginas", "Diseño responsive", "SEO básico", "Formulario de contacto", "Hosting 1 año incluido"],
+    },
+    {
+      icon: Code,
+      title: t("services.professional"),
+      description: t("services.professional_desc"),
+      features: ["Hasta 10 páginas", "Pasarela de pago integrada", "Panel de administración", "SEO avanzado", "Analytics y métricas", "Hosting 1 año incluido"],
+    },
+    {
+      icon: Code,
+      title: t("services.premium_web"),
+      description: t("services.premium_web_desc"),
+      features: ["Páginas ilimitadas", "E-commerce completo", "Integraciones API", "IA integrada", "Multiidioma", "Soporte prioritario 24/7", "Hosting premium incluido"],
+    },
+    {
+      icon: Smartphone,
+      title: t("services.mobile_apps"),
+      description: t("services.mobile_apps_desc"),
+      features: ["iOS & Android", "React Native", "Diseño UX/UI", "Integración APIs", "Automatizaciones personalizables"],
+      bgImage: mobileAppsBg,
+    },
+    {
+      icon: Cloud,
+      title: t("services.chatbot"),
+      description: t("services.chatbot_desc"),
+      features: ["Voz natural y humana", "Respuestas en tiempo real", "Integración WhatsApp", "Disponibilidad 24/7", "Automatizaciones personalizables"],
+      bgImage: chatbotBg,
+    },
+    {
+      icon: Globe,
+      title: t("services.marketing"),
+      description: t("services.marketing_desc"),
+      features: ["SEO/SEM", "Redes sociales", "Email marketing", "Analytics", "Automatizaciones personalizables"],
+      bgImage: marketingBg,
+    },
+    {
+      icon: Cpu,
+      title: t("services.ai_ml"),
+      description: t("services.ai_ml_desc"),
+      features: ["Chatbots IA", "Análisis predictivo", "Automatización", "Visión artificial", "Automatizaciones personalizables"],
+      bgImage: aiMlBg,
+    },
+  ];
+
   const handleServiceDetail = (service: any) => {
     // Show intro first for non-web services
-    const isWebService = service.title.includes("Desarrollo Web");
+    const isWebService = service.title.includes("Desarrollo Web") || service.title.includes("Desenvolupament Web");
     if (isWebService) {
       setSelectedService(service);
     } else {
@@ -93,10 +95,10 @@ const ServicesSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient-gold">Servicios</span> <span className="text-futuristic-gold">Premium</span>
+            <span className="text-gradient-gold">{t("services.title")}</span> <span className="text-futuristic-gold">{t("services.premium")}</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Soluciones tecnológicas diseñadas para impulsar su éxito empresarial
+            {t("services.subtitle")}
           </p>
         </div>
         {/* Web Development Pricing Slider */}
@@ -106,7 +108,7 @@ const ServicesSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services
-            .filter((service) => !service.title.startsWith("Desarrollo Web -"))
+            .filter((service) => !service.title.includes("Desarrollo Web -") && !service.title.includes("Desenvolupament Web -"))
             .map((service, index) => (
             <div
               key={index}
@@ -156,7 +158,7 @@ const ServicesSection = () => {
                     className="w-full"
                     onClick={() => handleServiceDetail(service)}
                   >
-                    Más Info
+                    {t("services.more_info")}
                   </Button>
                 </div>
               </div>
@@ -166,7 +168,7 @@ const ServicesSection = () => {
 
         <div className="text-center mt-12">
           <Button variant="premium" size="xl">
-            Ver Todos los Servicios
+            {t("services.view_all")}
           </Button>
         </div>
       </div>
