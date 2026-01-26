@@ -119,17 +119,22 @@ serve(async (req) => {
     
     console.log('Request from IP:', clientIP)
     
-    // Allow requests from Telegram IP ranges and localhost for testing
+    // Only allow requests from Telegram's official IP ranges
     const isValidTelegramIP = (ip: string): boolean => {
-      // In production, validate against Telegram's IP ranges
+      // Telegram API servers use these IP ranges:
       // 149.154.160.0/20 = 149.154.160.0 - 149.154.175.255
       // 91.108.4.0/22 = 91.108.4.0 - 91.108.7.255
-      if (ip === 'unknown' || ip === '127.0.0.1' || ip === 'localhost') {
-        return true // Allow for edge function testing
+      
+      // Reject unknown, localhost, or empty IPs in production
+      if (!ip || ip === 'unknown' || ip === '127.0.0.1' || ip === 'localhost') {
+        console.warn('Rejecting request with invalid IP:', ip)
+        return false
       }
       
       const parts = ip.split('.').map(Number)
-      if (parts.length !== 4) return false
+      if (parts.length !== 4 || parts.some(p => isNaN(p) || p < 0 || p > 255)) {
+        return false
+      }
       
       // Check 149.154.160.0/20
       if (parts[0] === 149 && parts[1] === 154 && parts[2] >= 160 && parts[2] <= 175) {
