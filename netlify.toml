@@ -69,8 +69,49 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Redirects - SPA fallback
+# SPA fallback - serve index.html for known routes only
 [[redirects]]
-  from = "/*"
+  from = "/"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/ahorro-energetico"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/aviso-legal"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/politica-privacidad"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/politica-cookies"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/terminos-condiciones"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/payment-success"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/payment-cancelled"
+  to = "/index.html"
+  status = 200
+
+# All other routes get static 404 (no React overhead)
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
