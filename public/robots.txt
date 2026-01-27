@@ -5,16 +5,12 @@
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
-Disallow: /*?page=
-Disallow: /*?sort=
-Disallow: /*?filter=
+Disallow: /*?
 
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
-Disallow: /*?page=
-Disallow: /*?sort=
-Disallow: /*?filter=
+Disallow: /*?
 
 User-agent: Twitterbot
 Allow: /
@@ -97,10 +93,22 @@ Disallow: /
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /*?page=
-Disallow: /*?sort=
-Disallow: /*?filter=
-Disallow: /*?utm_
+Disallow: /*?
+Disallow: /*.php$
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.sql$
+Disallow: /wp-*
+Disallow: /wordpress/
+Disallow: /shop/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /admin/
+Disallow: /.env
+Disallow: /.git
+Disallow: /.vscode
+Disallow: /config/
+Disallow: /backup/
 Crawl-delay: 10
 
 # Sitemap
