@@ -1,7 +1,7 @@
-# AndorraTech Robots.txt - SEO Optimized
+# AndorraTech Robots.txt - SEO Clean
 # Last updated: 2026-02-08
 
-# Allow legitimate search engine crawlers full access
+# Full access for verified search engine crawlers
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
@@ -88,8 +88,23 @@ Disallow: /
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /shop/
+Disallow: /shop
+Disallow: /product/
+Disallow: /products/
+Disallow: /producto/
+Disallow: /productos/
+Disallow: /cart/
+Disallow: /checkout/
 Disallow: /wp-*
+Disallow: /wordpress/
+Disallow: /woocommerce/
+Disallow: /add-to-cart
 Disallow: /admin/
+Disallow: /config/
+Disallow: /backup/
+Disallow: /templates/
+Disallow: /tmp/
 Disallow: /.env
 Disallow: /.git
 Crawl-delay: 10
