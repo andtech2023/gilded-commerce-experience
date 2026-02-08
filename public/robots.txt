@@ -1,16 +1,23 @@
-# AndorraTech Security Robots.txt
-# Last updated: 2026-01-27
+# AndorraTech Robots.txt - SEO Optimized
+# Last updated: 2026-02-08
 
-# Allow legitimate search engine crawlers
+# Allow legitimate search engine crawlers full access
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
-Disallow: /*?
 
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
-Disallow: /*?
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
 
 User-agent: Twitterbot
 Allow: /
@@ -18,7 +25,10 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-# Block aggressive scrapers and SEO bots
+User-agent: LinkedInBot
+Allow: /
+
+# Block aggressive scrapers and AI bots
 User-agent: AhrefsBot
 Disallow: /
 
@@ -55,19 +65,7 @@ Disallow: /
 User-agent: DataForSeoBot
 Disallow: /
 
-User-agent: MegaIndex
-Disallow: /
-
-User-agent: AspiegelBot
-Disallow: /
-
 User-agent: YandexBot
-Disallow: /
-
-User-agent: Sogou
-Disallow: /
-
-User-agent: Baiduspider
 Disallow: /
 
 # Block generic scrapers
@@ -86,30 +84,15 @@ Disallow: /
 User-agent: HTTrack
 Disallow: /
 
-User-agent: WebCopier
-Disallow: /
-
 # Default policy for unknown bots
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /*?
-Disallow: /*.php$
-Disallow: /*.json$
-Disallow: /*.xml$
-Disallow: /*.sql$
 Disallow: /wp-*
-Disallow: /wordpress/
-Disallow: /shop/
-Disallow: /cart/
-Disallow: /checkout/
 Disallow: /admin/
 Disallow: /.env
 Disallow: /.git
-Disallow: /.vscode
-Disallow: /config/
-Disallow: /backup/
 Crawl-delay: 10
 
 # Sitemap
-Sitemap: https://gilded-commerce-experience.lovable.app/sitemap.xml
+Sitemap: https://andorratech.net/sitemap.xml

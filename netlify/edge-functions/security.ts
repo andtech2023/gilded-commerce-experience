@@ -3,10 +3,19 @@ import type { Context } from "https://edge.netlify.com";
 // Rate limiting storage (in-memory, resets on cold start)
 const ipRequestCounts = new Map<string, { count: number; resetTime: number }>();
 
+// Whitelisted search engine crawlers (checked BEFORE blocking)
+const ALLOWED_USER_AGENTS = [
+  'googlebot', 'bingbot', 'google-inspectiontool', 'google-safety',
+  'apis-google', 'mediapartners-google', 'adsbot-google',
+  'feedfetcher-google', 'google favicon', 'googleother',
+  'twitterbot', 'facebookexternalhit', 'linkedinbot',
+  'slurp', 'duckduckbot', 'applebot',
+];
+
 // Blocked User-Agent patterns (case-insensitive)
 const BLOCKED_USER_AGENTS = [
   'python', 'curl', 'go-http', 'scrapy', 'wget', 'httpclient', 'libwww',
-  'httpunit', 'nutch', 'phpcrawl', 'msnbot', 'jyxobot', 'fast-webcrawler',
+  'httpunit', 'nutch', 'phpcrawl', 'jyxobot', 'fast-webcrawler',
   'fast enterprise crawler', 'biglotron', 'teoma', 'convera', 'gigablast',
   'ia_archiver', 'webcopier', 'httrack', 'grub', 'netresearchserver',
   'speedy', 'fluffy', 'findlink', 'panscient', 'zyborg', 'accoona',
@@ -17,9 +26,9 @@ const BLOCKED_USER_AGENTS = [
 
 // Blocked file extensions (WordPress/config attacks)
 const BLOCKED_EXTENSIONS = [
-  '.php', '.json', '.asp', '.aspx', '.jsp', '.cgi', '.pl',
+  '.php', '.asp', '.aspx', '.jsp', '.cgi', '.pl',
   '.sql', '.bak', '.backup', '.old', '.orig', '.save', '.swp',
-  '.config', '.ini', '.log', '.xml', '.yml', '.yaml'
+  '.config', '.ini', '.log', '.yml', '.yaml'
 ];
 
 // Blocked paths (WordPress, config files, common attack vectors)
@@ -64,9 +73,18 @@ function getClientIP(request: Request, context: Context): string {
   return context.ip || 'unknown';
 }
 
+function isAllowedCrawler(userAgent: string): boolean {
+  const lowerUA = userAgent.toLowerCase();
+  return ALLOWED_USER_AGENTS.some(pattern => lowerUA.includes(pattern));
+}
+
 function isBlockedUserAgent(userAgent: string | null): boolean {
   if (!userAgent || userAgent.trim() === '') {
     return true;
+  }
+  // Allow verified search engine crawlers
+  if (isAllowedCrawler(userAgent)) {
+    return false;
   }
   const lowerUA = userAgent.toLowerCase();
   return BLOCKED_USER_AGENTS.some(pattern => lowerUA.includes(pattern));
