@@ -298,7 +298,7 @@ const AhorroEnergetico = () => {
                 <img
                   src={company.logo}
                   alt={`Logo ${company.name}`}
-                  className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-500 group-hover:scale-110"
+                  className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-500 group-hover:scale-[1.6]"
                 />
               </div>
             ))}
