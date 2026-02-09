@@ -18,6 +18,8 @@ import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
 import iberdrolaLogo from "@/assets/iberdrola-logo.jpg";
+import nibaLogo from "@/assets/niba-logo.jpg";
+import nexusLogo from "@/assets/nexus-energia-logo.png";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
 
 const AhorroEnergetico = () => {
@@ -203,6 +205,8 @@ const AhorroEnergetico = () => {
     { name: "Endesa", logo: endesaLogo },
     { name: "Audax", logo: audaxLogo },
     { name: "Iberdrola", logo: iberdrolaLogo },
+    { name: "Niba", logo: nibaLogo },
+    { name: "Nexus Energía", logo: nexusLogo },
   ];
 
   return (
@@ -284,29 +288,18 @@ const AhorroEnergetico = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 items-center justify-items-center mb-16">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
             {companies.map((company, index) => (
               <div
                 key={index}
-                className="group w-full max-w-[280px] h-48 bg-background/90 backdrop-blur-sm rounded-2xl shadow-2xl hover:shadow-[0_0_50px_rgba(212,175,55,0.3)] transition-all duration-500 flex items-center justify-center p-8 animate-fade-in border border-primary/20"
-                style={{ 
-                  animationDelay: `${index * 0.15}s`,
-                  transform: 'perspective(1000px)',
-                }}
+                className="group aspect-[4/3] bg-white rounded-2xl shadow-lg hover:shadow-[0_0_40px_rgba(212,175,55,0.25)] transition-all duration-500 flex items-center justify-center p-6 animate-fade-in border border-primary/15"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div 
-                  className="w-full h-full flex items-center justify-center transition-all duration-500 group-hover:scale-110"
-                  style={{
-                    animation: `float ${3 + index * 0.5}s ease-in-out infinite`,
-                    animationDelay: `${index * 0.2}s`,
-                  }}
-                >
-                  <img
-                    src={company.logo}
-                    alt={`Logo ${company.name}`}
-                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-500"
-                  />
-                </div>
+                <img
+                  src={company.logo}
+                  alt={`Logo ${company.name}`}
+                  className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-500 group-hover:scale-110"
+                />
               </div>
             ))}
           </div>
