@@ -292,7 +292,7 @@ const AhorroEnergetico = () => {
             {companies.map((company, index) => (
               <div
                 key={index}
-                className="group aspect-[4/3] bg-white rounded-2xl shadow-lg hover:shadow-[0_0_40px_rgba(212,175,55,0.25)] transition-all duration-500 flex items-center justify-center p-6 animate-fade-in border border-primary/15"
+                className="group aspect-[4/3] bg-white rounded-2xl shadow-lg hover:shadow-[0_0_40px_rgba(212,175,55,0.25)] transition-all duration-500 flex items-center justify-center p-6 animate-fade-in border border-primary/15 overflow-hidden"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <img
