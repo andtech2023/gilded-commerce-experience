@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/andorratech-official-logo.png";
 import {
   NavigationMenu,
@@ -18,6 +18,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navbar = () => {
   const { t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
@@ -102,6 +104,18 @@ const Navbar = () => {
     setShowPaymentModal(true);
   };
 
+  const handleHashNavigation = useCallback((hash: string) => {
+    setIsMobileMenuOpen(false);
+    if (location.pathname !== "/") {
+      navigate("/" + hash);
+    } else {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.pathname, navigate]);
+
   return (
     <nav
       className={cn(
@@ -130,13 +144,13 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ) : (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
+                  onClick={() => handleHashNavigation(link.href)}
                   className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
                 >
                   {link.label}
-                </a>
+                </button>
               )
             ))}
             
@@ -201,14 +215,13 @@ const Navbar = () => {
                     {link.label}
                   </Link>
                 ) : (
-                  <a
+                  <button
                     key={link.href}
-                    href={link.href}
-                    className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => handleHashNavigation(link.href)}
+                    className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium py-2 text-left"
                   >
                     {link.label}
-                  </a>
+                  </button>
                 )
               ))}
               
