@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import WebPackageDetailModal from "./WebPackageDetailModal";
 import RedsysPaymentModal from "./RedsysPaymentModal";
+import YouTubePresentationModal from "./YouTubePresentationModal";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navbar = () => {
@@ -22,6 +23,7 @@ const Navbar = () => {
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
   const [showPackageModal, setShowPackageModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showPresentation, setShowPresentation] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,10 +171,7 @@ const Navbar = () => {
             <Button 
               variant="premium" 
               size="lg"
-              onClick={() => {
-                const element = document.getElementById('asesoria-ia');
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => setShowPresentation(true)}
             >
               {t("nav.start")}
             </Button>
@@ -236,8 +235,7 @@ const Navbar = () => {
                 className="w-full"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  const element = document.getElementById('asesoria-ia');
-                  if (element) element.scrollIntoView({ behavior: 'smooth' });
+                  setShowPresentation(true);
                 }}
               >
                 {t("nav.start")}
@@ -264,6 +262,11 @@ const Navbar = () => {
           />
         </>
       )}
+
+      <YouTubePresentationModal
+        isOpen={showPresentation}
+        onClose={() => setShowPresentation(false)}
+      />
     </nav>
   );
 };
