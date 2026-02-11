@@ -129,7 +129,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <img src={logo} alt="AndorraTech" className="h-16 md:h-20 w-auto object-contain" />
+            <img src={logo} alt="Andorra Tech - Consultoría tecnológica e IA" className="h-16 md:h-20 w-auto object-contain" />
           </div>
 
           {/* Desktop Navigation */}

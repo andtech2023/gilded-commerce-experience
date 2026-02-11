@@ -13,7 +13,7 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="mb-4">
-              <img src={logo} alt="AndorraTech" className="h-20 w-auto object-contain" />
+              <img src={logo} alt="Andorra Tech - Soluciones tecnológicas" className="h-20 w-auto object-contain" loading="lazy" />
             </div>
             <p className="text-muted-foreground max-w-md">
               {t("footer.description")}

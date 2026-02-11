@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const LegalNotice = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background py-12">
+      <SEOHead title="Aviso Legal | Andorra Tech" description="Aviso legal de Andorra Tech (Tech-grup 2023 SLU). Información legal y condiciones de uso." canonical="https://www.andorratech.net/aviso-legal" />
+      <Breadcrumbs />
       <div className="container mx-auto px-4 max-w-4xl">
         <Button 
           variant="outline" 

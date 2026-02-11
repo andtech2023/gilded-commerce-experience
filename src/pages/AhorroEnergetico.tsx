@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import { Upload, CheckCircle2, Shield, TrendingDown, Calculator, Zap, Volume2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import TelegramButton from "@/components/TelegramButton";
 import BenefitAudioModal from "@/components/BenefitAudioModal";
@@ -211,7 +213,13 @@ const AhorroEnergetico = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Ahorro Energético Empresarial | Andorra Tech"
+        description="Reduce tu factura eléctrica hasta un 40%. Simulador de tarifas, comparador energético y gestión de cambio de comercializadora para empresas."
+        canonical="https://www.andorratech.net/ahorro-energetico"
+      />
       <Navbar />
+      <Breadcrumbs />
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
@@ -297,8 +305,9 @@ const AhorroEnergetico = () => {
               >
                 <img
                   src={company.logo}
-                  alt={`Logo ${company.name}`}
+                  alt={`Logo de ${company.name} - Distribuidor energético oficial`}
                   className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-500 group-hover:scale-[1.6]"
+                  loading="lazy"
                 />
               </div>
             ))}
