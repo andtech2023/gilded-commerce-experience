@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const CookiesPolicy = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background py-12">
+      <SEOHead title="Política de Cookies | Andorra Tech" description="Política de cookies de Andorra Tech. Información sobre el uso de cookies en nuestra web." canonical="https://www.andorratech.net/politica-cookies" />
+      <Breadcrumbs />
       <div className="container mx-auto px-4 max-w-4xl">
         <Button 
           variant="outline" 

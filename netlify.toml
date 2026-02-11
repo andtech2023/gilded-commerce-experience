@@ -10,42 +10,36 @@
   path = "/*"
   function = "security"
 
+# Force www canonical redirect (non-www → www)
+[[redirects]]
+  from = "https://andorratech.net/*"
+  to = "https://www.andorratech.net/:splat"
+  status = 301
+  force = true
+
 # Security Headers for all pages
 [[headers]]
   for = "/*"
   [headers.values]
-    # Prevent clickjacking
     X-Frame-Options = "DENY"
-    
-    # Prevent MIME type sniffing
     X-Content-Type-Options = "nosniff"
-    
-    # Enable XSS protection
     X-XSS-Protection = "1; mode=block"
-    
-    # Referrer policy
     Referrer-Policy = "strict-origin-when-cross-origin"
-    
-    # Content Security Policy
     Content-Security-Policy = """
       default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://cdn.tailwindcss.com https://rprbwlywuzcksapgyayl.supabase.co;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://cdn.tailwindcss.com https://rprbwlywuzcksapgyayl.supabase.co https://www.youtube.com https://s.ytimg.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https: blob:;
       connect-src 'self' https://rprbwlywuzcksapgyayl.supabase.co wss://rprbwlywuzcksapgyayl.supabase.co https://www.google.com https://ai.gateway.lovable.dev;
-      frame-src 'self' https://www.google.com https://www.recaptcha.net;
+      frame-src 'self' https://www.google.com https://www.recaptcha.net https://www.youtube.com https://youtube.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
       upgrade-insecure-requests;
     """
-    
-    # Permissions Policy (limit browser features)
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    
-    # HSTS - Force HTTPS
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
 # Cache static assets aggressively

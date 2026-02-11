@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background py-12">
+      <SEOHead title="Política de Privacidad | Andorra Tech" description="Política de privacidad de Andorra Tech. Protección de datos personales conforme al RGPD." canonical="https://www.andorratech.net/politica-privacidad" />
+      <Breadcrumbs />
       <div className="container mx-auto px-4 max-w-4xl">
         <Button 
           variant="outline" 

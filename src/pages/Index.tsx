@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
 import AIConsultingSection from "@/components/AIConsultingSection";
@@ -26,6 +27,11 @@ const Index = () => {
   }, [location.hash]);
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Andorra Tech | Especialistas en IA y Automatización"
+        description="Soluciones de IA en Andorra y Barcelona. Automatización empresarial, ahorro energético, desarrollo web y marketing digital. Consultoría tech premium."
+        canonical="https://www.andorratech.net/"
+      />
       <Navbar />
       <HeroSection />
       <ServicesSection />

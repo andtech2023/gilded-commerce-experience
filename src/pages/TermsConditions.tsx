@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const TermsConditions = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background py-12">
+      <SEOHead title="Términos y Condiciones | Andorra Tech" description="Términos y condiciones de uso de los servicios de Andorra Tech." canonical="https://www.andorratech.net/terminos-condiciones" />
+      <Breadcrumbs />
       <div className="container mx-auto px-4 max-w-4xl">
         <Button 
           variant="outline" 

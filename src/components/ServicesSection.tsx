@@ -86,8 +86,9 @@ const ServicesSection = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src={aiServicesBg} 
-          alt="AI Technology Background" 
+          alt="Servicios de tecnología e inteligencia artificial" 
           className="w-full h-full object-cover opacity-20"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95"></div>
       </div>
