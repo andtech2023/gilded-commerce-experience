@@ -3,6 +3,7 @@ import { ChevronRight, Home } from "lucide-react";
 
 const routeNames: Record<string, string> = {
   "/ahorro-energetico": "Ahorro Energético",
+  "/soluciones-empresas-ahorro-energetico": "Soluciones Empresas",
   "/aviso-legal": "Aviso Legal",
   "/politica-privacidad": "Política de Privacidad",
   "/politica-cookies": "Política de Cookies",
