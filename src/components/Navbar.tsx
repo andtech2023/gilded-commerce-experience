@@ -39,6 +39,7 @@ const Navbar = () => {
     { href: "/", label: t("nav.home"), isRoute: true },
     { href: "#asesoria-ia", label: t("nav.ai_consulting"), isRoute: false },
     { href: "/ahorro-energetico", label: t("nav.energy_savings"), isRoute: true },
+    { href: "/soluciones-empresas-ahorro-energetico", label: "Soluciones Empresas", isRoute: true },
     { href: "#nosotros", label: t("nav.about"), isRoute: false },
     { href: "#contacto", label: t("nav.contact"), isRoute: false },
   ];
