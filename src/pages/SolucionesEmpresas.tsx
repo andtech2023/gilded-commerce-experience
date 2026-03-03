@@ -1,9 +1,10 @@
 import { useState, useRef, useCallback } from "react";
 import {
   Zap, Battery, Sun, ShieldCheck, TrendingDown, Cpu, CheckCircle2,
-  Building2, ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
+  ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
   BarChart3, Leaf, Bolt
 } from "lucide-react";
+import powerGridImg from "@/assets/power-grid-stability.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
