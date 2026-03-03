@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   Zap, Battery, Sun, ShieldCheck, TrendingDown, Cpu, CheckCircle2,
   Building2, ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
@@ -19,6 +19,10 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
+import hbsBatteryImg from "@/assets/hbs-battery-system.jpg";
+import solarPanelsImg from "@/assets/solar-panels-industrial.jpg";
+import invertersImg from "@/assets/inverters-industrial.jpg";
+import upsBackupImg from "@/assets/ups-backup-industrial.jpg";
 
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
@@ -44,15 +48,119 @@ const faqs = [
   },
 ];
 
-// ── Ventajas ─────────────────────────────────────────────────────────────────
-const ventajas = [
-  { icon: TrendingDown, label: "Reducción hasta 30% factura luz", color: "text-[hsl(142,76%,46%)]" },
-  { icon: Zap, label: "Eliminación total de microcortes", color: "text-[hsl(210,100%,60%)]" },
-  { icon: ShieldCheck, label: "Protección electrónica industrial", color: "text-[hsl(210,100%,60%)]" },
-  { icon: Euro, label: "Renting tecnológico 0€ inversión inicial", color: "text-[hsl(142,76%,46%)]" },
-  { icon: BarChart3, label: "100% deducible fiscalmente", color: "text-[hsl(38,70%,48%)]" },
-  { icon: Leaf, label: "Retorno cubierto con el ahorro generado", color: "text-[hsl(142,76%,46%)]" },
-];
+// ── 3D Card hover hook ───────────────────────────────────────────────────────
+const use3DCard = () => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = ref.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotX = ((y - cy) / cy) * -10;
+    const rotY = ((x - cx) / cx) * 10;
+    card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.04,1.04,1.04)`;
+    card.style.boxShadow = `${-rotY * 2}px ${rotX * 2}px 40px hsl(38,70%,48%,0.35), 0 20px 60px hsl(0,0%,0%,0.6)`;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    const card = ref.current;
+    if (!card) return;
+    card.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+    card.style.boxShadow = "0 8px 30px hsl(0,0%,0%,0.4)";
+  }, []);
+
+  return { ref, handleMouseMove, handleMouseLeave };
+};
+
+// ── Photo Card Component ─────────────────────────────────────────────────────
+interface PhotoCardProps {
+  image: string;
+  title: string;
+  partner: string;
+  desc: string;
+  accentColor: string;
+  items: string[];
+  badge: string;
+}
+
+const PhotoCard = ({ image, title, partner, desc, accentColor, items, badge }: PhotoCardProps) => {
+  const { ref, handleMouseMove, handleMouseLeave } = use3DCard();
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="rounded-2xl overflow-hidden cursor-pointer"
+      style={{
+        background: "hsl(220,13%,10%)",
+        border: `1px solid ${accentColor}30`,
+        boxShadow: "0 8px 30px hsl(0,0%,0%,0.4)",
+        transition: "transform 0.15s ease-out, box-shadow 0.15s ease-out",
+        transformStyle: "preserve-3d",
+      }}
+    >
+      {/* Photo background with overlay */}
+      <div className="relative h-52 overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover"
+          style={{ transition: "transform 0.4s ease" }}
+          loading="lazy"
+        />
+        {/* Dark gradient overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to bottom, hsl(220,13%,9%,0.3) 0%, hsl(220,13%,9%,0.85) 100%)`,
+          }}
+        />
+        {/* Colored accent line at top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1"
+          style={{ background: `linear-gradient(90deg, ${accentColor}, transparent)` }}
+        />
+        {/* Badge */}
+        <div
+          className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold"
+          style={{
+            background: `${accentColor}22`,
+            border: `1px solid ${accentColor}55`,
+            color: accentColor,
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          {badge}
+        </div>
+        {/* Title overlay on photo */}
+        <div className="absolute bottom-4 left-4 right-4">
+          <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">{title}</div>
+          <div className="font-black text-lg" style={{ fontFamily: "Orbitron, sans-serif", color: accentColor }}>
+            {partner}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <p className="text-muted-foreground text-sm mb-5 leading-relaxed">{desc}</p>
+        <ul className="space-y-2">
+          {items.map((item) => (
+            <li key={item} className="flex items-start gap-2 text-sm">
+              <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" style={{ color: accentColor }} />
+              <span className="text-foreground/80">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
 // ── Component ────────────────────────────────────────────────────────────────
 const SolucionesEmpresas = () => {
@@ -173,41 +281,33 @@ const SolucionesEmpresas = () => {
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, hsl(220,13%,6%) 0%, hsl(215,40%,10%) 40%, hsl(220,13%,8%) 100%)",
-        }}
+        style={{ background: "var(--gradient-dark)" }}
         aria-label="Soluciones energéticas para empresas"
       >
-        {/* Animated grid background */}
+        {/* Subtle grid */}
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-5"
           style={{
             backgroundImage:
-              "linear-gradient(hsl(210,100%,60%,0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(210,100%,60%,0.3) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+              "linear-gradient(hsl(38,70%,48%,0.4) 1px, transparent 1px), linear-gradient(90deg, hsl(38,70%,48%,0.4) 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
           }}
         />
-        {/* Glowing orbs */}
-        <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
-          style={{ background: "radial-gradient(circle, hsl(210,100%,60%), transparent)" }}
-        />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
-          style={{ background: "radial-gradient(circle, hsl(142,76%,46%), transparent)" }}
-        />
+        {/* Gold glow orbs */}
+        <div className="absolute top-1/3 left-1/4 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
+          style={{ background: "radial-gradient(circle, hsl(38,70%,48%), transparent)" }} />
+        <div className="absolute bottom-1/4 right-1/3 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none"
+          style={{ background: "radial-gradient(circle, hsl(142,76%,36%), transparent)" }} />
 
         <div className="relative z-10 container mx-auto px-4 pt-32 pb-16 text-center">
           <Breadcrumbs />
 
-          {/* Badge */}
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-8 mt-4"
             style={{
-              borderColor: "hsl(210,100%,60%,0.4)",
-              background: "hsl(210,100%,60%,0.1)",
-              color: "hsl(210,100%,70%)",
+              borderColor: "hsl(38,70%,48%,0.5)",
+              background: "hsl(38,70%,48%,0.1)",
+              color: "hsl(38,70%,65%)",
             }}
           >
             <Bolt className="w-4 h-4" />
@@ -218,42 +318,31 @@ const SolucionesEmpresas = () => {
             className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6 max-w-5xl mx-auto"
             style={{ fontFamily: "Orbitron, sans-serif" }}
           >
-            <span style={{ color: "hsl(210,100%,70%)" }}>Soluciones Energéticas</span>{" "}
+            <span className="text-gradient-gold">Soluciones Energéticas</span>{" "}
             <span className="text-foreground">para Empresas</span>
             <br />
             <span style={{ color: "hsl(142,76%,50%)" }}>Reduce hasta un 30%</span>{" "}
             <span className="text-foreground text-2xl md:text-4xl">tu Factura de Luz y Elimina los Microcortes</span>
           </h1>
 
-          <p
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10"
-            style={{ fontFamily: "Rajdhani, sans-serif" }}
-          >
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10">
             Optimización energética avanzada mediante sistemas HBS híbridos, almacenamiento inteligente
             y autoconsumo fotovoltaico industrial. Sin inversión inicial.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#formulario-empresa">
-              <Button
-                size="lg"
-                className="text-base px-8 py-4 font-bold rounded-xl"
-                style={{
-                  background: "linear-gradient(135deg, hsl(210,100%,55%), hsl(210,100%,45%))",
-                  color: "white",
-                  boxShadow: "0 0 30px hsl(210,100%,55%,0.4)",
-                }}
-              >
+              <Button size="lg" className="text-base px-8 py-4 font-bold rounded-xl delivery-badge-gold border">
                 <Zap className="w-5 h-5 mr-2" />
                 Solicitar Estudio Energético Gratuito
               </Button>
             </a>
-            <a href="#sistema-hbs">
+            <a href="#tecnologia">
               <Button
                 size="lg"
                 variant="outline"
                 className="text-base px-8 py-4 font-bold rounded-xl border-2"
-                style={{ borderColor: "hsl(142,76%,46%)", color: "hsl(142,76%,50%)" }}
+                style={{ borderColor: "hsl(var(--primary))", color: "hsl(var(--primary))" }}
               >
                 <Battery className="w-5 h-5 mr-2" />
                 Auditoría Técnica sin Compromiso
@@ -269,10 +358,7 @@ const SolucionesEmpresas = () => {
               { value: "0€", label: "Inversión inicial" },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
-                <div
-                  className="text-3xl md:text-4xl font-black mb-1"
-                  style={{ color: "hsl(210,100%,65%)", fontFamily: "Orbitron, sans-serif" }}
-                >
+                <div className="text-3xl md:text-4xl font-black mb-1 text-gradient-gold" style={{ fontFamily: "Orbitron, sans-serif" }}>
                   {value}
                 </div>
                 <div className="text-sm text-muted-foreground">{label}</div>
@@ -289,10 +375,7 @@ const SolucionesEmpresas = () => {
         aria-label="Costes de los microcortes eléctricos"
       >
         <div className="container mx-auto px-4 max-w-5xl">
-          <h2
-            className="text-2xl md:text-4xl font-black text-center mb-6"
-            style={{ fontFamily: "Orbitron, sans-serif" }}
-          >
+          <h2 className="text-2xl md:text-4xl font-black text-center mb-6" style={{ fontFamily: "Orbitron, sans-serif" }}>
             ¿Cuánto le cuesta a tu empresa{" "}
             <span style={{ color: "hsl(0,80%,60%)" }}>un segundo de inactividad?</span>
           </h2>
@@ -301,7 +384,7 @@ const SolucionesEmpresas = () => {
             la competitividad de cualquier empresa industrial.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { icon: Factory, title: "Paradas de producción", desc: "Cada microcorte puede detener una línea completa, generando retrasos y penalizaciones de entrega." },
               { icon: Cpu, title: "Daños en maquinaria sensible", desc: "CNC, robots industriales y equipos de precisión sufren averías prematuras por inestabilidad de tensión." },
@@ -312,19 +395,20 @@ const SolucionesEmpresas = () => {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="p-6 rounded-xl border"
+                className="p-6 rounded-xl border transition-all duration-300 hover:border-primary/40 hover:-translate-y-1"
                 style={{
-                  background: "hsl(220,13%,10%)",
-                  borderColor: "hsl(0,60%,40%,0.3)",
+                  background: "hsl(220,13%,11%)",
+                  borderColor: "hsl(220,13%,18%)",
+                  boxShadow: "0 4px 20px hsl(0,0%,0%,0.3)",
                 }}
               >
-                <Icon className="w-8 h-8 mb-3" style={{ color: "hsl(0,80%,60%)" }} />
-                <h3
-                  className="text-lg font-bold mb-2"
-                  style={{ fontFamily: "Orbitron, sans-serif", fontSize: "1rem" }}
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
+                  style={{ background: "hsl(0,60%,40%,0.15)", border: "1px solid hsl(0,60%,40%,0.3)" }}
                 >
-                  {title}
-                </h3>
+                  <Icon className="w-5 h-5" style={{ color: "hsl(0,80%,60%)" }} />
+                </div>
+                <h3 className="text-base font-bold mb-2" style={{ fontFamily: "Orbitron, sans-serif" }}>{title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
@@ -332,50 +416,115 @@ const SolucionesEmpresas = () => {
         </div>
       </section>
 
-      {/* ── SISTEMA HBS ───────────────────────────────────────────────────── */}
+      {/* ── TECNOLOGÍA – 3D PHOTO CARDS ──────────────────────────────────── */}
       <section
-        id="sistema-hbs"
+        id="tecnologia"
         className="py-24"
         style={{ background: "hsl(220,13%,9%)" }}
-        aria-label="Sistema HBS Hybrid Battery System"
+        aria-label="Tecnología energética industrial"
       >
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-6"
               style={{
-                borderColor: "hsl(210,100%,60%,0.4)",
-                background: "hsl(210,100%,60%,0.08)",
-                color: "hsl(210,100%,70%)",
+                borderColor: "hsl(var(--primary),0.4)",
+                background: "hsl(var(--primary),0.08)",
+                color: "hsl(var(--primary-glow))",
               }}
             >
               <Battery className="w-4 h-4" /> Tecnología HBS · Greenvolt Next
             </div>
-            <h2
-              className="text-2xl md:text-4xl font-black mb-4"
-              style={{ fontFamily: "Orbitron, sans-serif" }}
-            >
-              Sistema HBS:{" "}
-              <span style={{ color: "hsl(210,100%,65%)" }}>
-                Revolución en Estabilidad y Ahorro Energético Empresarial
-              </span>
+            <h2 className="text-2xl md:text-4xl font-black mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
+              Nuestra{" "}
+              <span className="text-gradient-gold">Tecnología Industrial</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-              El sistema HBS (Hybrid Battery System) es una solución híbrida avanzada que integra
-              almacenamiento, gestión inteligente y protección industrial en un único equipo.
+              Cuatro pilares tecnológicos que transforman la estabilidad y el coste energético de tu empresa.
+              Pasa el cursor sobre cada tarjeta para explorarla.
             </p>
           </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <PhotoCard
+              image={hbsBatteryImg}
+              title="Sistema HBS"
+              partner="Hybrid Battery System"
+              accentColor="hsl(38,70%,52%)"
+              badge="Tecnología Core"
+              desc="Almacenamiento LiFePO4 con gestión inteligente que carga en horas valle y descarga en punta."
+              items={[
+                "Conmutación ≤20ms",
+                "Gestión por precio horario",
+                "Eliminación microcortes",
+                "Monitorización 24/7",
+              ]}
+            />
+            <PhotoCard
+              image={solarPanelsImg}
+              title="Paneles Fotovoltaicos"
+              partner="Tier 1: Jinko · LONGi · Canadian"
+              accentColor="hsl(38,90%,58%)"
+              badge="Generación Solar"
+              desc="Los fabricantes de mayor eficiencia y durabilidad del mercado global con garantía 25 años."
+              items={[
+                "Eficiencia >22%",
+                "Garantía 25 años",
+                "Instalación industrial",
+                "Autoconsumo integrado",
+              ]}
+            />
+            <PhotoCard
+              image={invertersImg}
+              title="Inversores Industriales"
+              partner="Huawei · SMA · Riello"
+              accentColor="hsl(var(--primary))"
+              badge="Conversión Premium"
+              desc="Líderes mundiales en inversores para instalaciones industriales de gran potencia y alta eficiencia."
+              items={[
+                "Eficiencia >98.5%",
+                "Alta potencia",
+                "Gestión remota",
+                "Certificación IEC",
+              ]}
+            />
+            <PhotoCard
+              image={upsBackupImg}
+              title="Respaldo SAI"
+              partner="Protección Industrial"
+              accentColor="hsl(142,76%,46%)"
+              badge="Continuidad"
+              desc="Sistema SAI industrial integrado que garantiza continuidad total ante cualquier incidencia de red."
+              items={[
+                "UPS online doble conversión",
+                "Autonomía configurable",
+                "Protección sobretensiones",
+                "Alarmas en tiempo real",
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ── SISTEMA HBS DETALLE ───────────────────────────────────────────── */}
+      <section
+        id="sistema-hbs"
+        className="py-24"
+        style={{ background: "hsl(220,13%,7%)" }}
+        aria-label="Sistema HBS Hybrid Battery System detalle"
+      >
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Componentes */}
             <div>
-              <h3
-                className="text-xl font-bold mb-6"
-                style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(210,100%,65%)" }}
-              >
-                Componentes integrados
-              </h3>
-              <ul className="space-y-4">
+              <h2 className="text-2xl md:text-3xl font-black mb-6" style={{ fontFamily: "Orbitron, sans-serif" }}>
+                Sistema HBS:{" "}
+                <span className="text-gradient-gold">Revolución en Estabilidad y Ahorro</span>
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                El sistema HBS (Hybrid Battery System) es una solución híbrida avanzada que integra
+                almacenamiento, gestión inteligente y protección industrial en un único equipo.
+              </p>
+              <ul className="space-y-3">
                 {[
                   "Baterías de alta capacidad (LiFePO4 ciclo largo)",
                   "Protección SAI industrial con conmutación ≤20ms",
@@ -385,64 +534,41 @@ const SolucionesEmpresas = () => {
                   "Monitorización remota 24/7 con telemetría",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "hsl(210,100%,60%)" }} />
+                    <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "hsl(var(--primary))" }} />
                     <span className="text-foreground/80">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Flujo energético */}
             <div className="space-y-4">
-              <h3
-                className="text-xl font-bold mb-6"
-                style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,50%)" }}
-              >
+              <h3 className="text-xl font-bold mb-6" style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(var(--primary-glow))" }}>
                 Cómo funciona el ahorro
               </h3>
               {[
-                {
-                  condition: "⚡ Precio energía BAJO (horas valle)",
-                  action: "El sistema carga baterías desde la red al coste mínimo.",
-                  color: "hsl(210,100%,55%)",
-                },
-                {
-                  condition: "📈 Precio energía ALTO (horas punta)",
-                  action: "La planta se alimenta desde baterías. La red queda aislada.",
-                  color: "hsl(38,70%,50%)",
-                },
-                {
-                  condition: "⚠️ Microcorte detectado",
-                  action: "Conmutación en <20ms. La maquinaria no lo percibe.",
-                  color: "hsl(142,76%,46%)",
-                },
+                { condition: "⚡ Precio energía BAJO (horas valle)", action: "El sistema carga baterías desde la red al coste mínimo.", color: "hsl(var(--primary))" },
+                { condition: "📈 Precio energía ALTO (horas punta)", action: "La planta se alimenta desde baterías. La red queda aislada.", color: "hsl(38,70%,55%)" },
+                { condition: "⚠️ Microcorte detectado", action: "Conmutación en <20ms. La maquinaria no lo percibe.", color: "hsl(142,76%,46%)" },
               ].map(({ condition, action, color }) => (
                 <div
                   key={condition}
                   className="p-5 rounded-xl border-l-4"
-                  style={{
-                    background: "hsl(220,13%,12%)",
-                    borderLeftColor: color,
-                  }}
+                  style={{ background: "hsl(220,13%,12%)", borderLeftColor: color }}
                 >
-                  <div className="font-bold mb-1" style={{ color }}>
-                    {condition}
-                  </div>
+                  <div className="font-bold mb-1 text-sm" style={{ color }}>{condition}</div>
                   <div className="text-muted-foreground text-sm">{action}</div>
                 </div>
               ))}
 
-              {/* Resultados */}
               <div
                 className="p-6 rounded-xl mt-4"
                 style={{
-                  background: "linear-gradient(135deg, hsl(210,100%,55%,0.1), hsl(142,76%,46%,0.1))",
-                  border: "1px solid hsl(210,100%,55%,0.3)",
+                  background: "hsl(220,13%,12%)",
+                  border: "1px solid hsl(var(--primary),0.3)",
+                  boxShadow: "0 0 40px hsl(var(--primary),0.08)",
                 }}
               >
-                <div className="text-sm font-bold mb-3" style={{ color: "hsl(210,100%,70%)" }}>
-                  RESULTADOS GARANTIZADOS
-                </div>
+                <div className="text-sm font-bold mb-3 text-gradient-gold">RESULTADOS GARANTIZADOS</div>
                 {[
                   "Reducción de factura eléctrica hasta un 30%",
                   "Eliminación total de microcortes",
@@ -460,101 +586,6 @@ const SolucionesEmpresas = () => {
         </div>
       </section>
 
-      {/* ── FOTOVOLTAICO ──────────────────────────────────────────────────── */}
-      <section
-        className="py-24"
-        style={{ background: "hsl(220,13%,7%)" }}
-        aria-label="Autoconsumo fotovoltaico industrial"
-      >
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-6"
-                style={{
-                  borderColor: "hsl(38,80%,50%,0.4)",
-                  background: "hsl(38,80%,50%,0.08)",
-                  color: "hsl(38,80%,60%)",
-                }}
-              >
-                <Sun className="w-4 h-4" /> Paneles Tier 1 · Inversores Premium
-              </div>
-              <h2
-                className="text-2xl md:text-3xl font-black mb-4"
-                style={{ fontFamily: "Orbitron, sans-serif" }}
-              >
-                Autoconsumo Fotovoltaico Industrial{" "}
-                <span style={{ color: "hsl(38,80%,55%)" }}>Integrado con HBS</span>
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                Para empresas con espacio disponible (cubierta industrial, parking, suelo), la combinación
-                de generación solar con el sistema HBS convierte la planta en un entorno energéticamente
-                inteligente y autosuficiente.
-              </p>
-              <ul className="space-y-3">
-                {[
-                  "Paneles Tier 1: Jinko Solar, LONGi, Canadian Solar",
-                  "Inversores alta eficiencia: Huawei, SMA, Riello",
-                  "Almacenamiento de excedentes en baterías HBS",
-                  "Optimización automática del consumo en horas punta",
-                  "Reducción de dependencia de la red eléctrica",
-                  "Monitorización en tiempo real con app dedicada",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <Sun className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "hsl(38,80%,55%)" }} />
-                    <span className="text-foreground/80 text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Visual card */}
-            <div
-              className="p-8 rounded-2xl"
-              style={{
-                background:
-                  "linear-gradient(135deg, hsl(220,13%,12%), hsl(220,13%,15%))",
-                border: "1px solid hsl(38,80%,50%,0.25)",
-                boxShadow: "0 0 60px hsl(38,80%,50%,0.1)",
-              }}
-            >
-              <h3
-                className="text-xl font-bold mb-6 text-center"
-                style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(38,80%,60%)" }}
-              >
-                Sistema Integrado Solar + HBS
-              </h3>
-              {[
-                { from: "☀️ Paneles Fotovoltaicos", to: "Generación propia 0€/kWh" },
-                { from: "🔋 Baterías HBS", to: "Almacenamiento excedentes" },
-                { from: "🏭 Planta Industrial", to: "Consumo optimizado 24/7" },
-                { from: "🌐 Red Eléctrica", to: "Solo en casos necesarios" },
-              ].map(({ from, to }) => (
-                <div
-                  key={from}
-                  className="flex items-center justify-between py-3 border-b last:border-0"
-                  style={{ borderColor: "hsl(38,80%,50%,0.15)" }}
-                >
-                  <span className="text-sm font-medium">{from}</span>
-                  <span className="text-sm" style={{ color: "hsl(38,80%,60%)" }}>
-                    {to}
-                  </span>
-                </div>
-              ))}
-              <div
-                className="mt-6 p-4 rounded-xl text-center"
-                style={{ background: "hsl(38,80%,50%,0.1)", border: "1px solid hsl(38,80%,50%,0.2)" }}
-              >
-                <div className="text-3xl font-black" style={{ color: "hsl(38,80%,60%)", fontFamily: "Orbitron, sans-serif" }}>
-                  ROI 4-7 años
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">Vida útil sistema: +10 años</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── VENTAJAS ──────────────────────────────────────────────────────── */}
       <section
         className="py-24"
@@ -562,27 +593,35 @@ const SolucionesEmpresas = () => {
         aria-label="Ventajas competitivas sistema HBS"
       >
         <div className="container mx-auto px-4 max-w-5xl">
-          <h2
-            className="text-2xl md:text-4xl font-black text-center mb-4"
-            style={{ fontFamily: "Orbitron, sans-serif" }}
-          >
-            Ventajas <span style={{ color: "hsl(142,76%,50%)" }}>Competitivas</span>
+          <h2 className="text-2xl md:text-4xl font-black text-center mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
+            Ventajas <span className="text-gradient-gold">Competitivas</span>
           </h2>
           <p className="text-center text-muted-foreground mb-12">
             Un sistema diseñado para maximizar el retorno desde el primer mes.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {ventajas.map(({ icon: Icon, label, color }) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { icon: TrendingDown, label: "Reducción hasta 30% factura luz", color: "hsl(142,76%,46%)" },
+              { icon: Zap, label: "Eliminación total de microcortes", color: "hsl(var(--primary))" },
+              { icon: ShieldCheck, label: "Protección electrónica industrial", color: "hsl(var(--primary-glow))" },
+              { icon: Euro, label: "Renting tecnológico 0€ inversión inicial", color: "hsl(142,76%,46%)" },
+              { icon: BarChart3, label: "100% deducible fiscalmente", color: "hsl(var(--primary))" },
+              { icon: Leaf, label: "Retorno cubierto con el ahorro generado", color: "hsl(142,76%,46%)" },
+            ].map(({ icon: Icon, label, color }) => (
               <div
                 key={label}
-                className="flex items-center gap-4 p-5 rounded-xl border"
-                style={{ background: "hsl(220,13%,12%)", borderColor: "hsl(220,13%,20%)" }}
+                className="flex items-center gap-4 p-5 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+                style={{
+                  background: "hsl(220,13%,12%)",
+                  borderColor: "hsl(220,13%,18%)",
+                  boxShadow: "0 4px 20px hsl(0,0%,0%,0.3)",
+                }}
               >
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: "hsl(220,13%,15%)" }}
+                  style={{ background: `${color.replace(')', ',0.12)')}`, border: `1px solid ${color.replace(')', ',0.3)')}` }}
                 >
-                  <Icon className={`w-6 h-6 ${color}`} />
+                  <Icon className="w-6 h-6" style={{ color }} />
                 </div>
                 <span className="font-semibold text-foreground/90">{label}</span>
               </div>
@@ -594,16 +633,13 @@ const SolucionesEmpresas = () => {
       {/* ── MODELO FINANCIERO ─────────────────────────────────────────────── */}
       <section
         className="py-24"
-        style={{ background: "hsl(215,40%,8%)" }}
+        style={{ background: "hsl(220,13%,7%)" }}
         aria-label="Financiación renting tecnológico"
       >
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2
-            className="text-2xl md:text-4xl font-black mb-6"
-            style={{ fontFamily: "Orbitron, sans-serif" }}
-          >
+          <h2 className="text-2xl md:text-4xl font-black mb-6" style={{ fontFamily: "Orbitron, sans-serif" }}>
             Implementación{" "}
-            <span style={{ color: "hsl(142,76%,50%)" }}>sin Inversión Inicial</span>
+            <span className="text-gradient-gold">sin Inversión Inicial</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
             Implementamos el sistema HBS mediante <strong className="text-foreground">renting tecnológico 100% deducible</strong>.
@@ -617,17 +653,20 @@ const SolucionesEmpresas = () => {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="p-6 rounded-xl"
+                className="p-6 rounded-xl transition-all duration-300 hover:-translate-y-1"
                 style={{
-                  background: "linear-gradient(135deg, hsl(142,76%,36%,0.1), hsl(210,100%,55%,0.05))",
-                  border: "1px solid hsl(142,76%,36%,0.25)",
+                  background: "hsl(220,13%,12%)",
+                  border: "1px solid hsl(var(--primary),0.2)",
+                  boxShadow: "0 4px 20px hsl(0,0%,0%,0.3)",
                 }}
               >
-                <Icon className="w-10 h-10 mx-auto mb-4" style={{ color: "hsl(142,76%,50%)" }} />
                 <div
-                  className="text-lg font-bold mb-2"
-                  style={{ fontFamily: "Orbitron, sans-serif", fontSize: "1rem" }}
+                  className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4"
+                  style={{ background: "hsl(var(--primary),0.12)", border: "1px solid hsl(var(--primary),0.3)" }}
                 >
+                  <Icon className="w-7 h-7" style={{ color: "hsl(var(--primary))" }} />
+                </div>
+                <div className="text-lg font-bold mb-2" style={{ fontFamily: "Orbitron, sans-serif", fontSize: "0.95rem" }}>
                   {title}
                 </div>
                 <p className="text-muted-foreground text-sm">{desc}</p>
@@ -637,93 +676,15 @@ const SolucionesEmpresas = () => {
         </div>
       </section>
 
-      {/* ── AUTORIDAD ─────────────────────────────────────────────────────── */}
-      <section
-        className="py-24"
-        style={{ background: "hsl(220,13%,9%)" }}
-        aria-label="Equipo de ingeniería energética"
-      >
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-12">
-            <h2
-              className="text-2xl md:text-4xl font-black mb-4"
-              style={{ fontFamily: "Orbitron, sans-serif" }}
-            >
-              Ingeniería Energética{" "}
-              <span style={{ color: "hsl(210,100%,65%)" }}>de Alto Nivel</span>
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-              Unimos ingeniería propia en Andorra con los líderes mundiales del sector energético
-              para ofrecer soluciones de máxima calidad y fiabilidad.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "Tecnología HBS",
-                partner: "Greenvolt Next",
-                desc: "Socio tecnológico para sistemas de almacenamiento e híbridos industriales de alta eficiencia.",
-                icon: Battery,
-                color: "hsl(210,100%,60%)",
-              },
-              {
-                title: "Paneles Fotovoltaicos",
-                partner: "Tier 1: Jinko · LONGi · Canadian",
-                desc: "Los fabricantes de mayor eficiencia y durabilidad del mercado global.",
-                icon: Sun,
-                color: "hsl(38,80%,55%)",
-              },
-              {
-                title: "Inversores Industriales",
-                partner: "Huawei · SMA · Riello",
-                desc: "Líderes mundiales en inversores para instalaciones industriales de gran potencia.",
-                icon: Cpu,
-                color: "hsl(142,76%,46%)",
-              },
-              {
-                title: "Área de Operaciones",
-                partner: "España · Francia · Portugal",
-                desc: "Equipos de ingeniería y instalación especializados en los tres mercados.",
-                icon: Globe,
-                color: "hsl(210,100%,60%)",
-              },
-            ].map(({ title, partner, desc, icon: Icon, color }) => (
-              <div
-                key={title}
-                className="flex gap-4 p-6 rounded-xl border"
-                style={{ background: "hsl(220,13%,12%)", borderColor: "hsl(220,13%,20%)" }}
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: `${color}18` }}
-                >
-                  <Icon className="w-6 h-6" style={{ color }} />
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground mb-1">{title}</div>
-                  <div className="font-bold mb-2" style={{ color }}>
-                    {partner}
-                  </div>
-                  <p className="text-muted-foreground text-sm">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── FAQ ───────────────────────────────────────────────────────────── */}
       <section
         className="py-24"
-        style={{ background: "hsl(220,13%,7%)" }}
+        style={{ background: "hsl(220,13%,9%)" }}
         aria-label="Preguntas frecuentes ahorro energético empresas"
       >
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2
-            className="text-2xl md:text-4xl font-black text-center mb-4"
-            style={{ fontFamily: "Orbitron, sans-serif" }}
-          >
-            Preguntas <span style={{ color: "hsl(210,100%,65%)" }}>Frecuentes</span>
+          <h2 className="text-2xl md:text-4xl font-black text-center mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
+            Preguntas <span className="text-gradient-gold">Frecuentes</span>
           </h2>
           <p className="text-center text-muted-foreground mb-12">
             Todo lo que necesitas saber sobre ahorro energético empresarial.
@@ -732,8 +693,11 @@ const SolucionesEmpresas = () => {
             {faqs.map((faq, i) => (
               <div
                 key={i}
-                className="rounded-xl overflow-hidden border"
-                style={{ borderColor: "hsl(220,13%,20%)", background: "hsl(220,13%,11%)" }}
+                className="rounded-xl overflow-hidden border transition-colors duration-200"
+                style={{
+                  borderColor: openFaq === i ? "hsl(var(--primary),0.4)" : "hsl(220,13%,18%)",
+                  background: "hsl(220,13%,11%)",
+                }}
               >
                 <button
                   className="w-full flex items-center justify-between p-5 text-left font-semibold hover:bg-white/5 transition-colors"
@@ -742,7 +706,7 @@ const SolucionesEmpresas = () => {
                 >
                   <span style={{ fontFamily: "Rajdhani, sans-serif" }}>{faq.q}</span>
                   {openFaq === i ? (
-                    <ChevronUp className="w-5 h-5 shrink-0" style={{ color: "hsl(210,100%,60%)" }} />
+                    <ChevronUp className="w-5 h-5 shrink-0" style={{ color: "hsl(var(--primary))" }} />
                   ) : (
                     <ChevronDown className="w-5 h-5 shrink-0 text-muted-foreground" />
                   )}
@@ -765,17 +729,14 @@ const SolucionesEmpresas = () => {
       <section
         id="formulario-empresa"
         className="py-24"
-        style={{ background: "hsl(215,40%,8%)" }}
+        style={{ background: "hsl(220,13%,7%)" }}
         aria-label="Solicitar estudio energético gratuito"
       >
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-10">
-            <h2
-              className="text-2xl md:text-4xl font-black mb-4"
-              style={{ fontFamily: "Orbitron, sans-serif" }}
-            >
+            <h2 className="text-2xl md:text-4xl font-black mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
               Solicitar Estudio Energético{" "}
-              <span style={{ color: "hsl(142,76%,50%)" }}>Profesional Gratuito</span>
+              <span className="text-gradient-gold">Profesional Gratuito</span>
             </h2>
             <p className="text-muted-foreground">
               Respuesta en 24-48h por ingeniero especializado. Sin compromiso.
@@ -787,108 +748,38 @@ const SolucionesEmpresas = () => {
             className="p-8 rounded-2xl space-y-5"
             style={{
               background: "hsl(220,13%,11%)",
-              border: "1px solid hsl(210,100%,55%,0.2)",
-              boxShadow: "0 0 60px hsl(210,100%,55%,0.08)",
+              border: "1px solid hsl(var(--primary),0.25)",
+              boxShadow: "0 0 60px hsl(var(--primary),0.08)",
             }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <Label htmlFor="empresa" className="text-sm font-semibold mb-1 block">
-                  Nombre de empresa *
-                </Label>
-                <Input
-                  id="empresa"
-                  name="empresa"
-                  value={formData.empresa}
-                  onChange={handleChange}
-                  required
-                  maxLength={100}
-                  placeholder="Empresa S.L."
-                  className="bg-background border-border"
-                />
-              </div>
-              <div>
-                <Label htmlFor="cif" className="text-sm font-semibold mb-1 block">
-                  CIF / NIF *
-                </Label>
-                <Input
-                  id="cif"
-                  name="cif"
-                  value={formData.cif}
-                  onChange={handleChange}
-                  required
-                  maxLength={15}
-                  placeholder="B12345678"
-                  className="bg-background border-border"
-                />
-              </div>
-              <div>
-                <Label htmlFor="contacto" className="text-sm font-semibold mb-1 block">
-                  Persona de contacto *
-                </Label>
-                <Input
-                  id="contacto"
-                  name="contacto"
-                  value={formData.contacto}
-                  onChange={handleChange}
-                  required
-                  maxLength={100}
-                  placeholder="Nombre y apellidos"
-                  className="bg-background border-border"
-                />
-              </div>
-              <div>
-                <Label htmlFor="email" className="text-sm font-semibold mb-1 block">
-                  Email corporativo *
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  maxLength={255}
-                  placeholder="contacto@empresa.com"
-                  className="bg-background border-border"
-                />
-              </div>
-              <div>
-                <Label htmlFor="telefono" className="text-sm font-semibold mb-1 block">
-                  Teléfono *
-                </Label>
-                <Input
-                  id="telefono"
-                  name="telefono"
-                  type="tel"
-                  value={formData.telefono}
-                  onChange={handleChange}
-                  required
-                  maxLength={20}
-                  placeholder="+34 600 000 000"
-                  className="bg-background border-border"
-                />
-              </div>
-              <div>
-                <Label htmlFor="potencia" className="text-sm font-semibold mb-1 block">
-                  Potencia contratada (kW)
-                </Label>
-                <Input
-                  id="potencia"
-                  name="potencia"
-                  value={formData.potencia}
-                  onChange={handleChange}
-                  maxLength={20}
-                  placeholder="ej: 150 kW"
-                  className="bg-background border-border"
-                />
-              </div>
+              {[
+                { id: "empresa", label: "Nombre de empresa *", placeholder: "Empresa S.L.", required: true, maxLength: 100 },
+                { id: "cif", label: "CIF / NIF *", placeholder: "B12345678", required: true, maxLength: 15 },
+                { id: "contacto", label: "Persona de contacto *", placeholder: "Nombre y apellidos", required: true, maxLength: 100 },
+                { id: "email", label: "Email corporativo *", placeholder: "contacto@empresa.com", required: true, maxLength: 255, type: "email" },
+                { id: "telefono", label: "Teléfono *", placeholder: "+34 600 000 000", required: true, maxLength: 20, type: "tel" },
+                { id: "potencia", label: "Potencia contratada (kW)", placeholder: "ej: 150 kW", maxLength: 20 },
+              ].map(({ id, label, placeholder, required, maxLength, type }) => (
+                <div key={id}>
+                  <Label htmlFor={id} className="text-sm font-semibold mb-1 block">{label}</Label>
+                  <Input
+                    id={id}
+                    name={id}
+                    type={type || "text"}
+                    value={formData[id as keyof typeof formData]}
+                    onChange={handleChange}
+                    required={required}
+                    maxLength={maxLength}
+                    placeholder={placeholder}
+                    className="bg-background border-border"
+                  />
+                </div>
+              ))}
             </div>
 
             <div>
-              <Label htmlFor="facturaMensual" className="text-sm font-semibold mb-1 block">
-                Factura mensual aproximada (€)
-              </Label>
+              <Label htmlFor="facturaMensual" className="text-sm font-semibold mb-1 block">Factura mensual aproximada (€)</Label>
               <Input
                 id="facturaMensual"
                 name="facturaMensual"
@@ -901,9 +792,7 @@ const SolucionesEmpresas = () => {
             </div>
 
             <div>
-              <Label htmlFor="mensaje" className="text-sm font-semibold mb-1 block">
-                Información adicional
-              </Label>
+              <Label htmlFor="mensaje" className="text-sm font-semibold mb-1 block">Información adicional</Label>
               <Textarea
                 id="mensaje"
                 name="mensaje"
@@ -916,12 +805,11 @@ const SolucionesEmpresas = () => {
               />
             </div>
 
-            {/* File upload */}
             <div>
               <Label className="text-sm font-semibold mb-1 block">Adjuntar última factura eléctrica (opcional)</Label>
               <label
                 className="flex flex-col items-center justify-center w-full h-24 rounded-xl border-2 border-dashed cursor-pointer transition-colors hover:border-primary"
-                style={{ borderColor: "hsl(210,100%,55%,0.3)", background: "hsl(220,13%,9%)" }}
+                style={{ borderColor: "hsl(var(--primary),0.3)", background: "hsl(220,13%,9%)" }}
               >
                 <Upload className="w-6 h-6 mb-2 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
@@ -938,14 +826,7 @@ const SolucionesEmpresas = () => {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 text-base font-bold rounded-xl"
-              style={{
-                background: isSubmitting
-                  ? "hsl(220,13%,20%)"
-                  : "linear-gradient(135deg, hsl(210,100%,55%), hsl(210,100%,45%))",
-                color: "white",
-                boxShadow: isSubmitting ? "none" : "0 0 30px hsl(210,100%,55%,0.35)",
-              }}
+              className="w-full py-4 text-base font-bold rounded-xl delivery-badge-gold border"
             >
               {isSubmitting ? (
                 "Enviando..."
