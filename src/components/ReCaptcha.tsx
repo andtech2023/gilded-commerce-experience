@@ -38,7 +38,7 @@ const ReCaptchaComponent = forwardRef<ReCaptchaRef, ReCaptchaProps>(
           ref={recaptchaRef}
           sitekey={RECAPTCHA_SITE_KEY}
           onChange={onChange}
-          theme="light"
+          theme="dark"
           size="normal"
         />
       </div>

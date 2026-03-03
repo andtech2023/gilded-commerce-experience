@@ -342,8 +342,11 @@ const SolucionesEmpresas = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-base px-8 py-4 font-bold rounded-xl border-2"
-                style={{ borderColor: "hsl(var(--primary))", color: "hsl(var(--primary))" }}
+                className="text-base px-8 py-4 font-bold rounded-xl border-2 hover:text-background"
+                style={{
+                  borderColor: "hsl(var(--primary))",
+                  color: "hsl(var(--primary))",
+                }}
               >
                 <Battery className="w-5 h-5 mr-2" />
                 Auditoría Técnica sin Compromiso
@@ -589,42 +592,65 @@ const SolucionesEmpresas = () => {
 
       {/* ── VENTAJAS ──────────────────────────────────────────────────────── */}
       <section
-        className="py-24"
-        style={{ background: "hsl(220,13%,9%)" }}
+        className="py-24 relative overflow-hidden"
         aria-label="Ventajas competitivas sistema HBS"
       >
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-2xl md:text-4xl font-black text-center mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
+        {/* Background photo */}
+        <div className="absolute inset-0">
+          <img
+            src={powerGridImg}
+            alt="Red eléctrica industrial y estabilidad energética"
+            className="w-full h-full object-cover object-center"
+            loading="lazy"
+          />
+          {/* Strong dark overlay to keep text readable */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(135deg, hsl(220,13%,6%,0.92) 0%, hsl(220,13%,8%,0.88) 50%, hsl(220,13%,6%,0.93) 100%)",
+            }}
+          />
+          {/* Gold accent line at top */}
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--gradient-gold)" }} />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-4 max-w-5xl">
+          <h2 className="text-2xl md:text-4xl font-black text-center mb-3" style={{ fontFamily: "Orbitron, sans-serif" }}>
             Ventajas <span className="text-gradient-gold">Competitivas</span>
           </h2>
-          <p className="text-center text-muted-foreground mb-12">
+          <p className="text-center text-muted-foreground mb-3">
             Un sistema diseñado para maximizar el retorno desde el primer mes.
+          </p>
+          {/* Subtitle about grid stability – thematic link to background */}
+          <p className="text-center text-sm mb-12 max-w-2xl mx-auto" style={{ color: "hsl(38,70%,60%)" }}>
+            La inestabilidad de red tiene un coste real. El sistema HBS lo elimina permanentemente.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { icon: TrendingDown, label: "Reducción hasta 30% factura luz", color: "hsl(142,76%,46%)" },
-              { icon: Zap, label: "Eliminación total de microcortes", color: "hsl(var(--primary))" },
-              { icon: ShieldCheck, label: "Protección electrónica industrial", color: "hsl(var(--primary-glow))" },
-              { icon: Euro, label: "Renting tecnológico 0€ inversión inicial", color: "hsl(142,76%,46%)" },
-              { icon: BarChart3, label: "100% deducible fiscalmente", color: "hsl(var(--primary))" },
-              { icon: Leaf, label: "Retorno cubierto con el ahorro generado", color: "hsl(142,76%,46%)" },
+              { icon: TrendingDown, label: "Reducción hasta 30% factura luz", color: "hsl(142,76%,50%)" },
+              { icon: Zap, label: "Eliminación total de microcortes", color: "hsl(38,70%,55%)" },
+              { icon: ShieldCheck, label: "Protección electrónica industrial", color: "hsl(38,80%,60%)" },
+              { icon: Euro, label: "Renting tecnológico 0€ inversión inicial", color: "hsl(142,76%,50%)" },
+              { icon: BarChart3, label: "100% deducible fiscalmente", color: "hsl(38,70%,55%)" },
+              { icon: Leaf, label: "Retorno cubierto con el ahorro generado", color: "hsl(142,76%,50%)" },
             ].map(({ icon: Icon, label, color }) => (
               <div
                 key={label}
-                className="flex items-center gap-4 p-5 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+                className="flex items-center gap-4 p-5 rounded-xl border transition-all duration-300 hover:-translate-y-1"
                 style={{
-                  background: "hsl(220,13%,12%)",
-                  borderColor: "hsl(220,13%,18%)",
-                  boxShadow: "0 4px 20px hsl(0,0%,0%,0.3)",
+                  background: "hsl(220,13%,8%,0.85)",
+                  borderColor: "hsl(38,70%,48%,0.25)",
+                  backdropFilter: "blur(12px)",
+                  boxShadow: "0 4px 24px hsl(0,0%,0%,0.5)",
                 }}
               >
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: `${color.replace(')', ',0.12)')}`, border: `1px solid ${color.replace(')', ',0.3)')}` }}
+                  style={{ background: "hsl(220,13%,12%,0.9)", border: `1px solid ${color}55` }}
                 >
                   <Icon className="w-6 h-6" style={{ color }} />
                 </div>
-                <span className="font-semibold text-foreground/90">{label}</span>
+                <span className="font-semibold" style={{ color: "hsl(45,90%,88%)" }}>{label}</span>
               </div>
             ))}
           </div>
