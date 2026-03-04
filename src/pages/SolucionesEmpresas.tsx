@@ -454,7 +454,7 @@ const SolucionesEmpresas = () => {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-4"
               style={{
                 borderColor: "hsl(var(--primary),0.4)",
                 background: "hsl(var(--primary),0.08)",
@@ -467,10 +467,25 @@ const SolucionesEmpresas = () => {
               Nuestra{" "}
               <span className="text-gradient-gold">Tecnología Industrial</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-6">
               Cuatro pilares tecnológicos que transforman la estabilidad y el coste energético de tu empresa.
               Pasa el cursor sobre cada tarjeta para explorarla.
             </p>
+            {/* EU Quality Banner */}
+            <div
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold mx-auto"
+              style={{
+                background: "linear-gradient(135deg, hsl(142,76%,36%,0.18), hsl(38,70%,48%,0.18))",
+                border: "1px solid hsl(142,76%,50%,0.4)",
+                color: "hsl(142,76%,70%)",
+              }}
+            >
+              <Award className="w-5 h-5 shrink-0" style={{ color: "hsl(142,76%,55%)" }} />
+              <span>
+                🇪🇺 <strong style={{ color: "hsl(45,90%,80%)" }}>100% fabricado en Europa</strong>
+                {" "}· Calidad certificada · Ingeniería de primer nivel mundial
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
