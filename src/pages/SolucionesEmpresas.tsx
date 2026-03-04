@@ -96,29 +96,28 @@ const PhotoCard = ({ image, title, partner, desc, accentColor, items, badge }: P
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="rounded-2xl overflow-hidden cursor-pointer"
+      className="rounded-2xl overflow-hidden cursor-pointer group"
       style={{
         background: "hsl(220,13%,10%)",
-        border: `1px solid ${accentColor}30`,
+        border: `1px solid ${accentColor}40`,
         boxShadow: "0 8px 30px hsl(0,0%,0%,0.4)",
         transition: "transform 0.15s ease-out, box-shadow 0.15s ease-out",
         transformStyle: "preserve-3d",
       }}
     >
-      {/* Photo background with overlay */}
-      <div className="relative h-52 overflow-hidden">
+      {/* Photo background — bright, minimal overlay */}
+      <div className="relative h-56 overflow-hidden">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
-          style={{ transition: "transform 0.4s ease" }}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
-        {/* Dark gradient overlay */}
+        {/* Very light gradient only at bottom for text readability */}
         <div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(to bottom, hsl(220,13%,9%,0.3) 0%, hsl(220,13%,9%,0.85) 100%)`,
+            background: `linear-gradient(to bottom, transparent 40%, hsl(220,13%,9%,0.75) 100%)`,
           }}
         />
         {/* Colored accent line at top */}
@@ -130,26 +129,50 @@ const PhotoCard = ({ image, title, partner, desc, accentColor, items, badge }: P
         <div
           className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold"
           style={{
-            background: `${accentColor}22`,
-            border: `1px solid ${accentColor}55`,
+            background: "hsl(220,13%,8%,0.8)",
+            border: `1px solid ${accentColor}70`,
             color: accentColor,
             backdropFilter: "blur(8px)",
           }}
         >
           {badge}
         </div>
+        {/* EU Made badge */}
+        <div
+          className="absolute top-4 right-4 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+          style={{
+            background: "hsl(142,76%,36%,0.85)",
+            border: "1px solid hsl(142,76%,50%,0.6)",
+            color: "hsl(142,76%,85%)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          🇪🇺 Europa
+        </div>
         {/* Title overlay on photo */}
         <div className="absolute bottom-4 left-4 right-4">
-          <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">{title}</div>
-          <div className="font-black text-lg" style={{ fontFamily: "Orbitron, sans-serif", color: accentColor }}>
+          <div className="text-xs text-white/60 mb-1 uppercase tracking-widest">{title}</div>
+          <div className="font-black text-base leading-tight" style={{ fontFamily: "Orbitron, sans-serif", color: accentColor }}>
             {partner}
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <p className="text-muted-foreground text-sm mb-5 leading-relaxed">{desc}</p>
+      <div className="p-5">
+        {/* EU Quality Banner */}
+        <div
+          className="flex items-center gap-2 px-3 py-2 rounded-lg mb-4 text-xs font-semibold"
+          style={{
+            background: "hsl(142,76%,36%,0.12)",
+            border: "1px solid hsl(142,76%,36%,0.3)",
+            color: "hsl(142,76%,60%)",
+          }}
+        >
+          <Award className="w-3.5 h-3.5 shrink-0" />
+          100% fabricado en Europa · Calidad certificada
+        </div>
+        <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{desc}</p>
         <ul className="space-y-2">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm">
