@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import {
   Zap, Battery, Sun, ShieldCheck, TrendingDown, Cpu, CheckCircle2,
   ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
-  BarChart3, Leaf, Bolt
+  BarChart3, Leaf, Bolt, Award
 } from "lucide-react";
 import powerGridImg from "@/assets/power-grid-stability.jpg";
 import Navbar from "@/components/Navbar";
@@ -20,10 +20,10 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
-import hbsBatteryImg from "@/assets/hbs-battery-system.jpg";
-import solarPanelsImg from "@/assets/solar-panels-industrial.jpg";
-import invertersImg from "@/assets/inverters-industrial.jpg";
-import upsBackupImg from "@/assets/ups-backup-industrial.jpg";
+import hbsBatteryImg from "@/assets/hbs-battery-real.jpg";
+import solarPanelsImg from "@/assets/solar-panels-bright.jpg";
+import invertersImg from "@/assets/power-inverters-bright.jpg";
+import upsBackupImg from "@/assets/ups-power-protection.jpg";
 
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
@@ -96,29 +96,28 @@ const PhotoCard = ({ image, title, partner, desc, accentColor, items, badge }: P
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="rounded-2xl overflow-hidden cursor-pointer"
+      className="rounded-2xl overflow-hidden cursor-pointer group"
       style={{
         background: "hsl(220,13%,10%)",
-        border: `1px solid ${accentColor}30`,
+        border: `1px solid ${accentColor}40`,
         boxShadow: "0 8px 30px hsl(0,0%,0%,0.4)",
         transition: "transform 0.15s ease-out, box-shadow 0.15s ease-out",
         transformStyle: "preserve-3d",
       }}
     >
-      {/* Photo background with overlay */}
-      <div className="relative h-52 overflow-hidden">
+      {/* Photo background — bright, minimal overlay */}
+      <div className="relative h-56 overflow-hidden">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
-          style={{ transition: "transform 0.4s ease" }}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
-        {/* Dark gradient overlay */}
+        {/* Very light gradient only at bottom for text readability */}
         <div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(to bottom, hsl(220,13%,9%,0.3) 0%, hsl(220,13%,9%,0.85) 100%)`,
+            background: `linear-gradient(to bottom, transparent 40%, hsl(220,13%,9%,0.75) 100%)`,
           }}
         />
         {/* Colored accent line at top */}
@@ -130,26 +129,50 @@ const PhotoCard = ({ image, title, partner, desc, accentColor, items, badge }: P
         <div
           className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold"
           style={{
-            background: `${accentColor}22`,
-            border: `1px solid ${accentColor}55`,
+            background: "hsl(220,13%,8%,0.8)",
+            border: `1px solid ${accentColor}70`,
             color: accentColor,
             backdropFilter: "blur(8px)",
           }}
         >
           {badge}
         </div>
+        {/* EU Made badge */}
+        <div
+          className="absolute top-4 right-4 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+          style={{
+            background: "hsl(142,76%,36%,0.85)",
+            border: "1px solid hsl(142,76%,50%,0.6)",
+            color: "hsl(142,76%,85%)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          🇪🇺 Europa
+        </div>
         {/* Title overlay on photo */}
         <div className="absolute bottom-4 left-4 right-4">
-          <div className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">{title}</div>
-          <div className="font-black text-lg" style={{ fontFamily: "Orbitron, sans-serif", color: accentColor }}>
+          <div className="text-xs text-white/60 mb-1 uppercase tracking-widest">{title}</div>
+          <div className="font-black text-base leading-tight" style={{ fontFamily: "Orbitron, sans-serif", color: accentColor }}>
             {partner}
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <p className="text-muted-foreground text-sm mb-5 leading-relaxed">{desc}</p>
+      <div className="p-5">
+        {/* EU Quality Banner */}
+        <div
+          className="flex items-center gap-2 px-3 py-2 rounded-lg mb-4 text-xs font-semibold"
+          style={{
+            background: "hsl(142,76%,36%,0.12)",
+            border: "1px solid hsl(142,76%,36%,0.3)",
+            color: "hsl(142,76%,60%)",
+          }}
+        >
+          <Award className="w-3.5 h-3.5 shrink-0" />
+          100% fabricado en Europa · Calidad certificada
+        </div>
+        <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{desc}</p>
         <ul className="space-y-2">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm">
@@ -342,10 +365,11 @@ const SolucionesEmpresas = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-base px-8 py-4 font-bold rounded-xl border-2 hover:text-background"
+                className="text-base px-8 py-4 font-bold rounded-xl border-2 hover:bg-primary hover:text-background hover:border-primary"
                 style={{
                   borderColor: "hsl(var(--primary))",
                   color: "hsl(var(--primary))",
+                  background: "transparent",
                 }}
               >
                 <Battery className="w-5 h-5 mr-2" />
@@ -430,7 +454,7 @@ const SolucionesEmpresas = () => {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-4"
               style={{
                 borderColor: "hsl(var(--primary),0.4)",
                 background: "hsl(var(--primary),0.08)",
@@ -443,10 +467,25 @@ const SolucionesEmpresas = () => {
               Nuestra{" "}
               <span className="text-gradient-gold">Tecnología Industrial</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-6">
               Cuatro pilares tecnológicos que transforman la estabilidad y el coste energético de tu empresa.
               Pasa el cursor sobre cada tarjeta para explorarla.
             </p>
+            {/* EU Quality Banner */}
+            <div
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold mx-auto"
+              style={{
+                background: "linear-gradient(135deg, hsl(142,76%,36%,0.18), hsl(38,70%,48%,0.18))",
+                border: "1px solid hsl(142,76%,50%,0.4)",
+                color: "hsl(142,76%,70%)",
+              }}
+            >
+              <Award className="w-5 h-5 shrink-0" style={{ color: "hsl(142,76%,55%)" }} />
+              <span>
+                🇪🇺 <strong style={{ color: "hsl(45,90%,80%)" }}>100% fabricado en Europa</strong>
+                {" "}· Calidad certificada · Ingeniería de primer nivel mundial
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -765,8 +804,11 @@ const SolucionesEmpresas = () => {
               Solicitar Estudio Energético{" "}
               <span className="text-gradient-gold">Profesional Gratuito</span>
             </h2>
-            <p className="text-muted-foreground">
-              Respuesta en 24-48h por ingeniero especializado. Sin compromiso.
+          <p className="text-muted-foreground mb-2">
+              Respuesta inicial en 24-48h por ingeniero especializado. Sin compromiso.
+            </p>
+            <p className="text-sm" style={{ color: "hsl(38,70%,60%)" }}>
+              📋 Una vez recibidos tus datos, elaboramos el <strong>proyecto de ahorro y presupuesto de inversión en aproximadamente 15 días</strong>.
             </p>
           </div>
 
@@ -866,7 +908,7 @@ const SolucionesEmpresas = () => {
             </Button>
 
             <p className="text-center text-xs text-muted-foreground">
-              🔒 Tus datos están protegidos. Respuesta garantizada en 24-48h por ingeniero especializado.
+              🔒 Tus datos están protegidos. Respuesta inicial en 24-48h. Proyecto completo de ahorro + presupuesto de inversión en ~15 días.
             </p>
           </form>
         </div>
