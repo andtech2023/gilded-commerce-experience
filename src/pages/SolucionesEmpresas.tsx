@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import {
   Zap, Battery, Sun, ShieldCheck, TrendingDown, Cpu, CheckCircle2,
   ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
-  BarChart3, Leaf, Bolt
+  BarChart3, Leaf, Bolt, Award
 } from "lucide-react";
 import powerGridImg from "@/assets/power-grid-stability.jpg";
 import Navbar from "@/components/Navbar";
@@ -20,10 +20,10 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
-import hbsBatteryImg from "@/assets/hbs-battery-system.jpg";
-import solarPanelsImg from "@/assets/solar-panels-industrial.jpg";
-import invertersImg from "@/assets/inverters-industrial.jpg";
-import upsBackupImg from "@/assets/ups-backup-industrial.jpg";
+import hbsBatteryImg from "@/assets/hbs-battery-real.jpg";
+import solarPanelsImg from "@/assets/solar-panels-bright.jpg";
+import invertersImg from "@/assets/power-inverters-bright.jpg";
+import upsBackupImg from "@/assets/ups-power-protection.jpg";
 
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
