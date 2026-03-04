@@ -432,9 +432,9 @@ const SolucionesEmpresas = () => {
               >
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-                  style={{ background: "hsl(0,60%,40%,0.15)", border: "1px solid hsl(0,60%,40%,0.3)" }}
+                  style={{ background: "hsl(38,70%,48%,0.15)", border: "1px solid hsl(38,70%,48%,0.3)" }}
                 >
-                  <Icon className="w-5 h-5" style={{ color: "hsl(0,80%,60%)" }} />
+                  <Icon className="w-5 h-5" style={{ color: "hsl(38,70%,58%)" }} />
                 </div>
                 <h3 className="text-base font-bold mb-2" style={{ fontFamily: "Orbitron, sans-serif" }}>{title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
