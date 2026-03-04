@@ -789,8 +789,11 @@ const SolucionesEmpresas = () => {
               Solicitar Estudio Energético{" "}
               <span className="text-gradient-gold">Profesional Gratuito</span>
             </h2>
-            <p className="text-muted-foreground">
-              Respuesta en 24-48h por ingeniero especializado. Sin compromiso.
+          <p className="text-muted-foreground mb-2">
+              Respuesta inicial en 24-48h por ingeniero especializado. Sin compromiso.
+            </p>
+            <p className="text-sm" style={{ color: "hsl(38,70%,60%)" }}>
+              📋 Una vez recibidos tus datos, elaboramos el <strong>proyecto de ahorro y presupuesto de inversión en aproximadamente 15 días</strong>.
             </p>
           </div>
 
