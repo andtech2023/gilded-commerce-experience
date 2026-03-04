@@ -893,7 +893,7 @@ const SolucionesEmpresas = () => {
             </Button>
 
             <p className="text-center text-xs text-muted-foreground">
-              🔒 Tus datos están protegidos. Respuesta garantizada en 24-48h por ingeniero especializado.
+              🔒 Tus datos están protegidos. Respuesta inicial en 24-48h. Proyecto completo de ahorro + presupuesto de inversión en ~15 días.
             </p>
           </form>
         </div>
