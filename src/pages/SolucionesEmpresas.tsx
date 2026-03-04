@@ -1,8 +1,8 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   Zap, Battery, Sun, ShieldCheck, TrendingDown, Cpu, CheckCircle2,
   ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
-  BarChart3, Leaf, Bolt, Award
+  BarChart3, Leaf, Bolt, Award, X, ChevronLeft, ChevronRight, MapPin, Settings
 } from "lucide-react";
 import powerGridImg from "@/assets/power-grid-stability.jpg";
 import Navbar from "@/components/Navbar";
@@ -24,6 +24,16 @@ import hbsBatteryImg from "@/assets/hbs-battery-real.jpg";
 import solarPanelsImg from "@/assets/solar-panels-bright.jpg";
 import invertersImg from "@/assets/power-inverters-bright.jpg";
 import upsBackupImg from "@/assets/ups-power-protection.jpg";
+import proyectoGerona from "@/assets/proyecto-gerona.jpg";
+import proyectoMallorca from "@/assets/proyecto-mallorca.jpg";
+import proyectoBenidorm from "@/assets/proyecto-benidorm.jpg";
+import proyectoLleida from "@/assets/proyecto-lleida.jpg";
+import proyectoVigo from "@/assets/proyecto-vigo.jpg";
+import proyectoHuelva from "@/assets/proyecto-huelva.jpg";
+import proyectoMaspalomas from "@/assets/proyecto-maspalomas.jpg";
+import proyectoChile from "@/assets/proyecto-chile.jpg";
+import proyectoJoyeria from "@/assets/proyecto-joyeria.jpg";
+import proyectoSaba from "@/assets/proyecto-saba.jpg";
 
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
