@@ -40,6 +40,98 @@ import proyectoMedioambiente from "@/assets/proyecto-medioambiente.jpg";
 import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
 import naveConPlacas from "@/assets/nave-con-placas.jpg";
 
+// ── Proyectos data ───────────────────────────────────────────────────────────
+const projects = [
+  {
+    img: proyectoGerona,
+    title: "Centro Logístico",
+    location: "Gerona, España",
+    system: "HBS 200 + Inversores SIRIO K 100kW",
+    saving: "28%",
+    desc: "Eliminación de microcortes en cadena de frío y optimización tarifaria 3.0TD.",
+  },
+  {
+    img: proyectoMallorca,
+    title: "Hotel Resort",
+    location: "Mallorca, España",
+    system: "HBS 400 + Autoconsumo Fotovoltaico 200kWp",
+    saving: "35%",
+    desc: "Instalación integrada para reducción de costes energéticos en temporada alta.",
+  },
+  {
+    img: proyectoBenidorm,
+    title: "Complejo de Ocio",
+    location: "Benidorm, España",
+    system: "HBS 600 + Batería 480kWh",
+    saving: "32%",
+    desc: "Protección total de equipos escénicos y iluminación espectacular.",
+  },
+  {
+    img: proyectoLleida,
+    title: "Industria Agroalimentaria",
+    location: "Lleida, España",
+    system: "HBS 300 + Placas Solar 150kWp",
+    saving: "40%",
+    desc: "Autoconsumo total en horas productivas con almacenamiento en baterías.",
+  },
+  {
+    img: proyectoVigo,
+    title: "Puerto Industrial",
+    location: "Vigo, España",
+    system: "HBS 800 + 4 Inversores 200kW",
+    saving: "26%",
+    desc: "Estabilización de red en instalación portuaria con alta demanda variable.",
+  },
+  {
+    img: proyectoHuelvaCooperativa,
+    title: "Cooperativa Agrícola",
+    location: "Huelva, España",
+    system: "HBS 800 + 2 Inversores SIRIO K 250kW + Batería 980kWh",
+    saving: "45%",
+    desc: "Instalación totalmente aislada de red. Autoconsumo 100% en temporada de recolecta.",
+  },
+  {
+    img: proyectoMaspalomas,
+    title: "Complejo Hotelero",
+    location: "Maspalomas, Gran Canaria",
+    system: "HBS 500 + Autoconsumo 250kWp",
+    saving: "38%",
+    desc: "Instalación en entorno insular con alta dependencia de red y costes elevados.",
+  },
+  {
+    img: proyectoChile,
+    title: "Planta Solar Industrial",
+    location: "Atacama, Chile",
+    system: "HBS 1200 + 6 Inversores SIRIO 300kW + Batería 1.4MWh",
+    saving: "50%",
+    desc: "Proyecto de gran escala en zona de alta irradiación con aislamiento total de red.",
+  },
+  {
+    img: proyectoJoyeria,
+    title: "Sector Joyería / Artesanía",
+    location: "España",
+    system: "HBS 80 + Inversores SIRIO RS 40kW",
+    saving: "30%",
+    desc: "Protección de maquinaria de precisión frente a microcortes en proceso de manufactura.",
+  },
+  {
+    img: proyectoMedioambiente,
+    title: "Empresa Servicios Medioambientales",
+    location: "España",
+    system: "HBS 80 + 3 Inversores SIRIO RS 60kW + Batería 241kWh",
+    saving: "42%",
+    desc: "Instalación totalmente aislada de red para garantizar operativa 24/7 en zonas remotas.",
+  },
+  {
+    img: proyectoSaba,
+    title: "Parking Metropolitano",
+    location: "España",
+    system: "HBS 150 + Gestión Inteligente",
+    saving: "24%",
+    desc: "Reducción de picos de demanda y protección de sistemas de control de acceso.",
+  },
+];
+
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
   {
