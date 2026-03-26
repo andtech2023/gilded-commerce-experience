@@ -301,6 +301,10 @@ const SolucionesEmpresas = () => {
   const [file, setFile] = useState<File | null>(null);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCaptchaRef>(null);
+  // Carousel state
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const totalProjects = projects.length;
   const [formData, setFormData] = useState({
     empresa: "",
     cif: "",
@@ -311,6 +315,13 @@ const SolucionesEmpresas = () => {
     facturaMensual: "",
     mensaje: "",
   });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIdx(prev => (prev + 1) % totalProjects);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [totalProjects]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
