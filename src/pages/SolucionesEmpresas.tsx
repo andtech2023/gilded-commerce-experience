@@ -34,6 +34,8 @@ import proyectoMaspalomas from "@/assets/proyecto-maspalomas.jpg";
 import proyectoChile from "@/assets/proyecto-chile.jpg";
 import proyectoJoyeria from "@/assets/proyecto-joyeria.jpg";
 import proyectoSaba from "@/assets/proyecto-saba.jpg";
+import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
+import naveConPlacas from "@/assets/nave-con-placas.jpg";
 
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
