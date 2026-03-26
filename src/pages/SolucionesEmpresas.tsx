@@ -393,12 +393,12 @@ const SolucionesEmpresas = () => {
           {/* Stats strip */}
           <div className="mt-16 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
             {[
-              { value: "30%", label: "Ahorro en factura" },
+              { value: "30–50%", label: "Ahorro en factura" },
               { value: "20ms", label: "Conmutación HBS" },
               { value: "0€", label: "Inversión inicial" },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
-                <div className="text-3xl md:text-4xl font-black mb-1 text-gradient-gold" style={{ fontFamily: "Orbitron, sans-serif" }}>
+                <div className="text-2xl md:text-3xl font-black mb-1 text-gradient-gold" style={{ fontFamily: "Orbitron, sans-serif" }}>
                   {value}
                 </div>
                 <div className="text-sm text-muted-foreground">{label}</div>
