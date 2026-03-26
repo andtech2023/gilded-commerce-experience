@@ -34,6 +34,8 @@ import proyectoMaspalomas from "@/assets/proyecto-maspalomas.jpg";
 import proyectoChile from "@/assets/proyecto-chile.jpg";
 import proyectoJoyeria from "@/assets/proyecto-joyeria.jpg";
 import proyectoSaba from "@/assets/proyecto-saba.jpg";
+import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
+import naveConPlacas from "@/assets/nave-con-placas.jpg";
 
 // ── FAQ data ────────────────────────────────────────────────────────────────
 const faqs = [
@@ -613,27 +615,93 @@ const SolucionesEmpresas = () => {
                 </div>
               ))}
 
+              {/* ── RESULTADOS GARANTIZADOS ── */}
               <div
                 className="p-6 rounded-xl mt-4"
                 style={{
                   background: "hsl(220,13%,12%)",
-                  border: "1px solid hsl(var(--primary),0.3)",
-                  boxShadow: "0 0 40px hsl(var(--primary),0.08)",
+                  border: "1px solid hsl(var(--primary) / 0.3)",
+                  boxShadow: "0 0 40px hsl(var(--primary) / 0.08)",
                 }}
               >
-                <div className="text-sm font-bold mb-3 text-gradient-gold">RESULTADOS GARANTIZADOS</div>
+                <div className="text-sm font-bold mb-4 text-gradient-gold tracking-widest">RESULTADOS GARANTIZADOS</div>
                 {[
-                  "Reducción de factura eléctrica hasta un 30%",
                   "Eliminación total de microcortes",
                   "Protección de maquinaria crítica",
                   "Estabilidad total de red interna",
                 ].map((r) => (
                   <div key={r} className="flex items-center gap-2 mb-2">
-                    <CheckCircle2 className="w-4 h-4" style={{ color: "hsl(142,76%,46%)" }} />
+                    <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: "hsl(142,76%,46%)" }} />
                     <span className="text-sm text-foreground/80">{r}</span>
                   </div>
                 ))}
               </div>
+
+              {/* ── COMPARATIVA AHORRO ──────────────────────────────────────── */}
+              <div className="grid grid-cols-2 gap-3 mt-4">
+                {/* Sin placas */}
+                <div
+                  className="relative rounded-xl overflow-hidden group"
+                  style={{ boxShadow: "0 4px 24px hsl(0,0%,0%,0.5)" }}
+                >
+                  <img
+                    src={naveSinPlacas}
+                    alt="Nave industrial sin placas solares"
+                    loading="lazy"
+                    width={640}
+                    height={360}
+                    className="w-full h-40 object-cover brightness-75 group-hover:brightness-90 transition-all duration-500"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
+                    style={{ background: "linear-gradient(to top, hsl(220,13%,6%,0.88) 0%, hsl(220,13%,6%,0.45) 100%)" }}>
+                    <div
+                      className="text-3xl font-black mb-1"
+                      style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(38,70%,55%)" }}
+                    >
+                      30%
+                    </div>
+                    <div className="text-xs font-bold text-foreground/90 leading-tight">
+                      Ahorro con HBS
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1 leading-tight">
+                      Si ya dispones de placas solares
+                    </div>
+                  </div>
+                </div>
+
+                {/* Con placas */}
+                <div
+                  className="relative rounded-xl overflow-hidden group"
+                  style={{ boxShadow: "0 4px 24px hsl(142,76%,30%,0.3)" }}
+                >
+                  <img
+                    src={naveConPlacas}
+                    alt="Nave industrial con placas solares fotovoltaicas"
+                    loading="lazy"
+                    width={640}
+                    height={360}
+                    className="w-full h-40 object-cover brightness-75 group-hover:brightness-90 transition-all duration-500"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
+                    style={{ background: "linear-gradient(to top, hsl(142,40%,8%,0.90) 0%, hsl(142,40%,8%,0.45) 100%)" }}>
+                    <div
+                      className="text-3xl font-black mb-1"
+                      style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,50%)" }}
+                    >
+                      50%
+                    </div>
+                    <div className="text-xs font-bold text-foreground/90 leading-tight">
+                      Ahorro con HBS + Solar
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1 leading-tight">
+                      Sin instalación previa de ningún tipo
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center mt-2" style={{ color: "hsl(38,70%,55%)" }}>
+                ✦ Ahorro real estimado según perfil de consumo e instalación ✦
+              </p>
             </div>
           </div>
         </div>
