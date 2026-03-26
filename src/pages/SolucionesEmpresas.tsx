@@ -1192,7 +1192,7 @@ const SolucionesEmpresas = () => {
             </div>
             <div className="shrink-0">
               <span
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 group-hover:bg-green-600"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300"
                 style={{
                   background: "hsl(38,70%,48%)",
                   color: "hsl(0,0%,100%)",
