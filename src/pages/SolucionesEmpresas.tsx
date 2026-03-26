@@ -638,11 +638,22 @@ const SolucionesEmpresas = () => {
               </div>
 
               {/* ── COMPARATIVA AHORRO ──────────────────────────────────────── */}
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                {/* Sin placas */}
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                {/* Sin placas → 50% ahorro */}
                 <div
-                  className="relative rounded-xl overflow-hidden group"
-                  style={{ boxShadow: "0 4px 24px hsl(0,0%,0%,0.5)" }}
+                  className="relative rounded-2xl overflow-hidden group cursor-pointer"
+                  style={{
+                    boxShadow: "0 4px 24px hsl(0,0%,0%,0.5)",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLDivElement).style.transform = "scale(1.04)";
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 12px 40px hsl(142,76%,36%,0.5)";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLDivElement).style.transform = "scale(1)";
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 24px hsl(0,0%,0%,0.5)";
+                  }}
                 >
                   <img
                     src={naveSinPlacas}
@@ -650,29 +661,46 @@ const SolucionesEmpresas = () => {
                     loading="lazy"
                     width={640}
                     height={360}
-                    className="w-full h-40 object-cover brightness-75 group-hover:brightness-90 transition-all duration-500"
+                    className="w-full h-48 object-cover brightness-60 group-hover:brightness-90 transition-all duration-500 group-hover:scale-105"
+                    style={{ transformOrigin: "center" }}
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
-                    style={{ background: "linear-gradient(to top, hsl(220,13%,6%,0.88) 0%, hsl(220,13%,6%,0.45) 100%)" }}>
+                  {/* Top label */}
+                  <div className="absolute top-0 left-0 right-0 text-center py-2 text-xs font-bold tracking-widest uppercase"
+                    style={{ background: "hsl(220,13%,8%,0.85)", color: "hsl(45,90%,75%)" }}>
+                    Sin placas solares
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 pt-8"
+                    style={{ background: "linear-gradient(to top, hsl(142,40%,6%,0.82) 0%, transparent 60%)" }}>
                     <div
-                      className="text-3xl font-black mb-1"
-                      style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(38,70%,55%)" }}
+                      className="text-5xl font-black mb-1 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
+                      style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,55%)", textShadow: "0 0 30px hsl(142,76%,40%,0.7)" }}
                     >
-                      30%
+                      50%
                     </div>
-                    <div className="text-xs font-bold text-foreground/90 leading-tight">
-                      Ahorro con HBS
+                    <div className="text-sm font-bold text-white leading-tight">
+                      Ahorro máximo
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1 leading-tight">
-                      Si ya dispones de placas solares
+                    <div className="text-xs mt-1 leading-tight" style={{ color: "hsl(142,76%,70%)" }}>
+                      HBS + Solar · Desde cero
                     </div>
                   </div>
                 </div>
 
-                {/* Con placas */}
+                {/* Con placas → 30% ahorro */}
                 <div
-                  className="relative rounded-xl overflow-hidden group"
-                  style={{ boxShadow: "0 4px 24px hsl(142,76%,30%,0.3)" }}
+                  className="relative rounded-2xl overflow-hidden group cursor-pointer"
+                  style={{
+                    boxShadow: "0 4px 24px hsl(38,70%,30%,0.3)",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLDivElement).style.transform = "scale(1.04)";
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 12px 40px hsl(38,70%,48%,0.5)";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLDivElement).style.transform = "scale(1)";
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 24px hsl(38,70%,30%,0.3)";
+                  }}
                 >
                   <img
                     src={naveConPlacas}
@@ -680,26 +708,32 @@ const SolucionesEmpresas = () => {
                     loading="lazy"
                     width={640}
                     height={360}
-                    className="w-full h-40 object-cover brightness-75 group-hover:brightness-90 transition-all duration-500"
+                    className="w-full h-48 object-cover brightness-60 group-hover:brightness-90 transition-all duration-500 group-hover:scale-105"
+                    style={{ transformOrigin: "center" }}
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3"
-                    style={{ background: "linear-gradient(to top, hsl(142,40%,8%,0.90) 0%, hsl(142,40%,8%,0.45) 100%)" }}>
+                  {/* Top label */}
+                  <div className="absolute top-0 left-0 right-0 text-center py-2 text-xs font-bold tracking-widest uppercase"
+                    style={{ background: "hsl(220,13%,8%,0.85)", color: "hsl(45,90%,75%)" }}>
+                    Con placas solares
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 pt-8"
+                    style={{ background: "linear-gradient(to top, hsl(220,13%,6%,0.82) 0%, transparent 60%)" }}>
                     <div
-                      className="text-3xl font-black mb-1"
-                      style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,50%)" }}
+                      className="text-5xl font-black mb-1 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-lg"
+                      style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(38,70%,58%)", textShadow: "0 0 30px hsl(38,70%,48%,0.7)" }}
                     >
-                      50%
+                      30%
                     </div>
-                    <div className="text-xs font-bold text-foreground/90 leading-tight">
-                      Ahorro con HBS + Solar
+                    <div className="text-sm font-bold text-white leading-tight">
+                      Ahorro adicional
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1 leading-tight">
-                      Sin instalación previa de ningún tipo
+                    <div className="text-xs mt-1 leading-tight" style={{ color: "hsl(38,70%,70%)" }}>
+                      HBS + Bat · Optimización
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="text-xs text-center mt-2" style={{ color: "hsl(38,70%,55%)" }}>
+              <p className="text-xs text-center mt-3" style={{ color: "hsl(38,70%,55%)" }}>
                 ✦ Ahorro real estimado según perfil de consumo e instalación ✦
               </p>
             </div>
