@@ -961,212 +961,189 @@ const SolucionesEmpresas = () => {
       </section>
 
       {/* ── SHOWCASE PROYECTOS REALES ─────────────────────────────────────── */}
-      {(() => {
-        const [activeIdx, setActiveIdx] = useState(0);
-        const [lightbox, setLightbox] = useState<number | null>(null);
-        const total = projects.length;
-
-        useEffect(() => {
-          const timer = setInterval(() => {
-            setActiveIdx(prev => (prev + 1) % total);
-          }, 4500);
-          return () => clearInterval(timer);
-        }, []);
-
-        return (
-          <section
-            className="py-24"
-            style={{ background: "hsl(220,13%,8%)" }}
-            aria-label="Proyectos reales instalados en industria española"
-          >
-            <div className="container mx-auto px-4 max-w-6xl">
-              <div className="text-center mb-12">
-                <div
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-4"
-                  style={{ borderColor: "hsl(38,70%,48%,0.5)", background: "hsl(38,70%,48%,0.1)", color: "hsl(38,70%,65%)" }}
-                >
-                  <MapPin className="w-4 h-4" /> Casos Reales · España · Europa · Internacional
-                </div>
-                <h2 className="text-2xl md:text-4xl font-black mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
-                  Instalaciones{" "}
-                  <span className="text-gradient-gold">Reales en Industria</span>
-                </h2>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                  Proyectos ejecutados en distintos sectores industriales. Haz clic en cualquier imagen para ampliar los detalles.
-                </p>
-              </div>
-
-              {/* Main carousel */}
-              <div className="relative overflow-hidden rounded-2xl mb-4 group" style={{ boxShadow: "0 8px 60px hsl(0,0%,0%,0.7)" }}>
-                {projects.map((p, i) => (
-                  <div
-                    key={i}
-                    className="transition-opacity duration-700 cursor-pointer"
-                    style={{ display: i === activeIdx ? "block" : "none" }}
-                    onClick={() => setLightbox(i)}
-                  >
-                    {/* Full-width photo */}
-                    <div className="relative w-full" style={{ height: "clamp(280px, 55vw, 520px)" }}>
-                      <img
-                        src={p.img}
-                        alt={p.title}
-                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      {/* Gradient overlay — only bottom 50% */}
-                      <div
-                        className="absolute inset-0"
-                        style={{ background: "linear-gradient(to top, hsl(220,13%,6%,0.95) 0%, hsl(220,13%,6%,0.55) 45%, transparent 100%)" }}
-                      />
-                      {/* Gold top accent */}
-                      <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--gradient-gold)" }} />
-
-                      {/* Info overlay — bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                        <div className="flex flex-wrap items-end justify-between gap-4">
-                          <div>
-                            <div className="flex items-center gap-2 mb-2">
-                              <MapPin className="w-4 h-4 shrink-0" style={{ color: "hsl(38,70%,60%)" }} />
-                              <span className="text-sm font-semibold" style={{ color: "hsl(38,70%,65%)" }}>{p.location}</span>
-                            </div>
-                            <h3 className="text-2xl md:text-3xl font-black text-white mb-1" style={{ fontFamily: "Orbitron, sans-serif" }}>{p.title}</h3>
-                            <p className="text-sm text-white/70 mb-2 max-w-xl">{p.desc}</p>
-                            <div
-                              className="inline-flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-bold"
-                              style={{ background: "hsl(220,13%,8%,0.8)", border: "1px solid hsl(38,70%,48%,0.5)", color: "hsl(38,70%,70%)", backdropFilter: "blur(8px)" }}
-                            >
-                              <Settings className="w-3 h-3" /> {p.system}
-                            </div>
-                          </div>
-                          {/* Saving badge */}
-                          <div className="text-center shrink-0">
-                            <div
-                              className="text-5xl font-black"
-                              style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,55%)", textShadow: "0 0 20px hsl(142,76%,40%,0.8)" }}
-                            >
-                              {p.saving}
-                            </div>
-                            <div className="text-xs font-bold text-white/70 mt-1">Ahorro</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Arrows */}
-                      <button
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ background: "hsl(220,13%,8%,0.75)", border: "1px solid hsl(38,70%,48%,0.4)", backdropFilter: "blur(8px)" }}
-                        onClick={e => { e.stopPropagation(); setActiveIdx((activeIdx - 1 + total) % total); }}
-                      >
-                        <ChevronLeft className="w-5 h-5 text-white" />
-                      </button>
-                      <button
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ background: "hsl(220,13%,8%,0.75)", border: "1px solid hsl(38,70%,48%,0.4)", backdropFilter: "blur(8px)" }}
-                        onClick={e => { e.stopPropagation(); setActiveIdx((activeIdx + 1) % total); }}
-                      >
-                        <ChevronRight className="w-5 h-5 text-white" />
-                      </button>
-
-                      {/* Counter */}
-                      <div
-                        className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
-                        style={{ background: "hsl(220,13%,8%,0.8)", border: "1px solid hsl(38,70%,48%,0.4)", color: "hsl(38,70%,70%)", backdropFilter: "blur(8px)" }}
-                      >
-                        {activeIdx + 1} / {total}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Thumbnail strip */}
-              <div className="flex gap-2 overflow-x-auto pb-2 snap-x scrollbar-thin">
-                {projects.map((p, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveIdx(i)}
-                    className="shrink-0 snap-start rounded-lg overflow-hidden transition-all duration-300"
-                    style={{
-                      width: 80, height: 56,
-                      outline: i === activeIdx ? "2px solid hsl(38,70%,55%)" : "2px solid transparent",
-                      outlineOffset: 2,
-                      opacity: i === activeIdx ? 1 : 0.5,
-                    }}
-                  >
-                    <img src={p.img} alt={p.title} className="w-full h-full object-cover object-center" loading="lazy" />
-                  </button>
-                ))}
-              </div>
+      <section
+        className="py-24"
+        style={{ background: "hsl(220,13%,8%)" }}
+        aria-label="Proyectos reales instalados en industria española"
+      >
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center mb-12">
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold mb-4"
+              style={{ borderColor: "hsl(38,70%,48%,0.5)", background: "hsl(38,70%,48%,0.1)", color: "hsl(38,70%,65%)" }}
+            >
+              <MapPin className="w-4 h-4" /> Casos Reales · España · Europa · Internacional
             </div>
+            <h2 className="text-2xl md:text-4xl font-black mb-4" style={{ fontFamily: "Orbitron, sans-serif" }}>
+              Instalaciones{" "}
+              <span className="text-gradient-gold">Reales en Industria</span>
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Proyectos ejecutados en distintos sectores industriales. Haz clic en cualquier imagen para ampliar los detalles.
+            </p>
+          </div>
 
-            {/* Lightbox */}
-            {lightbox !== null && (
+          {/* Main carousel */}
+          <div className="relative overflow-hidden rounded-2xl mb-4 group" style={{ boxShadow: "0 8px 60px hsl(0,0%,0%,0.7)" }}>
+            {projects.map((p, i) => (
               <div
-                className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                style={{ background: "hsl(220,13%,4%,0.95)", backdropFilter: "blur(8px)" }}
-                onClick={() => setLightbox(null)}
+                key={i}
+                className="transition-opacity duration-700 cursor-pointer"
+                style={{ display: i === activeIdx ? "block" : "none" }}
+                onClick={() => setLightbox(i)}
               >
-                <div
-                  className="relative max-w-4xl w-full rounded-2xl overflow-hidden"
-                  style={{ boxShadow: "0 20px 80px hsl(0,0%,0%,0.9)", border: "1px solid hsl(38,70%,48%,0.35)" }}
-                  onClick={e => e.stopPropagation()}
-                >
+                <div className="relative w-full" style={{ height: "clamp(280px, 55vw, 520px)" }}>
                   <img
-                    src={projects[lightbox].img}
-                    alt={projects[lightbox].title}
-                    className="w-full object-cover object-center"
-                    style={{ maxHeight: "70vh" }}
+                    src={p.img}
+                    alt={p.title}
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
                   />
-                  <div className="p-6" style={{ background: "hsl(220,13%,9%)" }}>
-                    <div className="flex items-start justify-between gap-4 mb-3">
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(to top, hsl(220,13%,6%,0.95) 0%, hsl(220,13%,6%,0.55) 45%, transparent 100%)" }}
+                  />
+                  <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--gradient-gold)" }} />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <MapPin className="w-4 h-4 shrink-0" style={{ color: "hsl(38,70%,60%)" }} />
-                          <span className="text-sm font-semibold" style={{ color: "hsl(38,70%,65%)" }}>{projects[lightbox].location}</span>
+                          <span className="text-sm font-semibold" style={{ color: "hsl(38,70%,65%)" }}>{p.location}</span>
                         </div>
-                        <h3 className="text-xl font-black text-white" style={{ fontFamily: "Orbitron, sans-serif" }}>{projects[lightbox].title}</h3>
+                        <h3 className="text-2xl md:text-3xl font-black text-white mb-1" style={{ fontFamily: "Orbitron, sans-serif" }}>{p.title}</h3>
+                        <p className="text-sm text-white/70 mb-2 max-w-xl">{p.desc}</p>
+                        <div
+                          className="inline-flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-bold"
+                          style={{ background: "hsl(220,13%,8%,0.8)", border: "1px solid hsl(38,70%,48%,0.5)", color: "hsl(38,70%,70%)", backdropFilter: "blur(8px)" }}
+                        >
+                          <Settings className="w-3 h-3" /> {p.system}
+                        </div>
                       </div>
                       <div className="text-center shrink-0">
-                        <div className="text-4xl font-black" style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,55%)" }}>{projects[lightbox].saving}</div>
-                        <div className="text-xs text-white/60">Ahorro</div>
+                        <div
+                          className="text-5xl font-black"
+                          style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,55%)", textShadow: "0 0 20px hsl(142,76%,40%,0.8)" }}
+                        >
+                          {p.saving}
+                        </div>
+                        <div className="text-xs font-bold text-white/70 mt-1">Ahorro</div>
                       </div>
                     </div>
-                    <p className="text-muted-foreground text-sm mb-3">{projects[lightbox].desc}</p>
-                    <div
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold"
-                      style={{ background: "hsl(38,70%,48%,0.12)", border: "1px solid hsl(38,70%,48%,0.4)", color: "hsl(38,70%,70%)" }}
-                    >
-                      <Settings className="w-3.5 h-3.5" /> {projects[lightbox].system}
-                    </div>
                   </div>
+
                   <button
-                    className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center"
-                    style={{ background: "hsl(220,13%,8%,0.9)", border: "1px solid hsl(38,70%,48%,0.4)" }}
-                    onClick={() => setLightbox(null)}
-                  >
-                    <X className="w-4 h-4 text-white" />
-                  </button>
-                  {/* Prev/Next in lightbox */}
-                  <button
-                    className="absolute left-3 top-1/3 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{ background: "hsl(220,13%,8%,0.85)", border: "1px solid hsl(38,70%,48%,0.4)" }}
-                    onClick={e => { e.stopPropagation(); setLightbox((lightbox - 1 + total) % total); }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                    style={{ background: "hsl(220,13%,8%,0.75)", border: "1px solid hsl(38,70%,48%,0.4)", backdropFilter: "blur(8px)" }}
+                    onClick={e => { e.stopPropagation(); setActiveIdx((activeIdx - 1 + totalProjects) % totalProjects); }}
                   >
                     <ChevronLeft className="w-5 h-5 text-white" />
                   </button>
                   <button
-                    className="absolute right-3 top-1/3 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{ background: "hsl(220,13%,8%,0.85)", border: "1px solid hsl(38,70%,48%,0.4)" }}
-                    onClick={e => { e.stopPropagation(); setLightbox((lightbox + 1) % total); }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                    style={{ background: "hsl(220,13%,8%,0.75)", border: "1px solid hsl(38,70%,48%,0.4)", backdropFilter: "blur(8px)" }}
+                    onClick={e => { e.stopPropagation(); setActiveIdx((activeIdx + 1) % totalProjects); }}
                   >
                     <ChevronRight className="w-5 h-5 text-white" />
                   </button>
+
+                  <div
+                    className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
+                    style={{ background: "hsl(220,13%,8%,0.8)", border: "1px solid hsl(38,70%,48%,0.4)", color: "hsl(38,70%,70%)", backdropFilter: "blur(8px)" }}
+                  >
+                    {activeIdx + 1} / {totalProjects}
+                  </div>
                 </div>
               </div>
-            )}
-          </section>
-        );
-      })()}
+            ))}
+          </div>
+
+          {/* Thumbnail strip */}
+          <div className="flex gap-2 overflow-x-auto pb-2 snap-x">
+            {projects.map((p, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveIdx(i)}
+                className="shrink-0 snap-start rounded-lg overflow-hidden transition-all duration-300"
+                style={{
+                  width: 80, height: 56,
+                  outline: i === activeIdx ? "2px solid hsl(38,70%,55%)" : "2px solid transparent",
+                  outlineOffset: 2,
+                  opacity: i === activeIdx ? 1 : 0.5,
+                }}
+              >
+                <img src={p.img} alt={p.title} className="w-full h-full object-cover object-center" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Lightbox */}
+        {lightbox !== null && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: "hsl(220,13%,4%,0.95)", backdropFilter: "blur(8px)" }}
+            onClick={() => setLightbox(null)}
+          >
+            <div
+              className="relative max-w-4xl w-full rounded-2xl overflow-hidden"
+              style={{ boxShadow: "0 20px 80px hsl(0,0%,0%,0.9)", border: "1px solid hsl(38,70%,48%,0.35)" }}
+              onClick={e => e.stopPropagation()}
+            >
+              <img
+                src={projects[lightbox].img}
+                alt={projects[lightbox].title}
+                className="w-full object-cover object-center"
+                style={{ maxHeight: "70vh" }}
+              />
+              <div className="p-6" style={{ background: "hsl(220,13%,9%)" }}>
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <MapPin className="w-4 h-4 shrink-0" style={{ color: "hsl(38,70%,60%)" }} />
+                      <span className="text-sm font-semibold" style={{ color: "hsl(38,70%,65%)" }}>{projects[lightbox].location}</span>
+                    </div>
+                    <h3 className="text-xl font-black text-white" style={{ fontFamily: "Orbitron, sans-serif" }}>{projects[lightbox].title}</h3>
+                  </div>
+                  <div className="text-center shrink-0">
+                    <div className="text-4xl font-black" style={{ fontFamily: "Orbitron, sans-serif", color: "hsl(142,76%,55%)" }}>{projects[lightbox].saving}</div>
+                    <div className="text-xs text-white/60">Ahorro</div>
+                  </div>
+                </div>
+                <p className="text-muted-foreground text-sm mb-3">{projects[lightbox].desc}</p>
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold"
+                  style={{ background: "hsl(38,70%,48%,0.12)", border: "1px solid hsl(38,70%,48%,0.4)", color: "hsl(38,70%,70%)" }}
+                >
+                  <Settings className="w-3.5 h-3.5" /> {projects[lightbox].system}
+                </div>
+              </div>
+              <button
+                className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center"
+                style={{ background: "hsl(220,13%,8%,0.9)", border: "1px solid hsl(38,70%,48%,0.4)" }}
+                onClick={() => setLightbox(null)}
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+              <button
+                className="absolute left-3 top-1/3 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center"
+                style={{ background: "hsl(220,13%,8%,0.85)", border: "1px solid hsl(38,70%,48%,0.4)" }}
+                onClick={e => { e.stopPropagation(); setLightbox((lightbox - 1 + totalProjects) % totalProjects); }}
+              >
+                <ChevronLeft className="w-5 h-5 text-white" />
+              </button>
+              <button
+                className="absolute right-3 top-1/3 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center"
+                style={{ background: "hsl(220,13%,8%,0.85)", border: "1px solid hsl(38,70%,48%,0.4)" }}
+                onClick={e => { e.stopPropagation(); setLightbox((lightbox + 1) % totalProjects); }}
+              >
+                <ChevronRight className="w-5 h-5 text-white" />
+              </button>
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* ── BANNER PROYECTOS PDF ───────────────────────────────────────────── */}
       <section
