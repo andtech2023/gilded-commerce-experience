@@ -2,7 +2,8 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import {
   Zap, Battery, Sun, ShieldCheck, TrendingDown, Cpu, CheckCircle2,
   ChevronDown, ChevronUp, Upload, Factory, Globe, Euro,
-  BarChart3, Leaf, Bolt, Award, X, ChevronLeft, ChevronRight, MapPin, Settings
+  BarChart3, Leaf, Bolt, Award, X, ChevronLeft, ChevronRight, MapPin, Settings,
+  FileText, ExternalLink
 } from "lucide-react";
 import powerGridImg from "@/assets/power-grid-stability.jpg";
 import Navbar from "@/components/Navbar";
@@ -34,6 +35,8 @@ import proyectoMaspalomas from "@/assets/proyecto-maspalomas.jpg";
 import proyectoChile from "@/assets/proyecto-chile.jpg";
 import proyectoJoyeria from "@/assets/proyecto-joyeria.jpg";
 import proyectoSaba from "@/assets/proyecto-saba.jpg";
+import proyectoHuelvaCooperativa from "@/assets/proyecto-huelva-cooperativa.jpg";
+import proyectoMedioambiente from "@/assets/proyecto-medioambiente.jpg";
 import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
 import naveConPlacas from "@/assets/nave-con-placas.jpg";
 
