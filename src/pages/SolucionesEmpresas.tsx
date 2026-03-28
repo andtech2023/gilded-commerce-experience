@@ -460,17 +460,15 @@ const SolucionesEmpresas = () => {
             className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6 max-w-5xl mx-auto"
             style={{ fontFamily: "Orbitron, sans-serif" }}
           >
-            <span className="text-gradient-gold">Soluciones Energéticas</span>{" "}
-            <span className="text-foreground">para Empresas</span>
-            <br />
-            <span style={{ color: "hsl(142,76%,50%)" }}>Reduce hasta un 30%</span>{" "}
-            <span className="text-foreground text-2xl md:text-4xl">tu Factura de Luz y Elimina los Microcortes</span>
+            <span className="text-gradient-gold">Blindaje Energético Industrial:</span>{" "}
+            <span className="text-foreground">Garantiza</span>{" "}
+            <span style={{ color: "hsl(142,76%,50%)" }}>Cero Microcortes</span>{" "}
+            <span className="text-foreground text-2xl md:text-4xl">y Ahorra hasta un 50% con Inversión 0€.</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10">
-            Optimización energética avanzada mediante sistemas HBS híbridos, almacenamiento inteligente
-            y autoconsumo fotovoltaico industrial. Sin inversión inicial.
-          </p>
+          <h2 className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10">
+            Implementamos <span className="text-foreground font-semibold">Soberanía Energética</span> mediante Inteligencia Artificial y almacenamiento HBS (Riello UPS). Optimización total del mercado OMIE y conmutación en <span className="text-gradient-gold font-bold">20ms</span> para proteger tus procesos críticos.
+          </h2>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#formulario-empresa">
