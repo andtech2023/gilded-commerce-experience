@@ -478,7 +478,7 @@ const SolucionesEmpresas = () => {
               </Button>
             </a>
             <a
-              href="https://wa.me/376369939?text=Hola!%20Me%20gustar%C3%ADa%20solicitar%20una%20auditor%C3%ADa%20t%C3%A9cnica%20energ%C3%A9tica%20sin%20compromiso."
+              href="https://wa.me/376369939?text=Hola%20Omar%2C%20he%20visto%20el%20sistema%20de%20Blindaje%20Industrial%20en%20la%20web.%20Me%20gustar%C3%ADa%20solicitar%20una%20auditor%C3%ADa%20de%20rendimiento%20para%20nuestra%20planta.%20Gracias."
               target="_blank"
               rel="noopener noreferrer"
             >
