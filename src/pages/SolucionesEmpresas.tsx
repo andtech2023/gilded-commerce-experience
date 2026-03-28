@@ -474,18 +474,34 @@ const SolucionesEmpresas = () => {
             <a href="#formulario-empresa">
               <Button size="lg" className="text-base px-8 py-4 font-bold rounded-xl delivery-badge-gold border">
                 <Zap className="w-5 h-5 mr-2" />
-                Solicitar Estudio Energético Gratuito
+                Solicitar Estudio de Viabilidad Gratuito
               </Button>
             </a>
-            <a href="#tecnologia">
+            <a
+              href="https://wa.me/376369939?text=Hola!%20Me%20gustar%C3%ADa%20solicitar%20una%20auditor%C3%ADa%20t%C3%A9cnica%20energ%C3%A9tica%20sin%20compromiso."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button
                 size="lg"
                 variant="outline"
-                className="text-base px-8 py-4 font-bold rounded-xl border-2 hover:bg-primary hover:text-background hover:border-primary"
+                className="text-base px-8 py-4 font-bold rounded-xl border-2 transition-all duration-300"
                 style={{
                   borderColor: "hsl(var(--primary))",
                   color: "hsl(var(--primary))",
                   background: "transparent",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.background = "hsl(142,76%,45%)";
+                  el.style.borderColor = "hsl(142,76%,45%)";
+                  el.style.color = "#fff";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.background = "transparent";
+                  el.style.borderColor = "hsl(var(--primary))";
+                  el.style.color = "hsl(var(--primary))";
                 }}
               >
                 <Battery className="w-5 h-5 mr-2" />
