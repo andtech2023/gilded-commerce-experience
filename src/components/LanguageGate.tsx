@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import logo3D from "@/assets/logo-3d-andorratech.png";
+import andorraFlag from "@/assets/andorra-flag.png";
 
 interface LanguageGateProps {
   children: React.ReactNode;
@@ -115,14 +116,7 @@ const LanguageGate = ({ children, onLanguageSelect }: LanguageGateProps) => {
             className="group flex flex-col items-center gap-4 transition-all duration-300 hover:scale-110"
           >
             <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg overflow-hidden shadow-lg border-2 border-transparent group-hover:border-primary transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-              {/* Andorran Flag */}
-              <div className="w-full h-full flex">
-                <div className="flex-1 bg-[#0032A0]" />
-                <div className="flex-1 bg-[#FEDF00] flex items-center justify-center">
-                  <div className="w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-[#C8102E]" />
-                </div>
-                <div className="flex-1 bg-[#C8102E]" />
-              </div>
+              <img src={andorraFlag} alt="Bandera oficial de Andorra" className="w-full h-full object-cover" />
             </div>
             <span className="text-foreground/70 group-hover:text-primary font-semibold text-lg transition-colors">
               Català

@@ -19,7 +19,7 @@ import { verifyRecaptcha } from "@/utils/recaptchaVerification";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
-import iberdrolaLogo from "@/assets/iberdrola-logo.jpg";
+import aracanLogo from "@/assets/aracan-energia-logo.png";
 import nibaLogo from "@/assets/niba-logo.jpg";
 import nexusLogo from "@/assets/nexus-energia-logo.png";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
@@ -206,7 +206,7 @@ const AhorroEnergetico = () => {
     { name: "Repsol", logo: repsolLogo },
     { name: "Endesa", logo: endesaLogo },
     { name: "Audax", logo: audaxLogo },
-    { name: "Iberdrola", logo: iberdrolaLogo },
+    { name: "Aracan Energía", logo: aracanLogo },
     { name: "Niba", logo: nibaLogo },
     { name: "Nexus Energía", logo: nexusLogo },
   ];
