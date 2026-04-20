@@ -24,7 +24,6 @@ serve(async (req) => {
     const secretKey = Deno.env.get('RECAPTCHA_SECRET_KEY');
     
     if (!secretKey) {
-      console.error('RECAPTCHA_SECRET_KEY no configurada');
       return new Response(
         JSON.stringify({ success: false, error: 'Error de configuración del servidor' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -48,18 +47,15 @@ serve(async (req) => {
         { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     } else {
-      console.log('reCAPTCHA verification failed:', verifyResult['error-codes']);
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: 'Verificación CAPTCHA fallida',
-          errorCodes: verifyResult['error-codes']
+          error: 'Verificación CAPTCHA fallida'
         }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-  } catch (error) {
-    console.error('Error en verify-recaptcha:', error);
+  } catch (_error) {
     return new Response(
       JSON.stringify({ success: false, error: 'Error interno del servidor' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
