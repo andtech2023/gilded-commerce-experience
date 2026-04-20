@@ -19,7 +19,7 @@ import { verifyRecaptcha } from "@/utils/recaptchaVerification";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
-import aracanLogo from "@/assets/aracan-energia-logo.png";
+import aracanLogo from "@/assets/aracan-energia-logo-v2.png";
 import nibaLogo from "@/assets/niba-logo.jpg";
 import nexusLogo from "@/assets/nexus-energia-logo.png";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
