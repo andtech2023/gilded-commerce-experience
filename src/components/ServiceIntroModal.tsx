@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Volume2, Loader2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ServiceIntroModalProps {
   isOpen: boolean;
@@ -73,6 +74,8 @@ const getServiceSubtitles = (title: string): Subtitle[] => {
 };
 
 const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps) => {
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -232,25 +235,25 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
                     onClick={handleClose}
                     className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-rajdhani"
                   >
-                    Solicitar Presupuesto
+                    {tr("Solicitar Presupuesto", "Sol·licitar Pressupost")}
                   </button>
                 </div>
               ) : isLoading ? (
                 <>
                   <Loader2 className="w-6 h-6 text-primary animate-spin" />
-                  <span className="text-sm text-muted-foreground font-rajdhani">Cargando audio...</span>
+                  <span className="text-sm text-muted-foreground font-rajdhani">{tr("Cargando audio...", "Carregant àudio...")}</span>
                 </>
               ) : isPlaying ? (
                 <>
                   <Volume2 className="w-6 h-6 text-primary animate-pulse" />
-                  <span className="text-sm text-muted-foreground font-rajdhani">Reproduciendo presentación...</span>
+                  <span className="text-sm text-muted-foreground font-rajdhani">{tr("Reproduciendo presentación...", "Reproduint presentació...")}</span>
                 </>
               ) : (
                 <button 
                   onClick={handleClose}
                   className="mt-4 px-6 py-3 bg-gradient-to-r from-primary to-futuristic-gold text-primary-foreground rounded-md hover:opacity-90 transition-all font-semibold font-rajdhani"
                 >
-                  Solicitar Presupuesto
+                  {tr("Solicitar Presupuesto", "Sol·licitar Pressupost")}
                 </button>
               )}
             </div>
@@ -281,7 +284,7 @@ const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps)
             {/* Accessibility note */}
             {!isPlaying && !isLoading && !error && (
               <p className="text-xs text-muted-foreground mt-4 font-rajdhani">
-                Al cerrar serás redirigido al formulario de contacto
+                {tr("Al cerrar serás redirigido al formulario de contacto", "En tancar seràs redirigit al formulari de contacte")}
               </p>
             )}
           </div>

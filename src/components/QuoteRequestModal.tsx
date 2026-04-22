@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import ReCaptcha, { ReCaptchaRef } from "@/components/ReCaptcha";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface QuoteRequestModalProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ interface QuoteRequestModalProps {
 }
 
 const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalProps) => {
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,13 +37,12 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
     setIsSubmitting(true);
 
     const messageWithService = serviceTitle 
-      ? `Servicio: ${serviceTitle}\n\n${formData.message}`
+      ? `${tr("Servicio", "Servei")}: ${serviceTitle}\n\n${formData.message}`
       : formData.message;
 
-    // Verify reCAPTCHA
     if (!recaptchaToken) {
-      toast.error("Verificación requerida", {
-        description: "Por favor, completa el CAPTCHA para continuar.",
+      toast.error(tr("Verificación requerida", "Verificació requerida"), {
+        description: tr("Por favor, completa el CAPTCHA para continuar.", "Si us plau, completa el CAPTCHA per continuar."),
       });
       setIsSubmitting(false);
       return;
@@ -48,8 +50,8 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
 
     const captchaVerification = await verifyRecaptcha(recaptchaToken);
     if (!captchaVerification.success) {
-      toast.error("Error de verificación", {
-        description: captchaVerification.error || "La verificación CAPTCHA ha fallado.",
+      toast.error(tr("Error de verificación", "Error de verificació"), {
+        description: captchaVerification.error || tr("La verificación CAPTCHA ha fallado.", "La verificació CAPTCHA ha fallat."),
       });
       recaptchaRef.current?.reset();
       setRecaptchaToken(null);
@@ -57,7 +59,6 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
       return;
     }
 
-    // Validate form data
     const validation = validateContactForm({
       name: formData.name,
       email: formData.email,
@@ -67,8 +68,8 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
     });
 
     if (!validation.success) {
-      toast.error("Error de validación", {
-        description: validation.errors[0] || "Por favor revise los datos ingresados",
+      toast.error(tr("Error de validación", "Error de validació"), {
+        description: validation.errors[0] || tr("Por favor revise los datos ingresados", "Si us plau, revisa les dades introduïdes"),
       });
       setIsSubmitting(false);
       return;
@@ -94,16 +95,16 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
 
       if (error) throw error;
 
-      toast.success("Solicitud enviada con éxito", {
-        description: "Nos pondremos en contacto con usted pronto.",
+      toast.success(tr("Solicitud enviada con éxito", "Sol·licitud enviada amb èxit"), {
+        description: tr("Nos pondremos en contacto con usted pronto.", "Ens posarem en contacte amb vostè aviat."),
       });
       setFormData({ name: "", email: "", phone: "", message: "", budget: "" });
       recaptchaRef.current?.reset();
       setRecaptchaToken(null);
       onClose();
     } catch (error) {
-      toast.error("Error al enviar la solicitud", {
-        description: "Por favor, inténtelo de nuevo o contáctenos directamente.",
+      toast.error(tr("Error al enviar la solicitud", "Error en enviar la sol·licitud"), {
+        description: tr("Por favor, inténtelo de nuevo o contáctenos directamente.", "Si us plau, torneu-ho a provar o contacteu-nos directament."),
       });
     } finally {
       setIsSubmitting(false);
@@ -122,18 +123,18 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-serif text-gradient-gold">
-            Solicitar Presupuesto
+            {tr("Solicitar Presupuesto", "Sol·licitar Pressupost")}
           </DialogTitle>
           {serviceTitle && (
             <p className="text-sm text-muted-foreground mt-2">
-              Para: <span className="font-semibold text-foreground">{serviceTitle}</span>
+              {tr("Para", "Per a")}: <span className="font-semibold text-foreground">{serviceTitle}</span>
             </p>
           )}
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div>
-            <Label htmlFor="name">Nombre Completo</Label>
+            <Label htmlFor="name">{tr("Nombre Completo", "Nom Complet")}</Label>
             <Input
               id="name"
               name="name"
@@ -142,12 +143,12 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
               onChange={handleChange}
               required
               className="mt-2"
-              placeholder="Juan Pérez"
+              placeholder={tr("Juan Pérez", "Joan Pérez")}
             />
           </div>
 
           <div>
-            <Label htmlFor="email">Correo Electrónico</Label>
+            <Label htmlFor="email">{tr("Correo Electrónico", "Correu Electrònic")}</Label>
             <Input
               id="email"
               name="email"
@@ -161,7 +162,7 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
           </div>
 
           <div>
-            <Label htmlFor="phone">Teléfono (Opcional)</Label>
+            <Label htmlFor="phone">{tr("Teléfono (Opcional)", "Telèfon (Opcional)")}</Label>
             <Input
               id="phone"
               name="phone"
@@ -174,7 +175,7 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
           </div>
 
           <div>
-            <Label htmlFor="budget">Rango de Presupuesto</Label>
+            <Label htmlFor="budget">{tr("Rango de Presupuesto", "Rang de Pressupost")}</Label>
             <select
               id="budget"
               name="budget"
@@ -183,15 +184,15 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
               required
               className="w-full mt-2 px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
             >
-              <option value="">Seleccionar presupuesto</option>
-              <option value="menos-2000">Menos de 2.000€</option>
-              <option value="menos-5000">Menos de 5.000€</option>
-              <option value="mas-6000">Más de 6.000€</option>
+              <option value="">{tr("Seleccionar presupuesto", "Seleccionar pressupost")}</option>
+              <option value="menos-2000">{tr("Menos de 2.000€", "Menys de 2.000€")}</option>
+              <option value="menos-5000">{tr("Menos de 5.000€", "Menys de 5.000€")}</option>
+              <option value="mas-6000">{tr("Más de 6.000€", "Més de 6.000€")}</option>
             </select>
           </div>
 
           <div>
-            <Label htmlFor="message">Mensaje</Label>
+            <Label htmlFor="message">{tr("Mensaje", "Missatge")}</Label>
             <Textarea
               id="message"
               name="message"
@@ -199,7 +200,7 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
               onChange={handleChange}
               required
               className="mt-2 min-h-[100px]"
-              placeholder="Cuéntenos sobre su proyecto..."
+              placeholder={tr("Cuéntenos sobre su proyecto...", "Expliqui'ns el seu projecte...")}
             />
           </div>
 
@@ -217,7 +218,7 @@ const QuoteRequestModal = ({ isOpen, onClose, serviceTitle }: QuoteRequestModalP
             disabled={isSubmitting}
           >
             <Send className="mr-2" size={20} />
-            {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
+            {isSubmitting ? tr("Enviando...", "Enviant...") : tr("Enviar Solicitud", "Enviar Sol·licitud")}
           </Button>
         </form>
       </DialogContent>

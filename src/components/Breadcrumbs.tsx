@@ -1,23 +1,40 @@
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const routeNames: Record<string, string> = {
-  "/ahorro-energetico": "Ahorro Energético",
-  "/soluciones-empresas-ahorro-energetico": "Soluciones Empresas",
-  "/aviso-legal": "Aviso Legal",
-  "/politica-privacidad": "Política de Privacidad",
-  "/politica-cookies": "Política de Cookies",
-  "/terminos-condiciones": "Términos y Condiciones",
-  "/payment-success": "Pago Exitoso",
-  "/payment-cancelled": "Pago Cancelado",
+const routeNamesByLang: Record<"es" | "ca", Record<string, string>> = {
+  es: {
+    "/ahorro-energetico": "Ahorro Energético",
+    "/soluciones-empresas-ahorro-energetico": "Soluciones Empresas",
+    "/aviso-legal": "Aviso Legal",
+    "/politica-privacidad": "Política de Privacidad",
+    "/politica-cookies": "Política de Cookies",
+    "/terminos-condiciones": "Términos y Condiciones",
+    "/payment-success": "Pago Exitoso",
+    "/payment-cancelled": "Pago Cancelado",
+  },
+  ca: {
+    "/ahorro-energetico": "Estalvi Energètic",
+    "/soluciones-empresas-ahorro-energetico": "Solucions Empreses",
+    "/aviso-legal": "Avís Legal",
+    "/politica-privacidad": "Política de Privacitat",
+    "/politica-cookies": "Política de Cookies",
+    "/terminos-condiciones": "Termes i Condicions",
+    "/payment-success": "Pagament Exitós",
+    "/payment-cancelled": "Pagament Cancel·lat",
+  },
 };
 
 const Breadcrumbs = () => {
   const location = useLocation();
+  const { language } = useLanguage();
 
   if (location.pathname === "/") return null;
 
-  const pageName = routeNames[location.pathname] || "Página";
+  const pageName =
+    routeNamesByLang[language][location.pathname] ||
+    (language === "ca" ? "Pàgina" : "Página");
+  const homeLabel = language === "ca" ? "Inici" : "Inicio";
 
   return (
     <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-24 pb-2">
@@ -38,7 +55,7 @@ const Breadcrumbs = () => {
             className="hover:text-primary transition-colors flex items-center gap-1"
           >
             <Home size={14} />
-            <span itemProp="name">Inicio</span>
+            <span itemProp="name">{homeLabel}</span>
           </Link>
           <meta itemProp="position" content="1" />
         </li>

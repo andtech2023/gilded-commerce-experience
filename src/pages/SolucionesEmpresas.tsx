@@ -50,6 +50,17 @@ const projects = [
     saving: "28%",
     desc: "Eliminación de microcortes en cadena de frío y optimización tarifaria 3.0TD.",
   },
+
+// ── Proyectos data ───────────────────────────────────────────────────────────
+const projects = [
+  {
+    img: proyectoGerona,
+    title: "Centro Logístico",
+    location: "Gerona, España",
+    system: "HBS 200 + Inversores SIRIO K 100kW",
+    saving: "28%",
+    desc: "Eliminación de microcortes en cadena de frío y optimización tarifaria 3.0TD.",
+  },
   {
     img: proyectoMallorca,
     title: "Hotel Resort",

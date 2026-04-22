@@ -1,29 +1,31 @@
 import { useState, useEffect } from "react";
 import atbotAvatar from "@/assets/atbot.jpg";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WhatsAppButton = () => {
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const [isHovered, setIsHovered] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const [hasShownWelcome, setHasShownWelcome] = useState(false);
   const whatsappNumber = "376369939";
-  const message = "Hola! Me gustaría obtener más información sobre sus servicios.";
+  const message = tr(
+    "Hola! Me gustaría obtener más información sobre sus servicios.",
+    "Hola! M'agradaria obtenir més informació sobre els vostres serveis."
+  );
 
   useEffect(() => {
-    // Mostrar bienvenida solo la primera vez
     const welcomed = sessionStorage.getItem('atbot-welcomed');
     if (!welcomed) {
       const timer = setTimeout(() => {
         setShowWelcome(true);
         setHasShownWelcome(true);
         sessionStorage.setItem('atbot-welcomed', 'true');
-        
-        // Cerrar automáticamente después de 8 segundos
         setTimeout(() => {
           setShowWelcome(false);
         }, 8000);
       }, 2000);
-      
       return () => clearTimeout(timer);
     }
   }, []);
@@ -35,37 +37,36 @@ const WhatsAppButton = () => {
 
   return (
     <>
-      {/* Welcome Modal */}
       {showWelcome && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-sm animate-fade-in">
           <div className="relative max-w-md w-full mx-4">
             <div className="relative">
-              {/* Avatar grande con efecto de voz */}
               <div className="relative w-48 h-48 mx-auto mb-6">
                 <img
                   src={atbotAvatar}
-                  alt="ATBOT - Asistente Virtual"
+                  alt={tr("ATBOT - Asistente Virtual", "ATBOT - Assistent Virtual")}
                   className="w-full h-full object-cover rounded-full border-4 border-primary shadow-elegant"
                 />
-                {/* Ondas de sonido animadas */}
                 <div className="absolute inset-0 rounded-full border-4 border-primary/40 animate-ping" style={{ animationDuration: "2s" }} />
                 <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping" style={{ animationDuration: "3s", animationDelay: "0.5s" }} />
               </div>
               
-              {/* Texto de bienvenida */}
               <div className="text-center space-y-4 animate-fade-in" style={{ animationDelay: "0.5s" }}>
                 <h2 className="text-3xl font-serif font-bold text-gradient-gold">
-                  ¡Bienvenido a AndorraTech!
+                  {tr("¡Bienvenido a AndorraTech!", "Benvingut a AndorraTech!")}
                 </h2>
                 <div className="space-y-2 text-foreground">
                   <p className="text-lg">
-                    Soy <span className="font-semibold text-primary">ATBOT</span>, tu asistente virtual
+                    {tr("Soy", "Sóc")} <span className="font-semibold text-primary">ATBOT</span>, {tr("tu asistente virtual", "el teu assistent virtual")}
                   </p>
                   <p className="text-muted-foreground">
-                    Estoy aquí para responder todas tus dudas e inquietudes sobre inteligencia artificial y nuestros servicios.
+                    {tr(
+                      "Estoy aquí para responder todas tus dudas e inquietudes sobre inteligencia artificial y nuestros servicios.",
+                      "Sóc aquí per respondre tots els teus dubtes i inquietuds sobre intel·ligència artificial i els nostres serveis."
+                    )}
                   </p>
                   <p className="text-muted-foreground">
-                    Voy a guiarte para que obtengas la mejor información.
+                    {tr("Voy a guiarte para que obtengas la mejor información.", "Et guiaré perquè obtinguis la millor informació.")}
                   </p>
                 </div>
                 
@@ -75,7 +76,7 @@ const WhatsAppButton = () => {
                   size="lg"
                   className="mt-6"
                 >
-                  ¡Empecemos!
+                  {tr("¡Empecemos!", "Comencem!")}
                 </Button>
               </div>
             </div>
@@ -83,7 +84,6 @@ const WhatsAppButton = () => {
         </div>
       )}
 
-      {/* Botón flotante */}
       <div
         className="fixed bottom-24 right-6 z-50 group"
         onMouseEnter={() => setIsHovered(true)}
@@ -93,29 +93,25 @@ const WhatsAppButton = () => {
           onClick={handleClick}
           className="relative flex items-center justify-center transition-transform duration-300 hover:scale-110 animate-bounce"
           style={{ animationDuration: "3s" }}
-          aria-label="Contactar por WhatsApp con ATBOT"
+          aria-label={tr("Contactar por WhatsApp con ATBOT", "Contactar per WhatsApp amb ATBOT")}
         >
-          {/* Avatar ATBOT */}
           <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary glow-gold">
             <img
               src={atbotAvatar}
-              alt="ATBOT - Asistente Virtual"
+              alt={tr("ATBOT - Asistente Virtual", "ATBOT - Assistent Virtual")}
               className="w-full h-full object-cover"
             />
           </div>
-
-          {/* Glow effect */}
           <div className="absolute inset-0 rounded-full bg-primary opacity-20 blur-xl animate-pulse" />
         </button>
 
-        {/* Tooltip */}
         {isHovered && (
           <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap bg-card border border-border rounded-lg px-4 py-2 shadow-xl animate-fade-in">
             <p className="text-sm font-medium text-foreground">
-              Chatea con ATBOT
+              {tr("Chatea con ATBOT", "Xateja amb ATBOT")}
             </p>
             <p className="text-xs text-muted-foreground">
-              Asistente virtual de AndorraTech
+              {tr("Asistente virtual de AndorraTech", "Assistent virtual d'AndorraTech")}
             </p>
           </div>
         )}

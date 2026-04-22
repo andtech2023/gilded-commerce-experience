@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Brain, TrendingUp, Shield, Zap, Users, BarChart } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AIConsultingDetailModalProps {
   isOpen: boolean;
@@ -10,62 +11,28 @@ interface AIConsultingDetailModalProps {
 }
 
 const AIConsultingDetailModal = ({ isOpen, onClose, onSelectPayment }: AIConsultingDetailModalProps) => {
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const benefits = [
-    {
-      icon: Brain,
-      title: "Análisis Inteligente",
-      description: "Evaluación completa de oportunidades de IA en su empresa"
-    },
-    {
-      icon: TrendingUp,
-      title: "ROI Garantizado",
-      description: "Implementaciones que generan retorno medible desde el día 1"
-    },
-    {
-      icon: Shield,
-      title: "Seguridad y Ética",
-      description: "Cumplimiento de normativas europeas y mejores prácticas"
-    },
-    {
-      icon: Zap,
-      title: "Implementación Rápida",
-      description: "Resultados visibles en semanas, no meses"
-    },
-    {
-      icon: Users,
-      title: "Formación Incluida",
-      description: "Capacitación completa para su equipo"
-    },
-    {
-      icon: BarChart,
-      title: "Métricas y KPIs",
-      description: "Dashboard personalizado para medir el impacto"
-    }
+    { icon: Brain, title: tr("Análisis Inteligente", "Anàlisi Intel·ligent"), description: tr("Evaluación completa de oportunidades de IA en su empresa", "Avaluació completa d'oportunitats d'IA a la seva empresa") },
+    { icon: TrendingUp, title: tr("ROI Garantizado", "ROI Garantit"), description: tr("Implementaciones que generan retorno medible desde el día 1", "Implementacions que generen retorn mesurable des del dia 1") },
+    { icon: Shield, title: tr("Seguridad y Ética", "Seguretat i Ètica"), description: tr("Cumplimiento de normativas europeas y mejores prácticas", "Compliment de normatives europees i millors pràctiques") },
+    { icon: Zap, title: tr("Implementación Rápida", "Implementació Ràpida"), description: tr("Resultados visibles en semanas, no meses", "Resultats visibles en setmanes, no mesos") },
+    { icon: Users, title: tr("Formación Incluida", "Formació Inclosa"), description: tr("Capacitación completa para su equipo", "Capacitació completa per al seu equip") },
+    { icon: BarChart, title: tr("Métricas y KPIs", "Mètriques i KPIs"), description: tr("Dashboard personalizado para medir el impacto", "Dashboard personalitzat per mesurar l'impacte") }
   ];
 
   const useCases = [
-    {
-      title: "Automatización de Procesos",
-      description: "Reducción del 70% en tareas repetitivas",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=450&fit=crop"
-    },
-    {
-      title: "Atención al Cliente 24/7",
-      description: "Chatbots inteligentes con comprensión natural",
-      image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=450&fit=crop"
-    },
-    {
-      title: "Análisis Predictivo",
-      description: "Anticipación de tendencias y demanda del mercado",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop"
-    }
+    { title: tr("Automatización de Procesos", "Automatització de Processos"), description: tr("Reducción del 70% en tareas repetitivas", "Reducció del 70% en tasques repetitives"), image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=450&fit=crop" },
+    { title: tr("Atención al Cliente 24/7", "Atenció al Client 24/7"), description: tr("Chatbots inteligentes con comprensión natural", "Chatbots intel·ligents amb comprensió natural"), image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=450&fit=crop" },
+    { title: tr("Análisis Predictivo", "Anàlisi Predictiva"), description: tr("Anticipación de tendencias y demanda del mercado", "Anticipació de tendències i demanda del mercat"), image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop" }
   ];
 
   const process = [
-    { phase: "Auditoría", duration: "1 semana", description: "Análisis completo de su infraestructura actual" },
-    { phase: "Estrategia", duration: "2 semanas", description: "Diseño de roadmap personalizado de IA" },
-    { phase: "Piloto", duration: "4 semanas", description: "Implementación de proyecto piloto" },
-    { phase: "Escalado", duration: "Continuo", description: "Expansión gradual y optimización" }
+    { phase: tr("Auditoría", "Auditoria"), duration: tr("1 semana", "1 setmana"), description: tr("Análisis completo de su infraestructura actual", "Anàlisi completa de la seva infraestructura actual") },
+    { phase: tr("Estrategia", "Estratègia"), duration: tr("2 semanas", "2 setmanes"), description: tr("Diseño de roadmap personalizado de IA", "Disseny de roadmap personalitzat d'IA") },
+    { phase: tr("Piloto", "Pilot"), duration: tr("4 semanas", "4 setmanes"), description: tr("Implementación de proyecto piloto", "Implementació de projecte pilot") },
+    { phase: tr("Escalado", "Escalat"), duration: tr("Continuo", "Continu"), description: tr("Expansión gradual y optimización", "Expansió gradual i optimització") }
   ];
 
   return (
@@ -74,12 +41,14 @@ const AIConsultingDetailModal = ({ isOpen, onClose, onSelectPayment }: AIConsult
         <DialogHeader>
           <DialogTitle className="text-3xl font-serif">
             <span className="bg-gradient-gold bg-clip-text text-transparent">
-              Asesoría Empresarial en IA
+              {tr("Asesoría Empresarial en IA", "Assessoria Empresarial en IA")}
             </span>
           </DialogTitle>
           <DialogDescription className="text-lg mt-2">
-            Transforme su empresa con inteligencia artificial de vanguardia. 
-            Soluciones personalizadas que aumentan la eficiencia hasta un 300%.
+            {tr(
+              "Transforme su empresa con inteligencia artificial de vanguardia. Soluciones personalizadas que aumentan la eficiencia hasta un 300%.",
+              "Transformi la seva empresa amb intel·ligència artificial d'avantguarda. Solucions personalitzades que augmenten l'eficiència fins a un 300%."
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -98,7 +67,7 @@ const AIConsultingDetailModal = ({ isOpen, onClose, onSelectPayment }: AIConsult
 
         {/* Use Cases */}
         <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-4 text-foreground">Casos de Éxito</h3>
+          <h3 className="text-xl font-semibold mb-4 text-foreground">{tr("Casos de Éxito", "Casos d'Èxit")}</h3>
           <div className="grid md:grid-cols-3 gap-4">
             {useCases.map((useCase, index) => (
               <div key={index} className="relative group overflow-hidden rounded-lg">
@@ -118,7 +87,7 @@ const AIConsultingDetailModal = ({ isOpen, onClose, onSelectPayment }: AIConsult
 
         {/* Process Timeline */}
         <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-4 text-foreground">Proceso de Implementación</h3>
+          <h3 className="text-xl font-semibold mb-4 text-foreground">{tr("Proceso de Implementación", "Procés d'Implementació")}</h3>
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-primary/20"></div>
             <div className="space-y-6">
@@ -142,7 +111,7 @@ const AIConsultingDetailModal = ({ isOpen, onClose, onSelectPayment }: AIConsult
 
         {/* Technologies */}
         <div className="mt-8 p-6 bg-gradient-subtle rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">Tecnologías que Implementamos</h3>
+          <h3 className="text-lg font-semibold mb-3">{tr("Tecnologías que Implementamos", "Tecnologies que Implementem")}</h3>
           <div className="flex flex-wrap gap-2">
             {["OpenAI GPT-4", "Claude 3", "TensorFlow", "PyTorch", "LangChain", "Vector Databases", 
               "Computer Vision", "NLP", "Machine Learning", "Deep Learning", "AutoML", "MLOps"].map((tech) => (
@@ -157,20 +126,20 @@ const AIConsultingDetailModal = ({ isOpen, onClose, onSelectPayment }: AIConsult
         <div className="mt-8 p-6 bg-card border border-primary/20 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground mb-1">Inversión mensual desde</p>
+              <p className="text-sm text-muted-foreground mb-1">{tr("Inversión mensual desde", "Inversió mensual des de")}</p>
               <p className="text-3xl font-bold bg-gradient-gold bg-clip-text text-transparent">
-                €2,499/mes
+                €2,499/{tr("mes", "mes")}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                * Primera consultoría GRATIS
+                {tr("* Primera consultoría GRATIS", "* Primera consultoria GRATIS")}
               </p>
             </div>
             <div className="flex gap-3">
               <Button variant="outline" onClick={onClose}>
-                Volver
+                {tr("Volver", "Tornar")}
               </Button>
               <Button variant="premium" onClick={onSelectPayment} className="group">
-                Solicitar Consultoría
+                {tr("Solicitar Consultoría", "Sol·licitar Consultoria")}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </Button>
             </div>
