@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
 import semSeoCampaign from "@/assets/sem-seo-campaign.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ServiceDetailModalProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ interface ServiceDetailModalProps {
 }
 
 const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: ServiceDetailModalProps) => {
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const [selectedDemo, setSelectedDemo] = useState(0);
   
   // Service-specific content
@@ -301,7 +304,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
         <div className="grid md:grid-cols-2 gap-6 mt-6">
           {/* Features Section */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-foreground">Características Incluidas</h3>
+            <h3 className="text-xl font-semibold mb-4 text-foreground">{tr("Características Incluidas", "Característiques Incloses")}</h3>
             <ul className="space-y-3">
               {details.features.map((feature: string, index: number) => (
                 <li key={index} className="flex items-start">
@@ -314,11 +317,11 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
 
           {/* Technical Details */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-foreground">Detalles Técnicos</h3>
+            <h3 className="text-xl font-semibold mb-4 text-foreground">{tr("Detalles Técnicos", "Detalls Tècnics")}</h3>
             <Card className="bg-card/50">
               <CardContent className="pt-6">
                 <div className="mb-4">
-                  <p className="text-sm text-muted-foreground mb-1">Tecnologías</p>
+                  <p className="text-sm text-muted-foreground mb-1">{tr("Tecnologías", "Tecnologies")}</p>
                   <div className="flex flex-wrap gap-2">
                     {details.technologies.map((tech: string, index: number) => (
                       <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
@@ -328,7 +331,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Tiempo de Entrega</p>
+                  <p className="text-sm text-muted-foreground mb-1">{tr("Tiempo de Entrega", "Temps de Lliurament")}</p>
                   <p className="text-foreground font-semibold">{details.timeline}</p>
                 </div>
               </CardContent>
@@ -340,7 +343,7 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
         {/* Portfolio/Demos Section */}
         {details.portfolio && details.portfolio.length > 0 && (
           <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4 text-foreground">Trabajos Realizados</h3>
+            <h3 className="text-xl font-semibold mb-4 text-foreground">{tr("Trabajos Realizados", "Treballs Realitzats")}</h3>
             <div className="space-y-4">
               <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
                 <img 
@@ -378,30 +381,39 @@ const ServiceDetailModal = ({ isOpen, onClose, service, onSelectPayment }: Servi
             <div className="flex-1">
               <p className="text-lg text-muted-foreground">
                 {service.title === "ChatBot IA con Voz Humana" 
-                  ? "¿Tienes dudas? Habla ahora con nuestro ATBot y descubre cómo puede transformar tu negocio."
-                  : "¿Interesado en este servicio? Contáctenos para recibir un presupuesto personalizado."
+                  ? tr(
+                      "¿Tienes dudas? Habla ahora con nuestro ATBot y descubre cómo puede transformar tu negocio.",
+                      "Tens dubtes? Parla ara amb el nostre ATBot i descobreix com pot transformar el teu negoci."
+                    )
+                  : tr(
+                      "¿Interesado en este servicio? Contáctenos para recibir un presupuesto personalizado.",
+                      "Interessat en aquest servei? Contacta'ns per rebre un pressupost personalitzat."
+                    )
                 }
               </p>
             </div>
             <div className="flex gap-3">
               <Button variant="outline" onClick={onClose}>
-                Volver
+                {tr("Volver", "Tornar")}
               </Button>
               {service.title === "ChatBot IA con Voz Humana" ? (
                 <Button 
                   variant="premium" 
                   onClick={() => {
-                    const message = encodeURIComponent("Hola, estoy interesado en el servicio de ChatBot IA con Voz Humana. ¿Podrían darme más información?");
+                    const message = encodeURIComponent(tr(
+                      "Hola, estoy interesado en el servicio de ChatBot IA con Voz Humana. ¿Podrían darme más información?",
+                      "Hola, estic interessat en el servei de ChatBot IA amb Veu Humana. Podríeu donar-me més informació?"
+                    ));
                     window.open(`https://wa.me/376369939?text=${message}`, '_blank');
                   }}
                   className="group bg-gradient-gold hover:bg-[#25D366] transition-all duration-300"
                 >
-                  💬 Hablar con ATBot
+                  💬 {tr("Hablar con ATBot", "Parlar amb ATBot")}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                 </Button>
               ) : (
                 <Button variant="premium" onClick={onSelectPayment} className="group">
-                  Solicitar Presupuesto
+                  {tr("Solicitar Presupuesto", "Sol·licitar Pressupost")}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                 </Button>
               )}
