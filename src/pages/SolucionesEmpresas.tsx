@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
+import { useLanguage } from "@/contexts/LanguageContext";
 import hbsBatteryImg from "@/assets/hbs-battery-real.jpg";
 import solarPanelsImg from "@/assets/solar-panels-bright.jpg";
 import invertersImg from "@/assets/power-inverters-bright.jpg";
@@ -39,6 +40,23 @@ import proyectoHuelvaCooperativa from "@/assets/proyecto-huelva-cooperativa.jpg"
 import proyectoMedioambiente from "@/assets/proyecto-medioambiente.jpg";
 import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
 import naveConPlacas from "@/assets/nave-con-placas.jpg";
+
+// Bilingual translation data
+type LangPair = { es: string; ca: string };
+
+const projectsData: Array<{ img: string; title: LangPair; location: LangPair; system: string; saving: string; desc: LangPair }> = [
+  { img: proyectoGerona, title: { es: "Centro Logístico", ca: "Centre Logístic" }, location: { es: "Gerona, España", ca: "Girona, Espanya" }, system: "HBS 200 + Inversores SIRIO K 100kW", saving: "28%", desc: { es: "Eliminación de microcortes en cadena de frío y optimización tarifaria 3.0TD.", ca: "Eliminació de microtalls en cadena de fred i optimització tarifària 3.0TD." } },
+  { img: proyectoMallorca, title: { es: "Hotel Resort", ca: "Hotel Resort" }, location: { es: "Mallorca, España", ca: "Mallorca, Espanya" }, system: "HBS 400 + Autoconsumo Fotovoltaico 200kWp", saving: "35%", desc: { es: "Instalación integrada para reducción de costes energéticos en temporada alta.", ca: "Instal·lació integrada per a reducció de costos energètics en temporada alta." } },
+  { img: proyectoBenidorm, title: { es: "Complejo de Ocio", ca: "Complex de Lleure" }, location: { es: "Benidorm, España", ca: "Benidorm, Espanya" }, system: "HBS 600 + Batería 480kWh", saving: "32%", desc: { es: "Protección total de equipos escénicos y iluminación espectacular.", ca: "Protecció total d'equips escènics i il·luminació espectacular." } },
+  { img: proyectoLleida, title: { es: "Industria Agroalimentaria", ca: "Indústria Agroalimentària" }, location: { es: "Lleida, España", ca: "Lleida, Espanya" }, system: "HBS 300 + Placas Solar 150kWp", saving: "40%", desc: { es: "Autoconsumo total en horas productivas con almacenamiento en baterías.", ca: "Autoconsum total en hores productives amb emmagatzematge en bateries." } },
+  { img: proyectoVigo, title: { es: "Puerto Industrial", ca: "Port Industrial" }, location: { es: "Vigo, España", ca: "Vigo, Espanya" }, system: "HBS 800 + 4 Inversores 200kW", saving: "26%", desc: { es: "Estabilización de red en instalación portuaria con alta demanda variable.", ca: "Estabilització de xarxa en instal·lació portuària amb alta demanda variable." } },
+  { img: proyectoHuelvaCooperativa, title: { es: "Cooperativa Agrícola", ca: "Cooperativa Agrícola" }, location: { es: "Huelva, España", ca: "Huelva, Espanya" }, system: "HBS 800 + 2 Inversores SIRIO K 250kW + Batería 980kWh", saving: "45%", desc: { es: "Instalación totalmente aislada de red. Autoconsumo 100% en temporada de recolecta.", ca: "Instal·lació totalment aïllada de xarxa. Autoconsum 100% en temporada de recol·lecta." } },
+  { img: proyectoMaspalomas, title: { es: "Complejo Hotelero", ca: "Complex Hoteler" }, location: { es: "Maspalomas, Gran Canaria", ca: "Maspalomas, Gran Canària" }, system: "HBS 500 + Autoconsumo 250kWp", saving: "38%", desc: { es: "Instalación en entorno insular con alta dependencia de red y costes elevados.", ca: "Instal·lació en entorn insular amb alta dependència de xarxa i costos elevats." } },
+  { img: proyectoChile, title: { es: "Planta Solar Industrial", ca: "Planta Solar Industrial" }, location: { es: "Atacama, Chile", ca: "Atacama, Xile" }, system: "HBS 1200 + 6 Inversores SIRIO 300kW + Batería 1.4MWh", saving: "50%", desc: { es: "Proyecto de gran escala en zona de alta irradiación con aislamiento total de red.", ca: "Projecte de gran escala en zona d'alta irradiació amb aïllament total de xarxa." } },
+  { img: proyectoJoyeria, title: { es: "Sector Joyería / Artesanía", ca: "Sector Joieria / Artesania" }, location: { es: "España", ca: "Espanya" }, system: "HBS 80 + Inversores SIRIO RS 40kW", saving: "30%", desc: { es: "Protección de maquinaria de precisión frente a microcortes en proceso de manufactura.", ca: "Protecció de maquinària de precisió davant microtalls en procés de manufactura." } },
+  { img: proyectoMedioambiente, title: { es: "Empresa Servicios Medioambientales", ca: "Empresa Serveis Mediambientals" }, location: { es: "España", ca: "Espanya" }, system: "HBS 80 + 3 Inversores SIRIO RS 60kW + Batería 241kWh", saving: "42%", desc: { es: "Instalación totalmente aislada de red para garantizar operativa 24/7 en zonas remotas.", ca: "Instal·lació totalment aïllada de xarxa per garantir operativa 24/7 en zones remotes." } },
+  { img: proyectoSaba, title: { es: "Parking Metropolitano", ca: "Pàrquing Metropolità" }, location: { es: "España", ca: "Espanya" }, system: "HBS 150 + Gestión Inteligente", saving: "24%", desc: { es: "Reducción de picos de demanda y protección de sistemas de control de acceso.", ca: "Reducció de pics de demanda i protecció de sistemes de control d'accés." } },
+];
 
 // ── Proyectos data ───────────────────────────────────────────────────────────
 const projects = [
