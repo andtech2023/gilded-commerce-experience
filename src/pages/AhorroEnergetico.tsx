@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { validateContactForm } from "@/utils/contactFormValidation";
 import { verifyRecaptcha } from "@/utils/recaptchaVerification";
+import { useLanguage } from "@/contexts/LanguageContext";
 import repsolLogo from "@/assets/repsol-logo.png";
 import endesaLogo from "@/assets/endesa-logo.png";
 import audaxLogo from "@/assets/audax-logo.png";
@@ -26,6 +27,8 @@ import energyBannerBg from "@/assets/energy-banner-bg.jpg";
 
 const AhorroEnergetico = () => {
   const { toast } = useToast();
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -52,11 +55,10 @@ const AhorroEnergetico = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Verify reCAPTCHA
     if (!recaptchaToken) {
       toast({
-        title: "Verificación requerida",
-        description: "Por favor, completa el CAPTCHA para continuar.",
+        title: tr("Verificación requerida", "Verificació requerida"),
+        description: tr("Por favor, completa el CAPTCHA para continuar.", "Si us plau, completa el CAPTCHA per continuar."),
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -66,8 +68,8 @@ const AhorroEnergetico = () => {
     const captchaVerification = await verifyRecaptcha(recaptchaToken);
     if (!captchaVerification.success) {
       toast({
-        title: "Error de verificación",
-        description: captchaVerification.error || "La verificación CAPTCHA ha fallado.",
+        title: tr("Error de verificación", "Error de verificació"),
+        description: captchaVerification.error || tr("La verificación CAPTCHA ha fallado.", "La verificació CAPTCHA ha fallat."),
         variant: "destructive",
       });
       recaptchaRef.current?.reset();
@@ -76,17 +78,16 @@ const AhorroEnergetico = () => {
       return;
     }
 
-    // Validate and sanitize form data
     const validation = validateContactForm({
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      message: formData.message || "Solicitud de análisis de ahorro energético",
+      message: formData.message || tr("Solicitud de análisis de ahorro energético", "Sol·licitud d'anàlisi d'estalvi energètic"),
     });
 
     if (!validation.success) {
       toast({
-        title: "Error de validación",
+        title: tr("Error de validación", "Error de validació"),
         description: validation.errors.join(", "),
         variant: "destructive",
       });
@@ -109,8 +110,11 @@ const AhorroEnergetico = () => {
       if (error) throw error;
 
       toast({
-        title: "¡Solicitud enviada!",
-        description: "Nos pondremos en contacto contigo pronto para analizar tu factura.",
+        title: tr("¡Solicitud enviada!", "Sol·licitud enviada!"),
+        description: tr(
+          "Nos pondremos en contacto contigo pronto para analizar tu factura.",
+          "Ens posarem en contacte amb tu aviat per analitzar la teva factura."
+        ),
       });
 
       setFormData({ name: "", email: "", phone: "", company: "", message: "" });
@@ -120,7 +124,7 @@ const AhorroEnergetico = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+        description: tr("Ha ocurrido un error. Por favor, inténtalo de nuevo.", "Hi ha hagut un error. Si us plau, torna-ho a provar."),
         variant: "destructive",
       });
     } finally {
@@ -130,7 +134,10 @@ const AhorroEnergetico = () => {
 
   const handleATBotContact = () => {
     const message = encodeURIComponent(
-      "Hola ATBOT, me gustaría recibir asesoramiento sobre ahorro energético y compartir mi factura de luz para una simulación gratuita."
+      tr(
+        "Hola ATBOT, me gustaría recibir asesoramiento sobre ahorro energético y compartir mi factura de luz para una simulación gratuita.",
+        "Hola ATBOT, m'agradaria rebre assessorament sobre estalvi energètic i compartir la meva factura de llum per a una simulació gratuïta."
+      )
     );
     window.open(`https://wa.me/376369939?text=${message}`, "_blank");
   };
@@ -141,58 +148,70 @@ const AhorroEnergetico = () => {
   const benefitsWithAudio = [
     {
       icon: <TrendingDown className="w-12 h-12 text-primary" />,
-      title: "Ahorro Garantizado",
-      description: "Reducimos tus costes energéticos hasta un 40% encontrando la tarifa perfecta para tu industria.",
+      title: tr("Ahorro Garantizado", "Estalvi Garantit"),
+      description: tr(
+        "Reducimos tus costes energéticos hasta un 40% encontrando la tarifa perfecta para tu industria.",
+        "Reduïm els teus costos energètics fins a un 40% trobant la tarifa perfecta per a la teva indústria."
+      ),
       audioPath: "/audio/ahorro-garantizado.mp3",
       subtitles: [
-        { start: 0, end: 3, text: "Te garantizamos un ahorro real en tu factura energética." },
-        { start: 3, end: 6, text: "Nuestros expertos analizan tu consumo actual" },
-        { start: 6, end: 9, text: "y comparan todas las ofertas disponibles en el mercado." },
-        { start: 9, end: 12, text: "Encontramos la tarifa perfecta para tu industria," },
-        { start: 12, end: 15, text: "con ahorros de hasta un 40% garantizados." },
-        { start: 15, end: 18, text: "Sin compromisos, solo resultados." },
+        { start: 0, end: 3, text: tr("Te garantizamos un ahorro real en tu factura energética.", "Et garantim un estalvi real en la teva factura energètica.") },
+        { start: 3, end: 6, text: tr("Nuestros expertos analizan tu consumo actual", "Els nostres experts analitzen el teu consum actual") },
+        { start: 6, end: 9, text: tr("y comparan todas las ofertas disponibles en el mercado.", "i comparen totes les ofertes disponibles al mercat.") },
+        { start: 9, end: 12, text: tr("Encontramos la tarifa perfecta para tu industria,", "Trobem la tarifa perfecta per a la teva indústria,") },
+        { start: 12, end: 15, text: tr("con ahorros de hasta un 40% garantizados.", "amb estalvis de fins a un 40% garantits.") },
+        { start: 15, end: 18, text: tr("Sin compromisos, solo resultados.", "Sense compromisos, només resultats.") },
       ],
     },
     {
       icon: <Calculator className="w-12 h-12 text-primary" />,
-      title: "Simulador Avanzado",
-      description: "Nuestra herramienta propia analiza todas las ofertas del mercado en tiempo real.",
+      title: tr("Simulador Avanzado", "Simulador Avançat"),
+      description: tr(
+        "Nuestra herramienta propia analiza todas las ofertas del mercado en tiempo real.",
+        "La nostra eina pròpia analitza totes les ofertes del mercat en temps real."
+      ),
       audioPath: "/audio/simulador.mp3",
       subtitles: [
-        { start: 0, end: 3, text: "Nuestro simulador es una herramienta de diseño propio." },
-        { start: 3, end: 6, text: "Analiza tu factura y compara en tiempo real" },
-        { start: 6, end: 9, text: "todas las ofertas energéticas del mercado español." },
-        { start: 9, end: 12, text: "Te mostramos exactamente cuánto puedes ahorrar" },
-        { start: 12, end: 15, text: "con cada compañía y tarifa disponible." },
-        { start: 15, end: 18, text: "Tecnología avanzada al servicio de tu ahorro." },
+        { start: 0, end: 3, text: tr("Nuestro simulador es una herramienta de diseño propio.", "El nostre simulador és una eina de disseny propi.") },
+        { start: 3, end: 6, text: tr("Analiza tu factura y compara en tiempo real", "Analitza la teva factura i compara en temps real") },
+        { start: 6, end: 9, text: tr("todas las ofertas energéticas del mercado español.", "totes les ofertes energètiques del mercat espanyol.") },
+        { start: 9, end: 12, text: tr("Te mostramos exactamente cuánto puedes ahorrar", "Et mostrem exactament quant pots estalviar") },
+        { start: 12, end: 15, text: tr("con cada compañía y tarifa disponible.", "amb cada companyia i tarifa disponible.") },
+        { start: 15, end: 18, text: tr("Tecnología avanzada al servicio de tu ahorro.", "Tecnologia avançada al servei del teu estalvi.") },
       ],
     },
     {
       icon: <Shield className="w-12 h-12 text-primary" />,
-      title: "100% Confidencial",
-      description: "Tus datos están protegidos. Análisis profesional sin compromiso y totalmente gratuito.",
+      title: tr("100% Confidencial", "100% Confidencial"),
+      description: tr(
+        "Tus datos están protegidos. Análisis profesional sin compromiso y totalmente gratuito.",
+        "Les teves dades estan protegides. Anàlisi professional sense compromís i totalment gratuïta."
+      ),
       audioPath: "/audio/privacidad.mp3",
       subtitles: [
-        { start: 0, end: 3, text: "Tu privacidad es nuestra prioridad absoluta." },
-        { start: 3, end: 6, text: "Todos tus datos están completamente protegidos." },
-        { start: 6, end: 9, text: "El análisis es profesional, sin compromiso" },
-        { start: 9, end: 12, text: "y totalmente gratuito para ti." },
-        { start: 12, end: 15, text: "No compartimos tu información con terceros." },
-        { start: 15, end: 18, text: "Confidencialidad garantizada al 100%." },
+        { start: 0, end: 3, text: tr("Tu privacidad es nuestra prioridad absoluta.", "La teva privacitat és la nostra prioritat absoluta.") },
+        { start: 3, end: 6, text: tr("Todos tus datos están completamente protegidos.", "Totes les teves dades estan completament protegides.") },
+        { start: 6, end: 9, text: tr("El análisis es profesional, sin compromiso", "L'anàlisi és professional, sense compromís") },
+        { start: 9, end: 12, text: tr("y totalmente gratuito para ti.", "i totalment gratuït per a tu.") },
+        { start: 12, end: 15, text: tr("No compartimos tu información con terceros.", "No compartim la teva informació amb tercers.") },
+        { start: 15, end: 18, text: tr("Confidencialidad garantizada al 100%.", "Confidencialitat garantida al 100%.") },
       ],
     },
     {
       icon: <CheckCircle2 className="w-12 h-12 text-primary" />,
-      title: "Gestión Completa",
-      description: "Nos encargamos de todo el proceso: análisis, negociación y cambio de proveedor.",
+      title: tr("Gestión Completa", "Gestió Completa"),
+      description: tr(
+        "Nos encargamos de todo el proceso: análisis, negociación y cambio de proveedor.",
+        "Ens encarreguem de tot el procés: anàlisi, negociació i canvi de proveïdor."
+      ),
       audioPath: "/audio/tramite.mp3",
       subtitles: [
-        { start: 0, end: 3, text: "Nosotros nos encargamos de todo el proceso." },
-        { start: 3, end: 6, text: "Desde el análisis inicial de tu factura" },
-        { start: 6, end: 9, text: "hasta la negociación con las compañías energéticas." },
-        { start: 9, end: 12, text: "Gestionamos el cambio de proveedor por ti." },
-        { start: 12, end: 15, text: "Tú solo te relajas y empiezas a ahorrar." },
-        { start: 15, end: 18, text: "Gestión completa sin complicaciones." },
+        { start: 0, end: 3, text: tr("Nosotros nos encargamos de todo el proceso.", "Nosaltres ens encarreguem de tot el procés.") },
+        { start: 3, end: 6, text: tr("Desde el análisis inicial de tu factura", "Des de l'anàlisi inicial de la teva factura") },
+        { start: 6, end: 9, text: tr("hasta la negociación con las compañías energéticas.", "fins a la negociació amb les companyies energètiques.") },
+        { start: 9, end: 12, text: tr("Gestionamos el cambio de proveedor por ti.", "Gestionem el canvi de proveïdor per tu.") },
+        { start: 12, end: 15, text: tr("Tú solo te relajas y empiezas a ahorrar.", "Tu només et relaxes i comences a estalviar.") },
+        { start: 15, end: 18, text: tr("Gestión completa sin complicaciones.", "Gestió completa sense complicacions.") },
       ],
     },
   ];
@@ -214,8 +233,11 @@ const AhorroEnergetico = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Ahorro Energético Empresarial | Andorra Tech"
-        description="Reduce tu factura eléctrica hasta un 40%. Simulador de tarifas, comparador energético y gestión de cambio de comercializadora para empresas."
+        title={tr("Ahorro Energético Empresarial | Andorra Tech", "Estalvi Energètic Empresarial | Andorra Tech")}
+        description={tr(
+          "Reduce tu factura eléctrica hasta un 40%. Simulador de tarifas, comparador energético y gestión de cambio de comercializadora para empresas.",
+          "Redueix la teva factura elèctrica fins a un 40%. Simulador de tarifes, comparador energètic i gestió de canvi de comercialitzadora per a empreses."
+        )}
         canonical="https://www.andorratech.net/ahorro-energetico"
       />
       <Navbar />
@@ -228,14 +250,18 @@ const AhorroEnergetico = () => {
           <div className="text-center space-y-6 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
               <Zap className="w-5 h-5 text-primary" />
-              <span className="text-sm font-semibold text-primary">Expertos en Optimización Energética</span>
+              <span className="text-sm font-semibold text-primary">
+                {tr("Expertos en Optimización Energética", "Experts en Optimització Energètica")}
+              </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-gradient-gold">
-              Ahorro Energético Inteligente
+              {tr("Ahorro Energético Inteligente", "Estalvi Energètic Intel·ligent")}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              ¿Sabías que podrías estar pagando hasta un 40% más en tu factura eléctrica?
-              En AndorraTech te ayudamos a encontrar la mejor tarifa del mercado para tu industria.
+              {tr(
+                "¿Sabías que podrías estar pagando hasta un 40% más en tu factura eléctrica? En AndorraTech te ayudamos a encontrar la mejor tarifa del mercado para tu industria.",
+                "Sabies que podries estar pagant fins a un 40% més en la teva factura elèctrica? A AndorraTech t'ajudem a trobar la millor tarifa del mercat per a la teva indústria."
+              )}
             </p>
           </div>
         </div>
@@ -246,11 +272,13 @@ const AhorroEnergetico = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
-              ¿Por qué necesitas un Agente Especialista en Energía?
+              {tr("¿Por qué necesitas un Agente Especialista en Energía?", "Per què necessites un Agent Especialista en Energia?")}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              El mercado energético es complejo y cambiante. Las tarifas varían constantemente y cada industria
-              tiene necesidades específicas. Un agente especialista te garantiza:
+              {tr(
+                "El mercado energético es complejo y cambiante. Las tarifas varían constantemente y cada industria tiene necesidades específicas. Un agente especialista te garantiza:",
+                "El mercat energètic és complex i canviant. Les tarifes varien constantment i cada indústria té necessitats específiques. Un agent especialista et garanteix:"
+              )}
             </p>
           </div>
 
@@ -269,7 +297,7 @@ const AhorroEnergetico = () => {
                 <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
                 <p className="text-muted-foreground">{benefit.description}</p>
                 <span className="text-xs text-primary mt-3 inline-block opacity-0 group-hover:opacity-100 transition-opacity">
-                  🔊 Haz clic para escuchar
+                  🔊 {tr("Haz clic para escuchar", "Fes clic per escoltar")}
                 </span>
               </button>
             ))}
@@ -279,7 +307,6 @@ const AhorroEnergetico = () => {
 
       {/* Companies Banner */}
       <section className="py-32 px-4 relative overflow-hidden">
-        {/* Background with overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${energyBannerBg})` }}
@@ -289,10 +316,13 @@ const AhorroEnergetico = () => {
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-gradient-gold">
-              Distribuidores Oficiales
+              {tr("Distribuidores Oficiales", "Distribuïdors Oficials")}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Trabajamos con las principales compañías energéticas de España
+              {tr(
+                "Trabajamos con las principales compañías energéticas de España",
+                "Treballem amb les principals companyies energètiques d'Espanya"
+              )}
             </p>
           </div>
 
@@ -305,7 +335,7 @@ const AhorroEnergetico = () => {
               >
                 <img
                   src={company.logo}
-                  alt={`Logo de ${company.name} - Distribuidor energético oficial`}
+                  alt={tr(`Logo de ${company.name} - Distribuidor energético oficial`, `Logotip de ${company.name} - Distribuïdor energètic oficial`)}
                   className="max-w-[80%] max-h-[70%] object-contain transition-transform duration-500 group-hover:scale-[1.6]"
                   loading="lazy"
                 />
@@ -317,27 +347,21 @@ const AhorroEnergetico = () => {
             <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border border-primary/40 shadow-elegant backdrop-blur-sm">
               <CheckCircle2 className="w-6 h-6 text-primary animate-pulse" />
               <span className="text-base font-semibold text-foreground">
-                Como distribuidores oficiales, nos encargamos de toda la gestión
+                {tr(
+                  "Como distribuidores oficiales, nos encargamos de toda la gestión",
+                  "Com a distribuïdors oficials, ens encarreguem de tota la gestió"
+                )}
               </span>
             </div>
           </div>
         </div>
 
-        {/* CSS Animation for floating effect */}
         <style>{`
           @keyframes float {
-            0%, 100% {
-              transform: translateY(0px) rotateX(0deg) rotateY(0deg);
-            }
-            25% {
-              transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
-            }
-            50% {
-              transform: translateY(-15px) rotateX(0deg) rotateY(5deg);
-            }
-            75% {
-              transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg);
-            }
+            0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+            25% { transform: translateY(-10px) rotateX(5deg) rotateY(-5deg); }
+            50% { transform: translateY(-15px) rotateX(0deg) rotateY(5deg); }
+            75% { transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg); }
           }
         `}</style>
       </section>
@@ -347,12 +371,13 @@ const AhorroEnergetico = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
-              Nuestra Herramienta de Simulación
+              {tr("Nuestra Herramienta de Simulación", "La Nostra Eina de Simulació")}
             </h2>
             <p className="text-lg text-muted-foreground">
-              Utilizamos un simulador de diseño propio que analiza tu consumo actual y compara
-              todas las tarifas disponibles en tiempo real para encontrar la opción más rentable
-              para tu negocio.
+              {tr(
+                "Utilizamos un simulador de diseño propio que analiza tu consumo actual y compara todas las tarifas disponibles en tiempo real para encontrar la opción más rentable para tu negocio.",
+                "Utilitzem un simulador de disseny propi que analitza el teu consum actual i compara totes les tarifes disponibles en temps real per trobar l'opció més rendible per al teu negoci."
+              )}
             </p>
           </div>
 
@@ -362,27 +387,27 @@ const AhorroEnergetico = () => {
                 <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mx-auto shadow-md">
                   <Upload className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="font-semibold">1. Analiza</h3>
+                <h3 className="font-semibold">{tr("1. Analiza", "1. Analitza")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Sube tu factura y analizamos tu consumo
+                  {tr("Sube tu factura y analizamos tu consumo", "Puja la teva factura i analitzem el teu consum")}
                 </p>
               </div>
               <div className="space-y-3">
                 <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mx-auto shadow-md">
                   <Calculator className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="font-semibold">2. Compara</h3>
+                <h3 className="font-semibold">{tr("2. Compara", "2. Compara")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Nuestro simulador busca la mejor opción
+                  {tr("Nuestro simulador busca la mejor opción", "El nostre simulador busca la millor opció")}
                 </p>
               </div>
               <div className="space-y-3">
                 <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mx-auto shadow-md">
                   <TrendingDown className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="font-semibold">3. Ahorra</h3>
+                <h3 className="font-semibold">{tr("3. Ahorra", "3. Estalvia")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Te mostramos tu potencial de ahorro
+                  {tr("Te mostramos tu potencial de ahorro", "Et mostrem el teu potencial d'estalvi")}
                 </p>
               </div>
             </div>
@@ -395,15 +420,18 @@ const AhorroEnergetico = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
-              Solicita tu Análisis Gratuito
+              {tr("Solicita tu Análisis Gratuito", "Sol·licita la teva Anàlisi Gratuïta")}
             </h2>
             <p className="text-lg text-muted-foreground mb-4">
-              Sube tu factura de luz y te contactaremos con un estudio personalizado
+              {tr(
+                "Sube tu factura de luz y te contactaremos con un estudio personalizado",
+                "Puja la teva factura de llum i et contactarem amb un estudi personalitzat"
+              )}
             </p>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
               <Shield className="w-5 h-5 text-primary" />
               <span className="text-sm font-semibold text-primary">
-                100% Confidencial • Sin Coste • Sin Compromiso
+                {tr("100% Confidencial • Sin Coste • Sin Compromiso", "100% Confidencial • Sense Cost • Sense Compromís")}
               </span>
             </div>
           </div>
@@ -412,31 +440,31 @@ const AhorroEnergetico = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nombre completo *</Label>
+                  <Label htmlFor="name">{tr("Nombre completo *", "Nom complet *")}</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    placeholder="Tu nombre"
+                    placeholder={tr("Tu nombre", "El teu nom")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="company">Empresa</Label>
+                  <Label htmlFor="company">{tr("Empresa", "Empresa")}</Label>
                   <Input
                     id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    placeholder="Nombre de tu empresa"
+                    placeholder={tr("Nombre de tu empresa", "Nom de la teva empresa")}
                   />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">{tr("Email *", "Correu *")}</Label>
                   <Input
                     id="email"
                     name="email"
@@ -448,7 +476,7 @@ const AhorroEnergetico = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Teléfono *</Label>
+                  <Label htmlFor="phone">{tr("Teléfono *", "Telèfon *")}</Label>
                   <Input
                     id="phone"
                     name="phone"
@@ -462,19 +490,19 @@ const AhorroEnergetico = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="message">Mensaje adicional</Label>
+                <Label htmlFor="message">{tr("Mensaje adicional", "Missatge addicional")}</Label>
                 <Textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Cuéntanos sobre tu consumo energético actual..."
+                  placeholder={tr("Cuéntanos sobre tu consumo energético actual...", "Explica'ns sobre el teu consum energètic actual...")}
                   rows={4}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="file">Subir factura de luz (opcional)</Label>
+                <Label htmlFor="file">{tr("Subir factura de luz (opcional)", "Pujar factura de llum (opcional)")}</Label>
                 <div className="relative">
                   <Input
                     id="file"
@@ -489,7 +517,7 @@ const AhorroEnergetico = () => {
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Formatos aceptados: PDF, JPG, PNG (máx. 10MB)
+                  {tr("Formatos aceptados: PDF, JPG, PNG (máx. 10MB)", "Formats acceptats: PDF, JPG, PNG (màx. 10MB)")}
                 </p>
               </div>
 
@@ -507,7 +535,7 @@ const AhorroEnergetico = () => {
                   disabled={isSubmitting}
                   className="flex-1"
                 >
-                  {isSubmitting ? "Enviando..." : "Solicitar Análisis Gratuito"}
+                  {isSubmitting ? tr("Enviando...", "Enviant...") : tr("Solicitar Análisis Gratuito", "Sol·licitar Anàlisi Gratuïta")}
                 </Button>
                 <Button
                   type="button"
@@ -516,13 +544,15 @@ const AhorroEnergetico = () => {
                   onClick={handleATBotContact}
                   className="flex-1 group hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all duration-300"
                 >
-                  <span>Hablar con ATBOT</span>
+                  <span>{tr("Hablar con ATBOT", "Parlar amb ATBOT")}</span>
                 </Button>
               </div>
 
               <p className="text-xs text-muted-foreground text-center">
-                También puedes contactar directamente con ATBOT por WhatsApp para compartir tu
-                factura y recibir asesoramiento personalizado inmediato.
+                {tr(
+                  "También puedes contactar directamente con ATBOT por WhatsApp para compartir tu factura y recibir asesoramiento personalizado inmediato.",
+                  "També pots contactar directament amb ATBOT per WhatsApp per compartir la teva factura i rebre assessorament personalitzat immediat."
+                )}
               </p>
             </form>
           </div>
@@ -533,20 +563,20 @@ const AhorroEnergetico = () => {
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8">
-            ¿Por qué elegir AndorraTech?
+            {tr("¿Por qué elegir AndorraTech?", "Per què escollir AndorraTech?")}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="space-y-3">
               <div className="text-4xl font-bold text-primary">+10</div>
-              <p className="text-muted-foreground">Años de experiencia</p>
+              <p className="text-muted-foreground">{tr("Años de experiencia", "Anys d'experiència")}</p>
             </div>
             <div className="space-y-3">
               <div className="text-4xl font-bold text-primary">40%</div>
-              <p className="text-muted-foreground">Ahorro promedio</p>
+              <p className="text-muted-foreground">{tr("Ahorro promedio", "Estalvi mitjà")}</p>
             </div>
             <div className="space-y-3">
               <div className="text-4xl font-bold text-primary">24/7</div>
-              <p className="text-muted-foreground">Soporte disponible</p>
+              <p className="text-muted-foreground">{tr("Soporte disponible", "Suport disponible")}</p>
             </div>
           </div>
         </div>
