@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Volume2, Loader2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ServiceIntroModalProps {
   isOpen: boolean;
@@ -73,6 +74,8 @@ const getServiceSubtitles = (title: string): Subtitle[] => {
 };
 
 const ServiceIntroModal = ({ isOpen, onClose, service }: ServiceIntroModalProps) => {
+  const { language } = useLanguage();
+  const tr = (es: string, ca: string) => (language === "ca" ? ca : es);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
