@@ -40,16 +40,6 @@ import proyectoMedioambiente from "@/assets/proyecto-medioambiente.jpg";
 import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
 import naveConPlacas from "@/assets/nave-con-placas.jpg";
 
-// ── Proyectos data ───────────────────────────────────────────────────────────
-const projects = [
-  {
-    img: proyectoGerona,
-    title: "Centro Logístico",
-    location: "Gerona, España",
-    system: "HBS 200 + Inversores SIRIO K 100kW",
-    saving: "28%",
-    desc: "Eliminación de microcortes en cadena de frío y optimización tarifaria 3.0TD.",
-  },
 
 // ── Proyectos data ───────────────────────────────────────────────────────────
 const projects = [
