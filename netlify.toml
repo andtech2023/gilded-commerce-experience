@@ -75,6 +75,13 @@
   status = 200
 
 [[redirects]]
+  from = "/soluciones-empresas-ahorro-energetico"
+  to = "/index.html"
+  status = 200
+
+
+
+[[redirects]]
   from = "/aviso-legal"
   to = "/index.html"
   status = 200
