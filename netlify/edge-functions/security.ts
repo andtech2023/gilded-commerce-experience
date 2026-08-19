@@ -203,8 +203,12 @@ export default async function handler(request: Request, context: Context) {
     });
   }
   
-  // 5. Check Rate Limit
-  const rateLimitResult = checkRateLimit(clientIP);
+  // 5. Check Rate Limit (search engine crawlers are exempt so Google can crawl
+  //    a full page + its assets without hitting 429s, which blocks indexing)
+  const crawler = isAllowedCrawler(userAgent || '');
+  const rateLimitResult = crawler
+    ? { blocked: false, remaining: RATE_LIMIT_MAX_REQUESTS }
+    : checkRateLimit(clientIP);
   
   if (rateLimitResult.blocked) {
     console.log(`[Security] BLOCKED - Rate limit exceeded for ${clientIP}`);
