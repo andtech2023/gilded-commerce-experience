@@ -7,14 +7,27 @@ interface LanguageGateProps {
   onLanguageSelect: (lang: "es" | "ca") => void;
 }
 
+// Search engine / AI crawlers must see the real content, never the language gate.
+// Otherwise Google indexes an empty splash screen ("Descubierta: actualmente sin indexar").
+const CRAWLER_UA =
+  /googlebot|google-inspectiontool|googleother|storebot-google|adsbot|mediapartners|bingbot|bingpreview|slurp|duckduckbot|baiduspider|yandex|applebot|facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|telegrambot|pinterest|embedly|quora link preview|discordbot|slackbot|gptbot|oai-searchbot|chatgpt-user|claudebot|anthropic-ai|perplexitybot|lighthouse|chrome-lighthouse|prerender/i;
+
+const isCrawler = () =>
+  typeof navigator !== "undefined" && CRAWLER_UA.test(navigator.userAgent || "");
+
 const LanguageGate = ({ children, onLanguageSelect }: LanguageGateProps) => {
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(() => isCrawler());
   const [selectedLang, setSelectedLang] = useState<"es" | "ca" | null>(null);
   const [showVerification, setShowVerification] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
   // Check if user already verified in this session
   useEffect(() => {
+    if (isCrawler()) {
+      onLanguageSelect("es");
+      setIsVerified(true);
+      return;
+    }
     const verified = sessionStorage.getItem("humanVerified");
     const savedLang = sessionStorage.getItem("preferredLanguage") as "es" | "ca" | null;
     if (verified === "true" && savedLang) {

@@ -10,6 +10,8 @@ const ALLOWED_USER_AGENTS = [
   'feedfetcher-google', 'google favicon', 'googleother',
   'twitterbot', 'facebookexternalhit', 'linkedinbot',
   'slurp', 'duckduckbot', 'applebot',
+  // AI search crawlers (allowed in robots.txt too)
+  'gptbot', 'oai-searchbot', 'chatgpt-user', 'claudebot', 'perplexitybot',
 ];
 
 // Blocked User-Agent patterns (case-insensitive)
@@ -20,7 +22,7 @@ const BLOCKED_USER_AGENTS = [
   'ia_archiver', 'webcopier', 'httrack', 'grub', 'netresearchserver',
   'speedy', 'fluffy', 'findlink', 'panscient', 'zyborg', 'accoona',
   'ccbot', 'ahrefs', 'semrush', 'dotbot', 'petalbot', 'bytespider',
-  'claudebot', 'gptbot', 'dataforseo', 'megaindex', 'blexbot', 'mj12bot',
+  'dataforseo', 'megaindex', 'blexbot', 'mj12bot',
   'aspiegelbot',
 ];
 
@@ -203,8 +205,12 @@ export default async function handler(request: Request, context: Context) {
     });
   }
   
-  // 5. Check Rate Limit
-  const rateLimitResult = checkRateLimit(clientIP);
+  // 5. Check Rate Limit (search engine crawlers are exempt so Google can crawl
+  //    a full page + its assets without hitting 429s, which blocks indexing)
+  const crawler = isAllowedCrawler(userAgent || '');
+  const rateLimitResult = crawler
+    ? { blocked: false, remaining: RATE_LIMIT_MAX_REQUESTS }
+    : checkRateLimit(clientIP);
   
   if (rateLimitResult.blocked) {
     console.log(`[Security] BLOCKED - Rate limit exceeded for ${clientIP}`);
