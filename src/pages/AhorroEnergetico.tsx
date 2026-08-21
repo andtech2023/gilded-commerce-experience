@@ -24,6 +24,7 @@ import aracanLogo from "@/assets/aracan-energia-logo-v2.png";
 import nibaLogo from "@/assets/niba-logo.jpg";
 import nexusLogo from "@/assets/nexus-energia-logo.png";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
+import { uploadLeadFile } from "@/lib/uploadLeadFile";
 
 const AhorroEnergetico = () => {
   const { toast } = useToast();
@@ -95,6 +96,17 @@ const AhorroEnergetico = () => {
       return;
     }
 
+    const upload = await uploadLeadFile(file, "ahorro-energetico");
+    if (!upload.ok) {
+      toast({
+        title: tr("Error al subir la factura", "Error en pujar la factura"),
+        description: upload.error,
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.from("contactos_formulario").insert([
         {
@@ -104,6 +116,8 @@ const AhorroEnergetico = () => {
           empresa: formData.company,
           mensaje: validation.data.message,
           tipo: "ahorro_energetico",
+          pagina_origen: "/ahorro-energetico",
+          archivo_path: upload.path,
         },
       ]);
 
