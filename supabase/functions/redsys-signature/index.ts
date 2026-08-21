@@ -321,7 +321,19 @@ serve(async (req) => {
       );
     }
 
-    const { service, price, name, email, phone } = validation.data!;
+    const { service, name, email, phone } = validation.data!;
+
+    // Authoritative, server-side price catalog (amount in cents).
+    // The price sent by the client is NEVER trusted.
+    const catalogEntry = SERVICE_CATALOG[normalizeService(service)];
+    if (!catalogEntry) {
+      return new Response(
+        JSON.stringify({ error: 'Unknown service' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    const amountCents = catalogEntry.amountCents.toString();
+    const serviceLabel = catalogEntry.label;
 
     // Get secret key from environment
     const secretKey = Deno.env.get('REDSYS_SECRET_KEY');
