@@ -357,10 +357,6 @@ serve(async (req) => {
     // Generate order number
     const order = Date.now().toString().slice(-12);
 
-    // Parse price (e.g., "750,00 €" -> 75000 cents)
-    const priceClean = price.replace(/[^\d,]/g, '').replace(',', '.');
-    const amountCents = Math.round(parseFloat(priceClean) * 100).toString();
-
     // Build merchant parameters
     const merchantParameters = {
       DS_MERCHANT_AMOUNT: amountCents,
@@ -372,7 +368,7 @@ serve(async (req) => {
       DS_MERCHANT_MERCHANTURL: merchantUrl,
       DS_MERCHANT_URLOK: urlOK,
       DS_MERCHANT_URLKO: urlKO,
-      DS_MERCHANT_PRODUCTDESCRIPTION: `AndorraTech - ${service}`,
+      DS_MERCHANT_PRODUCTDESCRIPTION: `AndorraTech - ${serviceLabel}`,
       DS_MERCHANT_TITULAR: name,
       DS_MERCHANT_MERCHANTDATA: JSON.stringify({ email, phone }),
     };
