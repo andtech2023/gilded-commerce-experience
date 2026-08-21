@@ -6,10 +6,26 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Authoritative server-side price list. Client-supplied prices are ignored.
+const SERVICE_CATALOG: Record<string, { label: string; amountCents: number }> = {
+  'desarrollo web basico': { label: 'Desarrollo Web Básico', amountCents: 75000 },
+  'desarrollo web profesional': { label: 'Desarrollo Web Profesional', amountCents: 150000 },
+  'desarrollo web premium': { label: 'Desarrollo Web Premium', amountCents: 250000 },
+};
+
+function normalizeService(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[–—-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
 // Validation schema
 interface PaymentRequest {
   service: string;
-  price: string;
   name: string;
   email: string;
   phone: string;
@@ -20,17 +36,16 @@ function validatePaymentRequest(data: unknown): { valid: boolean; error?: string
     return { valid: false, error: 'Invalid request body' };
   }
 
-  const { service, price, name, email, phone } = data as Record<string, unknown>;
+  const { service, name, email, phone } = data as Record<string, unknown>;
 
-  // Validate service
+  // Validate service against the authoritative catalog
   if (typeof service !== 'string' || service.trim().length === 0 || service.length > 200) {
     return { valid: false, error: 'Invalid service name' };
   }
-
-  // Validate price format (e.g., "750,00 €" or "1.500,00 €")
-  if (typeof price !== 'string' || !/^\d{1,3}(\.\d{3})*(,\d{2})?\s*€?$/.test(price.trim())) {
-    return { valid: false, error: 'Invalid price format' };
+  if (!SERVICE_CATALOG[normalizeService(service)]) {
+    return { valid: false, error: 'Unknown service' };
   }
+
 
   // Validate name
   if (typeof name !== 'string' || name.trim().length < 2 || name.length > 100) {
