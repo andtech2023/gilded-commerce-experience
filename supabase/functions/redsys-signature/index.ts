@@ -6,10 +6,26 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Authoritative server-side price list. Client-supplied prices are ignored.
+const SERVICE_CATALOG: Record<string, { label: string; amountCents: number }> = {
+  'desarrollo web basico': { label: 'Desarrollo Web Básico', amountCents: 75000 },
+  'desarrollo web profesional': { label: 'Desarrollo Web Profesional', amountCents: 150000 },
+  'desarrollo web premium': { label: 'Desarrollo Web Premium', amountCents: 250000 },
+};
+
+function normalizeService(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[–—-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
 // Validation schema
 interface PaymentRequest {
   service: string;
-  price: string;
   name: string;
   email: string;
   phone: string;
@@ -20,17 +36,16 @@ function validatePaymentRequest(data: unknown): { valid: boolean; error?: string
     return { valid: false, error: 'Invalid request body' };
   }
 
-  const { service, price, name, email, phone } = data as Record<string, unknown>;
+  const { service, name, email, phone } = data as Record<string, unknown>;
 
-  // Validate service
+  // Validate service against the authoritative catalog
   if (typeof service !== 'string' || service.trim().length === 0 || service.length > 200) {
     return { valid: false, error: 'Invalid service name' };
   }
-
-  // Validate price format (e.g., "750,00 €" or "1.500,00 €")
-  if (typeof price !== 'string' || !/^\d{1,3}(\.\d{3})*(,\d{2})?\s*€?$/.test(price.trim())) {
-    return { valid: false, error: 'Invalid price format' };
+  if (!SERVICE_CATALOG[normalizeService(service)]) {
+    return { valid: false, error: 'Unknown service' };
   }
+
 
   // Validate name
   if (typeof name !== 'string' || name.trim().length < 2 || name.length > 100) {
@@ -52,7 +67,6 @@ function validatePaymentRequest(data: unknown): { valid: boolean; error?: string
     valid: true,
     data: {
       service: service.trim(),
-      price: price.trim(),
       name: name.trim(),
       email: email.trim(),
       phone: typeof phone === 'string' ? phone.trim() : ''
@@ -321,7 +335,19 @@ serve(async (req) => {
       );
     }
 
-    const { service, price, name, email, phone } = validation.data!;
+    const { service, name, email, phone } = validation.data!;
+
+    // Authoritative, server-side price catalog (amount in cents).
+    // The price sent by the client is NEVER trusted.
+    const catalogEntry = SERVICE_CATALOG[normalizeService(service)];
+    if (!catalogEntry) {
+      return new Response(
+        JSON.stringify({ error: 'Unknown service' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    const amountCents = catalogEntry.amountCents.toString();
+    const serviceLabel = catalogEntry.label;
 
     // Get secret key from environment
     const secretKey = Deno.env.get('REDSYS_SECRET_KEY');
@@ -345,10 +371,6 @@ serve(async (req) => {
     // Generate order number
     const order = Date.now().toString().slice(-12);
 
-    // Parse price (e.g., "750,00 €" -> 75000 cents)
-    const priceClean = price.replace(/[^\d,]/g, '').replace(',', '.');
-    const amountCents = Math.round(parseFloat(priceClean) * 100).toString();
-
     // Build merchant parameters
     const merchantParameters = {
       DS_MERCHANT_AMOUNT: amountCents,
@@ -360,7 +382,7 @@ serve(async (req) => {
       DS_MERCHANT_MERCHANTURL: merchantUrl,
       DS_MERCHANT_URLOK: urlOK,
       DS_MERCHANT_URLKO: urlKO,
-      DS_MERCHANT_PRODUCTDESCRIPTION: `AndorraTech - ${service}`,
+      DS_MERCHANT_PRODUCTDESCRIPTION: `AndorraTech - ${serviceLabel}`,
       DS_MERCHANT_TITULAR: name,
       DS_MERCHANT_MERCHANTDATA: JSON.stringify({ email, phone }),
     };
