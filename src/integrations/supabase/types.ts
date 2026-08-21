@@ -32,6 +32,7 @@ export type Database = {
       contactos_formulario: {
         Row: {
           apellido: string | null
+          archivo_path: string | null
           email: string
           empresa: string | null
           estado: string | null
@@ -49,6 +50,7 @@ export type Database = {
         }
         Insert: {
           apellido?: string | null
+          archivo_path?: string | null
           email: string
           empresa?: string | null
           estado?: string | null
@@ -66,6 +68,7 @@ export type Database = {
         }
         Update: {
           apellido?: string | null
+          archivo_path?: string | null
           email?: string
           empresa?: string | null
           estado?: string | null
