@@ -67,7 +67,7 @@ function validatePaymentRequest(data: unknown): { valid: boolean; error?: string
     valid: true,
     data: {
       service: service.trim(),
-      price: price.trim(),
+      service: service.trim(),
       name: name.trim(),
       email: email.trim(),
       phone: typeof phone === 'string' ? phone.trim() : ''
