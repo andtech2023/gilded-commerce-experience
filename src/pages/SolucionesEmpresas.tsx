@@ -366,6 +366,13 @@ const SolucionesEmpresas = () => {
       return;
     }
 
+    const upload = await uploadLeadFile(file, "soluciones-empresas");
+    if (!upload.ok) {
+      toast({ title: "Error al subir la factura", description: upload.error, variant: "destructive" });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.from("contactos_formulario").insert({
         nombre: validation.data.name,
@@ -376,6 +383,7 @@ const SolucionesEmpresas = () => {
         pagina_origen: "/soluciones-empresas-ahorro-energetico",
         tipo: "soluciones-empresas",
         estado: "nuevo",
+        archivo_path: upload.path,
       });
 
       if (error) throw error;
