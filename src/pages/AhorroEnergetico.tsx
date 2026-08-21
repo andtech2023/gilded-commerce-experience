@@ -24,6 +24,7 @@ import aracanLogo from "@/assets/aracan-energia-logo-v2.png";
 import nibaLogo from "@/assets/niba-logo.jpg";
 import nexusLogo from "@/assets/nexus-energia-logo.png";
 import energyBannerBg from "@/assets/energy-banner-bg.jpg";
+import { uploadLeadFile } from "@/lib/uploadLeadFile";
 
 const AhorroEnergetico = () => {
   const { toast } = useToast();

@@ -39,6 +39,7 @@ import proyectoHuelvaCooperativa from "@/assets/proyecto-huelva-cooperativa.jpg"
 import proyectoMedioambiente from "@/assets/proyecto-medioambiente.jpg";
 import naveSinPlacas from "@/assets/nave-sin-placas.jpg";
 import naveConPlacas from "@/assets/nave-con-placas.jpg";
+import { uploadLeadFile } from "@/lib/uploadLeadFile";
 
 
 // ── Proyectos data ───────────────────────────────────────────────────────────
