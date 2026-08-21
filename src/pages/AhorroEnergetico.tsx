@@ -95,6 +95,17 @@ const AhorroEnergetico = () => {
       return;
     }
 
+    const upload = await uploadLeadFile(file, "ahorro-energetico");
+    if (!upload.ok) {
+      toast({
+        title: tr("Error al subir la factura", "Error en pujar la factura"),
+        description: upload.error,
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.from("contactos_formulario").insert([
         {
@@ -104,6 +115,8 @@ const AhorroEnergetico = () => {
           empresa: formData.company,
           mensaje: validation.data.message,
           tipo: "ahorro_energetico",
+          pagina_origen: "/ahorro-energetico",
+          archivo_path: upload.path,
         },
       ]);
 
