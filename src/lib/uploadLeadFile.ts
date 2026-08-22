@@ -4,9 +4,11 @@ export const LEAD_BUCKET = "facturas-leads";
 export const MAX_LEAD_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_EXTENSIONS = ["pdf", "jpg", "jpeg", "png", "webp"];
 
-export type UploadResult =
-  | { ok: true; path: string | null }
-  | { ok: false; error: string };
+export interface UploadResult {
+  ok: boolean;
+  path?: string | null;
+  error?: string;
+}
 
 /**
  * Uploads a lead attachment (utility bill) to the private storage bucket.
